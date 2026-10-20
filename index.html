@@ -1038,7 +1038,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
       </div>
     </div>
     <div style="font-size:11px;color:#8b93a3;text-align:center;margin-bottom:12px;line-height:1.5;">
-      <i class="fas fa-hand-pointer" style="color:#fbbf24;"></i> Klik salah satu foto untuk dipilih
+      <i class="fas fa-hand-pointer" style="color:#fbbf24;"></i> Klik salah satu foto di bawah untuk dipilih
     </div>
     <div class="message" id="photoMessage"></div>
     <div class="photo-gallery" id="photoGallery">
@@ -1048,6 +1048,15 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
       <button class="btn btn-dark" id="photoResetBtn" type="button"><i class="fas fa-rotate-left"></i> RESET</button>
       <button class="btn btn-red" id="photoSaveBtn" type="button"><i class="fas fa-check"></i> SIMPAN</button>
     </div>
+    
+    <!-- TAMBAHAN: UPLOAD FOTO DARI PERANGKAT -->
+    <div style="margin-top:14px; border-top:1px dashed rgba(255,255,255,.1); padding-top:14px;">
+      <input type="file" id="customPhotoInput" accept="image/png, image/jpeg, image/jpg" style="display:none;">
+      <button class="btn btn-dark" id="btnUploadCustom" type="button" style="border-color:#60a5fa; color:#60a5fa;">
+        <i class="fas fa-upload"></i> UPLOAD FOTO DARI PERANGKAT
+      </button>
+    </div>
+
     <div style="font-size:10px;color:#6b7280;text-align:center;margin-top:10px;line-height:1.5;">
       Pilihan foto akan tersimpan permanen di akun Anda.
     </div>
@@ -2345,6 +2354,71 @@ document.getElementById('photoResetBtn').addEventListener('click', function() {
   showMessage(msg, 'Tekan SIMPAN untuk konfirmasi reset.', 'info');
 });
 
+// --- LOGIKA UPLOAD CUSTOM ---
+const customPhotoInput = document.getElementById('customPhotoInput');
+const btnUploadCustom = document.getElementById('btnUploadCustom');
+
+btnUploadCustom.addEventListener('click', function() {
+  customPhotoInput.click();
+});
+
+customPhotoInput.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (file.size > 2 * 1024 * 1024) {
+    showMessage(document.getElementById('photoMessage'), '❌ Ukuran foto maksimal 2MB.', 'error');
+    return;
+  }
+
+  const msg = document.getElementById('photoMessage');
+  showMessage(msg, '<i class="fas fa-spinner fa-spin"></i> Mengunggah foto ke server...', 'info');
+  btnUploadCustom.disabled = true;
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const base64Data = event.target.result.split(',')[1];
+    const mimeType = file.type;
+
+    google.script.run
+      .withSuccessHandler(function(r) {
+        btnUploadCustom.disabled = false;
+        if (!r || !r.success) {
+          showMessage(msg, '❌ ' + (r && r.message ? r.message : 'Gagal upload.'), 'error');
+          return;
+        }
+        
+        selectedPhotoUrl = r.url;
+        
+        const prev = document.getElementById('photoPreview');
+        prev.src = r.url;
+        document.getElementById('photoPreviewName').textContent = 'Foto Custom (Upload)';
+        
+        google.script.run
+          .withSuccessHandler(function(resSave) {
+            if (!resSave || !resSave.success) {
+              showMessage(msg, '❌ Gagal simpan ke profil.', 'error');
+              return;
+            }
+            currentUser.foto = r.url;
+            saveSession(currentUser);
+            refreshAvatarUI();
+            showMessage(msg, '✅ Foto berhasil diupload dan disimpan!', 'success');
+            showNotif({ type:'success', title:'FOTO DIPERBARUI', message:'Foto dari perangkat berhasil digunakan.', autoMode:true, countdown:2 });
+            setTimeout(function() { closeModal(document.getElementById('photoModal')); }, 1500);
+          })
+          .withFailureHandler(function() { showMessage(msg, '❌ Koneksi gagal simpan.', 'error'); })
+          .updateProfilePhoto(currentUser.idGame, r.url);
+      })
+      .withFailureHandler(function(err) {
+        btnUploadCustom.disabled = false;
+        showMessage(msg, '❌ Koneksi gagal: ' + err.message, 'error');
+      })
+      .uploadFotoCustom(base64Data, mimeType);
+  };
+  reader.readAsDataURL(file);
+});
+
 document.getElementById('logoutButton').addEventListener('click', function() {
   showNotif({
     type:'warning', title:'LOGOUT',
@@ -2724,7 +2798,6 @@ function loadRanking() {
         if (i === 0) cls += ' top-1'; else if (i === 1) cls += ' top-2'; else if (i === 2) cls += ' top-3';
         row.className = cls;
         
-        // Logika foto: Jika ada foto di sheet, pakai. Jika tidak, pakai UI-Avatars.
         const avatarSrc = (m.foto && m.foto.startsWith('http')) ? m.foto : avatarUrl(m.nickname);
         
         row.innerHTML = `
