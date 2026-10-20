@@ -10,105 +10,112 @@
 <script>
 /* ============================================================
    ADAPTER: google.script.run → fetch ke Apps Script
-   TAMBAHAN untuk GitHub Pages — tidak mengubah kode asli
+   Support chain: .withSuccessHandler().withFailureHandler().login()
    ============================================================ */
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbymngQ3Vmos2KQXHAR63O2K6M-2vj27birpiP3Gw0oqYRAji5xLA_CLtWjMzMcG83z_fQ/exec';
 
 window.google = window.google || {};
 window.google.script = window.google.script || {};
 window.google.script.run = (function() {
-  let _onSuccess = null;
-  let _onFailure = null;
-  const chain = {
-    withSuccessHandler: function(fn) { _onSuccess = fn; return chain; },
-    withFailureHandler: function(fn) { _onFailure = fn; return chain; }
-  };
+  function makeChain() {
+    let _onSuccess = null;
+    let _onFailure = null;
 
-  function finish(data, err) {
-    try {
-      if (err) {
-        if (_onFailure) _onFailure(err);
-        else console.error('[GAS]', err);
-      } else if (data && data.__error) {
-        if (_onFailure) _onFailure(new Error(data.__error));
-        else console.error('[GAS Error]', data.__error);
-      } else {
-        if (_onSuccess) _onSuccess(data);
+    function finish(data, err) {
+      try {
+        if (err) {
+          if (_onFailure) _onFailure(err);
+          else console.error('[GAS]', err);
+        } else if (data && data.__error) {
+          if (_onFailure) _onFailure(new Error(data.__error));
+          else console.error('[GAS Error]', data.__error);
+        } else {
+          if (_onSuccess) _onSuccess(data);
+        }
+      } finally {
+        _onSuccess = null;
+        _onFailure = null;
       }
-    } finally {
-      _onSuccess = null;
-      _onFailure = null;
     }
-  }
 
-  function callServer(fnName, args) {
-    const formData = new URLSearchParams();
-    formData.append('action', fnName);
-    formData.append('args', JSON.stringify(args));
+    function callServer(fnName, args) {
+      const formData = new URLSearchParams();
+      formData.append('action', fnName);
+      formData.append('args', JSON.stringify(args));
 
-    fetch(GAS_URL, {
-      method: 'POST',
-      body: formData,
-      redirect: 'follow',
-      mode: 'cors'
-    })
-      .then(function(r) { return r.text(); })
-      .then(function(txt) {
-        try {
-          var data = JSON.parse(txt);
-          finish(data, null);
-        } catch (e) {
-          console.warn('[GAS] bukan JSON, coba proxy:', txt.substring(0, 100));
+      fetch(GAS_URL, {
+        method: 'POST',
+        body: formData,
+        redirect: 'follow',
+        mode: 'cors'
+      })
+        .then(function(r) { return r.text(); })
+        .then(function(txt) {
+          try {
+            var data = JSON.parse(txt);
+            finish(data, null);
+          } catch (e) {
+            console.warn('[GAS] bukan JSON, coba proxy:', txt.substring(0, 100));
+            callWithProxy(fnName, args, formData);
+          }
+        })
+        .catch(function(err) {
+          console.warn('[GAS] direct gagal:', err.message, '— coba proxy...');
           callWithProxy(fnName, args, formData);
-        }
-      })
-      .catch(function(err) {
-        console.warn('[GAS] direct gagal:', err.message, '— coba proxy...');
-        callWithProxy(fnName, args, formData);
-      });
-  }
-
-  function callWithProxy(fnName, args, formData) {
-    var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(GAS_URL + '?' + formData.toString());
-    fetch(proxyUrl, { method: 'GET' })
-      .then(function(r) { return r.text(); })
-      .then(function(txt) {
-        try {
-          var data = JSON.parse(txt);
-          finish(data, null);
-        } catch (e) {
-          callWithProxy2(fnName, args, formData);
-        }
-      })
-      .catch(function() { callWithProxy2(fnName, args, formData); });
-  }
-
-  function callWithProxy2(fnName, args, formData) {
-    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(GAS_URL + '?' + formData.toString());
-    fetch(proxyUrl, { method: 'GET' })
-      .then(function(r) { return r.text(); })
-      .then(function(txt) {
-        try {
-          var data = JSON.parse(txt);
-          finish(data, null);
-        } catch (e) {
-          finish(null, new Error('Semua cara fetch gagal: ' + e.message));
-        }
-      })
-      .catch(function(err) {
-        finish(null, new Error('Semua cara fetch gagal: ' + err.message));
-      });
-  }
-
-  return new Proxy(chain, {
-    get: function(target, prop) {
-      if (prop in target) return target[prop];
-      return function() {
-        const args = Array.prototype.slice.call(arguments);
-        callServer(prop, args);
-      };
+        });
     }
-  });
+
+    function callWithProxy(fnName, args, formData) {
+      var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(GAS_URL + '?' + formData.toString());
+      fetch(proxyUrl, { method: 'GET' })
+        .then(function(r) { return r.text(); })
+        .then(function(txt) {
+          try {
+            var data = JSON.parse(txt);
+            finish(data, null);
+          } catch (e) {
+            callWithProxy2(fnName, args, formData);
+          }
+        })
+        .catch(function() { callWithProxy2(fnName, args, formData); });
+    }
+
+    function callWithProxy2(fnName, args, formData) {
+      var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(GAS_URL + '?' + formData.toString());
+      fetch(proxyUrl, { method: 'GET' })
+        .then(function(r) { return r.text(); })
+        .then(function(txt) {
+          try {
+            var data = JSON.parse(txt);
+            finish(data, null);
+          } catch (e) {
+            finish(null, new Error('Semua cara fetch gagal: ' + e.message));
+          }
+        })
+        .catch(function(err) {
+          finish(null, new Error('Semua cara fetch gagal: ' + err.message));
+        });
+    }
+
+    const chain = {
+      withSuccessHandler: function(fn) { _onSuccess = fn; return proxy; },
+      withFailureHandler: function(fn) { _onFailure = fn; return proxy; }
+    };
+
+    const proxy = new Proxy(chain, {
+      get: function(target, prop) {
+        if (prop in target) return target[prop];
+        return function() {
+          const args = Array.prototype.slice.call(arguments);
+          callServer(prop, args);
+        };
+      }
+    });
+
+    return proxy;
+  }
+
+  return makeChain();
 })();
 </script>
 
@@ -642,6 +649,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 @media(prefers-reduced-motion:reduce) { .avatar-frame::before, .avatar-frame::after, .avatar-frame .avatar-shine { animation: none !important; } .avatar-frame .avatar-shine { border: 2px solid #60a5fa; box-shadow: 0 0 15px rgba(96,165,250,.5); } }
 </style>
 </head>
+
 <body>
 <div class="app">
   <aside class="sidebar">
@@ -1212,9 +1220,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 </button>
 
 <script>
-/* ============================================================
-   SCRIPT ASLI TFC — TIDAK DIUBAH
-   ============================================================ */
 (function() {
 'use strict';
 
