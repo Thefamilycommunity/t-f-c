@@ -1,5 +1,6 @@
 {
-  "name": "The Family Community",
+  "id": "/?source=pwa",
+  "name": "THE FAMILY COMMUNITY",
   "short_name": "TFC",
   "description": "Komunitas game The Family Community (TFC). Satu keluarga, berbeda cerita, tetap satu tujuan.",
   "start_url": "./index.html",
@@ -7,21 +8,44 @@
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0a0a",
-  "theme_color": "#ef4444",
+  "theme_color": "#0a0a0a",
   "lang": "id",
   "dir": "ltr",
+  "categories": ["games", "social", "entertainment"],
   "icons": [
     {
       "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSA7KUAWJNe6jpct875DaRln9f3sgp-QiTFSZN-qsZUdDl-8LN_6hNrI-bNEuFGMK8l1eNkTx21SJRzxqodba4ClDU_OmtrH_pK1ZdO_0Av24RVpKM0pg6Xd3FMTJJ6kiWA2iQNuVaS-lxtlxGL5CrmIkm3ECO5dS5K1R8oRwHlddWaPhCqyAV9BJYHLPD/s4096/1000549350.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Beranda TFC"
+    },
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcIl_Zo9JAdg5ikg9fZdlXL4mzdQOcxc0iWGO8Srk8Tz_VsCfFbJnhvpzgGRuV7wUrrFN5AGFOSHnyvMvq5nWYBqFq16bc0EiLr4hxXV3_Qn-cTfamw4-BizFa-B0-6ZNcdqI_oI3WoiykCSgr_f155SHAUd5z0hqOVBGWIVK34DPOAQLDlhO-5bqp4evC/s5120/1000596345.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Komunitas TFC"
     }
   ]
 }
