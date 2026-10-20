@@ -13,7 +13,7 @@
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbymngQ3Vmos2KQXHAR63O2K6M-2vj27birpiP3Gw0oqYRAji5xLA_CLtWjMzMcG83z_fQ/exec';
 const GAS_PROXY_URL = '';
-const API_TOKEN = ''; // opsional — isi hanya kalau API_TOKEN diset di Script Properties
+const API_TOKEN = '';
 
 window.google = window.google || {};
 window.google.script = window.google.script || {};
@@ -73,7 +73,6 @@ window.google.script.run = (function () {
     });
     return proxy;
   }
-  // FIX: setiap akses ke google.script.run menghasilkan chain baru → concurrent calls tidak saling menimpa
   return new Proxy({}, {
     get: function (target, prop) { return makeChain()[prop]; }
   });
