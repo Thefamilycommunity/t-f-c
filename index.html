@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://script.google.com https://*.googleusercontent.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https: blob:; media-src 'self' https: blob:; worker-src 'self' blob:; frame-src 'self' https://www.youtube.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src * data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval' data: blob:; style-src * 'unsafe-inline' data:; img-src * data: blob:; font-src * data:; connect-src * data: blob:; media-src * data: blob:; worker-src * blob: data:; frame-src * data: blob:; object-src * data: blob:; manifest-src * data: blob:;">
 <meta name="theme-color" content="#0a0a0a">
 <title>THE FAMILY COMMUNITY</title>
 <link rel="manifest" href="manifest.json">
@@ -25,25 +25,83 @@ window.google.script.run = (function() {
     withFailureHandler: function(fn) { _onFailure = fn; return chain; }
   };
 
+  function finish(data, err) {
+    try {
+      if (err) {
+        if (_onFailure) _onFailure(err);
+        else console.error('[GAS]', err);
+      } else if (data && data.__error) {
+        if (_onFailure) _onFailure(new Error(data.__error));
+        else console.error('[GAS Error]', data.__error);
+      } else {
+        if (_onSuccess) _onSuccess(data);
+      }
+    } finally {
+      _onSuccess = null;
+      _onFailure = null;
+    }
+  }
+
   function callServer(fnName, args) {
     const formData = new URLSearchParams();
     formData.append('action', fnName);
     formData.append('args', JSON.stringify(args));
-    fetch(GAS_URL, { method: 'POST', body: formData, redirect: 'follow' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        if (data && data.__error) {
-          if (_onFailure) _onFailure(new Error(data.__error));
-          else console.error('[GAS Error]', data.__error);
-        } else {
-          if (_onSuccess) _onSuccess(data);
+
+    fetch(GAS_URL, {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
+    })
+      .then(function(r) { return r.text(); })
+      .then(function(txt) {
+        try {
+          var data = JSON.parse(txt);
+          finish(data, null);
+        } catch (e) {
+          console.warn('[GAS] direct bukan JSON, coba proxy:', txt.substring(0, 100));
+          callWithProxy(fnName, args, formData);
         }
       })
       .catch(function(err) {
-        if (_onFailure) _onFailure(err);
-        else console.error('[GAS Network]', err);
+        console.warn('[GAS] direct gagal:', err.message, '— coba proxy...');
+        callWithProxy(fnName, args, formData);
+      });
+  }
+
+  function callWithProxy(fnName, args, formData) {
+    var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(GAS_URL + '?' + formData.toString());
+    fetch(proxyUrl, { method: 'GET' })
+      .then(function(r) { return r.text(); })
+      .then(function(txt) {
+        try {
+          var data = JSON.parse(txt);
+          finish(data, null);
+        } catch (e) {
+          callWithProxy2(fnName, args, formData);
+        }
       })
-      .finally(function() { _onSuccess = null; _onFailure = null; });
+      .catch(function() {
+        callWithProxy2(fnName, args, formData);
+      });
+  }
+
+  function callWithProxy2(fnName, args, formData) {
+    var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(GAS_URL + '?' + formData.toString());
+    fetch(proxyUrl, { method: 'GET' })
+      .then(function(r) { return r.text(); })
+      .then(function(txt) {
+        try {
+          var data = JSON.parse(txt);
+          finish(data, null);
+        } catch (e) {
+          finish(null, new Error('Semua cara fetch gagal: ' + e.message));
+        }
+      })
+      .catch(function(err) {
+        finish(null, new Error('Semua cara fetch gagal: ' + err.message));
+      });
   }
 
   return new Proxy(chain, {
@@ -267,7 +325,7 @@ img{max-width:100%;height:auto;display:block}
 <div class="app">
   <aside class="sidebar">
     <div class="sidebar-brand">
-      <div class="logo" id="headerLogo"><span class="logo-fallback">TFC</span></div>
+      <div class="logo" id="headerLogo"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png" alt="TFC" onerror="this.parentNode.innerHTML='<span class=&quot;logo-fallback&quot;>TFC</span>'"></div>
       <div class="brand-text">
         <h1><span class="the-family">THE FAMILY</span> <span class="community">COMMUNITY</span></h1>
         <div class="version">V 2.0.0</div>
@@ -289,7 +347,7 @@ img{max-width:100%;height:auto;display:block}
         <div class="topbar-actions">
           <button class="login-trigger-btn" id="loginTriggerButton" type="button">Masuk</button>
           <div class="topbar-profile" id="profileHeaderButton">
-            <div class="avatar"><img id="headerAvatar" src="" alt="Profile"></div>
+            <div class="avatar"><img id="headerAvatar" src="" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name=TFC&background=dc2626&color=ffffff&size=256&bold=true'"></div>
             <div class="info">
               <div class="name" id="headerNickname">Anggota</div>
               <div class="role" id="headerRole">MEMBER</div>
@@ -404,7 +462,7 @@ img{max-width:100%;height:auto;display:block}
 <aside class="login-drawer" id="loginDrawer">
   <div class="drawer-header"><button class="drawer-close" id="loginDrawerClose" type="button"><i class="fas fa-times"></i></button></div>
   <div class="drawer-body">
-    <div class="drawer-logo"><span class="logo-fallback">TFC</span></div>
+    <div class="drawer-logo"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png" alt="TFC" onerror="this.parentNode.innerHTML='<span class=&quot;logo-fallback&quot;>TFC</span>'"></div>
     <div class="drawer-title">LOGIN ANGGOTA</div>
     <div class="drawer-subtitle">Masuk ke akun The Family Community</div>
     <div class="message error" id="loginError"></div>
@@ -441,13 +499,6 @@ img{max-width:100%;height:auto;display:block}
   </div>
 </div>
 
-<audio id="tfcMusic" loop preload="auto" playsinline style="display:none;">
-  <source src="https://cdn.jsdelivr.net/gh/gangz1221/sambutan-tfc@main/KATA%20SAMBUTAN%20TFC.mp3" type="audio/mpeg">
-</audio>
-<button id="musicToggle" type="button" aria-label="Toggle Music" class="music-toggle muted">
-  <i class="fas fa-volume-mute" id="musicIcon"></i>
-</button>
-
 <script>
 (function() {
 'use strict';
@@ -476,7 +527,6 @@ const FIREBASE_CONFIG = {
 };
 const FCM_VAPID_KEY = "BEeLPWlBkAf58iuUHKU3Ab3gyTtaHZ8Ft0V95519d3450Y68DM6bGaWG7KqAL1dYbPXLsTM3r4vS3XEF6SKkNjQ";
 
-function serverAvailable() { return typeof google !== 'undefined' && google.script && google.script.run; }
 function clean(v) { return String(v == null ? '' : v).trim(); }
 function escapeHtml(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
 function showMessage(el, msg, type) { if (!el) return; el.textContent = msg || ''; el.className = 'message ' + type + ' show'; }
@@ -994,23 +1044,6 @@ document.getElementById('enableNotifBtn').addEventListener('click', function(e) 
   if (!currentUser) { showNotif({ type:'warning', title:'LOGIN DULU', message:'Silakan login.', showCancel:false, okText:'OK' }); return; }
   mintaIzinDanSimpanToken();
 });
-
-(function initMusic() {
-  const music = document.getElementById('tfcMusic');
-  const toggle = document.getElementById('musicToggle');
-  const icon = document.getElementById('musicIcon');
-  if (!music || !toggle) return;
-  music.volume = 0.7;
-  let muted = false;
-  try { muted = localStorage.getItem('TFC_MUSIC_MUTED') === 'true'; } catch (e) {}
-  function updateUI(playing) {
-    if (!toggle || !icon) return;
-    if (playing && !muted) { toggle.classList.remove('muted'); icon.className = 'fas fa-volume-up'; }
-    else { toggle.classList.add('muted'); icon.className = 'fas fa-volume-mute'; }
-  }
-  updateUI(false);
-  toggle.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); if (music.paused) { muted = false; try { localStorage.setItem('TFC_MUSIC_MUTED', 'false'); } catch (e) {} music.play().then(function() { updateUI(true); }).catch(function() {}); } else { music.pause(); muted = true; try { localStorage.setItem('TFC_MUSIC_MUTED', 'true'); } catch (e) {} updateUI(false); } });
-})();
 
 function startApp() {
   restoreSession();
