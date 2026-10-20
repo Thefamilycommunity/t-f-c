@@ -2,119 +2,73 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src * data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval' data: blob:; style-src * 'unsafe-inline' data:; img-src * data: blob:; font-src * data:; connect-src * data: blob:; media-src * data: blob:; worker-src * blob: data:; frame-src * data: blob:; object-src * data: blob:; manifest-src * data: blob:;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https: blob:; media-src 'self' https: blob:; worker-src 'self' blob:; frame-src 'self' https:; manifest-src 'self' https:;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a0a">
 <title>THE FAMILY COMMUNITY</title>
 
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png">
+
 <script>
-/* ============================================================
-   ADAPTER: google.script.run → fetch ke Apps Script
-   VERSI FIXED — support chain panjang
-   ============================================================ */
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbymngQ3Vmos2KQXHAR63O2K6M-2vj27birpiP3Gw0oqYRAji5xLA_CLtWjMzMcG83z_fQ/exec';
+const GAS_PROXY_URL = '';
 
 window.google = window.google || {};
 window.google.script = window.google.script || {};
-window.google.script.run = (function() {
+window.google.script.run = (function () {
   function makeChain() {
-    let _onSuccess = null;
-    let _onFailure = null;
-
+    let _onSuccess = null, _onFailure = null;
     function finish(data, err) {
       try {
-        if (err) {
-          if (_onFailure) _onFailure(err);
-          else console.error('[GAS]', err);
-        } else if (data && data.__error) {
-          if (_onFailure) _onFailure(new Error(data.__error));
-          else console.error('[GAS Error]', data.__error);
-        } else {
-          if (_onSuccess) _onSuccess(data);
-        }
-      } finally {
-        _onSuccess = null;
-        _onFailure = null;
-      }
+        if (err) { if (_onFailure) _onFailure(err); else console.error('[GAS]', err); }
+        else if (data && data.__error) { if (_onFailure) _onFailure(new Error(data.__error)); else console.error('[GAS Error]', data.__error); }
+        else { if (_onSuccess) _onSuccess(data); }
+      } finally { _onSuccess = null; _onFailure = null; }
     }
-
+    function post(url, formData) {
+      return fetch(url, { method: 'POST', body: formData, redirect: 'follow', mode: 'cors' })
+        .then(function (r) { return r.text(); })
+        .then(function (txt) {
+          try { return { ok: true, data: JSON.parse(txt) }; }
+          catch (e) { return { ok: false, raw: txt }; }
+        });
+    }
     function callServer(fnName, args) {
       const formData = new URLSearchParams();
       formData.append('action', fnName);
       formData.append('args', JSON.stringify(args));
-
-      fetch(GAS_URL, {
-        method: 'POST',
-        body: formData,
-        redirect: 'follow',
-        mode: 'cors'
-      })
-        .then(function(r) { return r.text(); })
-        .then(function(txt) {
-          try {
-            var data = JSON.parse(txt);
-            finish(data, null);
-          } catch (e) {
-            console.warn('[GAS] bukan JSON, coba proxy:', txt.substring(0, 100));
-            callWithProxy(fnName, args, formData);
-          }
+      post(GAS_URL, formData)
+        .then(function (res) {
+          if (res.ok) return finish(res.data, null);
+          console.warn('[GAS] direct non-JSON:', (res.raw || '').substring(0, 120));
+          if (GAS_PROXY_URL) {
+            post(GAS_PROXY_URL, formData)
+              .then(function (r2) { if (r2.ok) finish(r2.data, null); else finish(null, new Error('Proxy non-JSON')); })
+              .catch(function (e) { finish(null, new Error('Proxy gagal: ' + e.message)); });
+          } else finish(null, new Error('Server non-JSON. Cek deployment GAS.'));
         })
-        .catch(function(err) {
-          console.warn('[GAS] direct gagal:', err.message, '— coba proxy...');
-          callWithProxy(fnName, args, formData);
+        .catch(function (err) {
+          console.warn('[GAS] direct gagal:', err.message);
+          if (GAS_PROXY_URL) {
+            post(GAS_PROXY_URL, formData)
+              .then(function (r2) { if (r2.ok) finish(r2.data, null); else finish(null, new Error('Proxy non-JSON')); })
+              .catch(function (e) { finish(null, new Error('Proxy gagal: ' + e.message)); });
+          } else finish(null, new Error('Koneksi gagal: ' + err.message));
         });
     }
-
-    function callWithProxy(fnName, args, formData) {
-      var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(GAS_URL + '?' + formData.toString());
-      fetch(proxyUrl, { method: 'GET' })
-        .then(function(r) { return r.text(); })
-        .then(function(txt) {
-          try {
-            var data = JSON.parse(txt);
-            finish(data, null);
-          } catch (e) {
-            callWithProxy2(fnName, args, formData);
-          }
-        })
-        .catch(function() { callWithProxy2(fnName, args, formData); });
-    }
-
-    function callWithProxy2(fnName, args, formData) {
-      var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(GAS_URL + '?' + formData.toString());
-      fetch(proxyUrl, { method: 'GET' })
-        .then(function(r) { return r.text(); })
-        .then(function(txt) {
-          try {
-            var data = JSON.parse(txt);
-            finish(data, null);
-          } catch (e) {
-            finish(null, new Error('Semua cara fetch gagal: ' + e.message));
-          }
-        })
-        .catch(function(err) {
-          finish(null, new Error('Semua cara fetch gagal: ' + err.message));
-        });
-    }
-
     const chain = {
-      withSuccessHandler: function(fn) { _onSuccess = fn; return proxy; },
-      withFailureHandler: function(fn) { _onFailure = fn; return proxy; }
+      withSuccessHandler: function (fn) { _onSuccess = fn; return proxy; },
+      withFailureHandler: function (fn) { _onFailure = fn; return proxy; }
     };
-
     const proxy = new Proxy(chain, {
-      get: function(target, prop) {
+      get: function (target, prop) {
         if (prop in target) return target[prop];
-        return function() {
-          const args = Array.prototype.slice.call(arguments);
-          callServer(prop, args);
-        };
+        return function () { callServer(prop, Array.prototype.slice.call(arguments)); };
       }
     });
-
     return proxy;
   }
-
   return makeChain();
 })();
 </script>
@@ -123,6 +77,7 @@ window.google.script.run = (function() {
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;min-width:0}
 html,body{width:100%;max-width:100vw;min-height:100%;overflow-x:hidden}
@@ -191,11 +146,8 @@ img{max-width:100%;height:auto;display:block}
 .topbar-notif-btn .notif-btn-label{display:none}
 .topbar-notif-btn:hover{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
 .topbar-notif-btn.active{background:rgba(34,197,94,.15);color:#4ade80;border-color:rgba(34,197,94,.35)}
-.topbar-notif-btn.active:hover{background:rgba(34,197,94,.22)}
 .topbar-notif-btn.blocked{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#f87171}
-.topbar-notif-btn.blocked:hover{background:rgba(239,68,68,.2)}
 .topbar-notif-btn.webview{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.35);color:#fbbf24}
-.topbar-notif-btn.webview:hover{background:rgba(251,191,36,.2)}
 .topbar-notif-btn.pulse i{animation:notifBellPulse 2s ease-in-out infinite}
 @keyframes notifBellPulse{0%,100%{transform:rotate(0)}10%{transform:rotate(12deg)}20%{transform:rotate(-10deg)}30%{transform:rotate(8deg)}40%{transform:rotate(-6deg)}50%,100%{transform:rotate(0)}}
 .view-section{display:none;width:100%}
@@ -610,50 +562,54 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(239,68,68,.4)}
-.avatar-frame { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; border-radius: 50%; padding: 4px; background: #0a0a0a; isolation: isolate; }
-.avatar-frame::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0%, transparent 70%, #60a5fa 85%, #fff 100%); animation: rotateRing 3s linear infinite; z-index: -2; }
-.avatar-frame::after { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: conic-gradient(from 180deg, transparent 0%, transparent 70%, #ef4444 85%, #fff 100%); animation: rotateRingReverse 4s linear infinite; z-index: -1; }
-.avatar-frame .avatar-shine { position: absolute; inset: 0; border-radius: 50%; background: transparent; border: 2px dashed rgba(96, 165, 250, 0.4); animation: pulseLightning 1.5s ease-in-out infinite alternate; z-index: 3; pointer-events: none; }
-.avatar-frame > img { position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #1a1a1a; border: 2px solid #111; }
-@keyframes rotateRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@keyframes rotateRingReverse { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
-@keyframes pulseLightning { 0% { box-shadow: 0 0 5px rgba(96, 165, 250, 0.2), inset 0 0 5px rgba(96, 165, 250, 0.2); border-color: rgba(96, 165, 250, 0.3); } 100% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.8), inset 0 0 15px rgba(96, 165, 250, 0.5); border-color: rgba(96, 165, 250, 0.9); } }
-.avatar-frame.size-sm { width: 36px; height: 36px; padding: 2px; }
-.avatar-frame.size-sm::before { inset: -4px; }
-.avatar-frame.size-sm::after { inset: -1px; }
-.avatar-frame.size-sm .avatar-shine { border-width: 1px; }
-.avatar-frame.size-lg { width: 90px; height: 90px; padding: 5px; }
-.avatar-frame.size-lg::before { inset: -8px; }
-.avatar-frame.size-lg::after { inset: -3px; }
-.avatar-frame.size-lg .avatar-shine { border-width: 3px; }
-.topbar-profile .avatar.avatar-custom { border: none; overflow: visible; }
-.topbar-profile .avatar.avatar-custom .avatar-frame { width: 100%; height: 100%; }
-#detailAvatarWrap { display: inline-block; position: relative; }
-#detailAvatarWrap .avatar-upload-btn { position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #111; background: linear-gradient(135deg, #60a5fa, #3b82f6); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5); }
-#detailAvatarWrap .avatar-upload-btn:hover { background: linear-gradient(135deg, #ef4444, #b91c1c); transform: scale(1.15) rotate(180deg); box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6); }
-.photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; max-height: 320px; overflow-y: auto; padding: 4px; }
-@media(min-width:480px) { .photo-gallery { grid-template-columns: repeat(4, 1fr); } }
-.photo-gallery-item { position: relative; aspect-ratio: 1/1; border-radius: 14px; overflow: hidden; cursor: pointer; border: 2px solid rgba(255,255,255,.08); background: #1a1a1a; transition: all .25s cubic-bezier(.4,0,.2,1); }
-.photo-gallery-item:hover { transform: translateY(-3px) scale(1.03); border-color: rgba(239,68,68,.5); box-shadow: 0 10px 24px rgba(220,38,38,.3); }
-.photo-gallery-item.selected { border-color: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.25), 0 8px 20px rgba(34,197,94,.3); }
-.photo-gallery-item.selected::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #22c55e; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 2px 8px rgba(34,197,94,.5); }
-.photo-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s; }
-.photo-gallery-item:hover img { transform: scale(1.08); }
-.photo-gallery-item .photo-name { position: absolute; bottom: 0; left: 0; right: 0; padding: 4px 6px; font-size: 8.5px; color: #fff; background: linear-gradient(0deg, rgba(0,0,0,.85), transparent); text-align: center; font-weight: 600; letter-spacing: .3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.photo-gallery-loading { grid-column: 1/-1; text-align: center; padding: 30px 16px; color: #8b93a3; font-size: 11px; }
-.photo-preview-box { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 14px; background: rgba(96,165,250,.06); border: 1px solid rgba(96,165,250,.15); margin-bottom: 14px; }
-.photo-preview-box .preview-frame { width: 64px; height: 64px; flex-shrink: 0; }
-.photo-preview-box .preview-info { flex: 1; min-width: 0; }
-.photo-preview-box .preview-label { font-size: 9.5px; color: #8b93a3; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 3px; }
-.photo-preview-box .preview-name { font-size: 13px; color: #fff; font-weight: 700; word-break: break-word; }
-@media(prefers-reduced-motion:reduce) { .avatar-frame::before, .avatar-frame::after, .avatar-frame .avatar-shine { animation: none !important; } .avatar-frame .avatar-shine { border: 2px solid #60a5fa; box-shadow: 0 0 15px rgba(96,165,250,.5); } }
+.avatar-frame{position:relative;display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;padding:4px;background:#0a0a0a;isolation:isolate}
+.avatar-frame::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg, transparent 0%, transparent 70%, #60a5fa 85%, #fff 100%);animation:rotateRing 3s linear infinite;z-index:-2}
+.avatar-frame::after{content:'';position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(from 180deg, transparent 0%, transparent 70%, #ef4444 85%, #fff 100%);animation:rotateRingReverse 4s linear infinite;z-index:-1}
+.avatar-frame .avatar-shine{position:absolute;inset:0;border-radius:50%;background:transparent;border:2px dashed rgba(96,165,250,0.4);animation:pulseLightning 1.5s ease-in-out infinite alternate;z-index:3;pointer-events:none}
+.avatar-frame > img{position:relative;z-index:2;width:100%;height:100%;border-radius:50%;object-fit:cover;background:#1a1a1a;border:2px solid #111}
+@keyframes rotateRing{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes rotateRingReverse{0%{transform:rotate(0deg)}100%{transform:rotate(-360deg)}}
+@keyframes pulseLightning{0%{box-shadow:0 0 5px rgba(96,165,250,0.2),inset 0 0 5px rgba(96,165,250,0.2);border-color:rgba(96,165,250,0.3)}100%{box-shadow:0 0 20px rgba(96,165,250,0.8),inset 0 0 15px rgba(96,165,250,0.5);border-color:rgba(96,165,250,0.9)}}
+.avatar-frame.size-sm{width:36px;height:36px;padding:2px}
+.avatar-frame.size-sm::before{inset:-4px}
+.avatar-frame.size-sm::after{inset:-1px}
+.avatar-frame.size-sm .avatar-shine{border-width:1px}
+.avatar-frame.size-lg{width:90px;height:90px;padding:5px}
+.avatar-frame.size-lg::before{inset:-8px}
+.avatar-frame.size-lg::after{inset:-3px}
+.avatar-frame.size-lg .avatar-shine{border-width:3px}
+.topbar-profile .avatar.avatar-custom{border:none;overflow:visible}
+.topbar-profile .avatar.avatar-custom .avatar-frame{width:100%;height:100%}
+#detailAvatarWrap{display:inline-block;position:relative}
+#detailAvatarWrap .avatar-upload-btn{position:absolute;bottom:0;right:0;width:30px;height:30px;border-radius:50%;border:2px solid #111;background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);box-shadow:0 4px 12px rgba(59,130,246,0.5)}
+#detailAvatarWrap .avatar-upload-btn:hover{background:linear-gradient(135deg,#ef4444,#b91c1c);transform:scale(1.15) rotate(180deg);box-shadow:0 6px 16px rgba(239,68,68,0.6)}
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;max-height:320px;overflow-y:auto;padding:4px}
+@media(min-width:480px){.photo-gallery{grid-template-columns:repeat(4,1fr)}}
+.photo-gallery-item{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;cursor:pointer;border:2px solid rgba(255,255,255,.08);background:#1a1a1a;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.photo-gallery-item:hover{transform:translateY(-3px) scale(1.03);border-color:rgba(239,68,68,.5);box-shadow:0 10px 24px rgba(220,38,38,.3)}
+.photo-gallery-item.selected{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25),0 8px 20px rgba(34,197,94,.3)}
+.photo-gallery-item.selected::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:#22c55e;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 2px 8px rgba(34,197,94,.5)}
+.photo-gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.photo-gallery-item:hover img{transform:scale(1.08)}
+.photo-gallery-item .photo-name{position:absolute;bottom:0;left:0;right:0;padding:4px 6px;font-size:8.5px;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);text-align:center;font-weight:600;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.photo-gallery-loading{grid-column:1/-1;text-align:center;padding:30px 16px;color:#8b93a3;font-size:11px}
+.photo-preview-box{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);margin-bottom:14px}
+.photo-preview-box .preview-frame{width:64px;height:64px;flex-shrink:0}
+.photo-preview-box .preview-info{flex:1;min-width:0}
+.photo-preview-box .preview-label{font-size:9.5px;color:#8b93a3;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px}
+.photo-preview-box .preview-name{font-size:13px;color:#fff;font-weight:700;word-break:break-word}
+@media(prefers-reduced-motion:reduce){.avatar-frame::before,.avatar-frame::after,.avatar-frame .avatar-shine{animation:none!important}.avatar-frame .avatar-shine{border:2px solid #60a5fa;box-shadow:0 0 15px rgba(96,165,250,.5)}}
 </style>
 </head>
+
 <body>
 <div class="app">
   <aside class="sidebar">
     <div class="sidebar-brand">
-      <div class="logo" id="headerLogo"><span class="logo-fallback">TFC</span></div>
+      <div class="logo" id="headerLogo">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png" alt="TFC" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback" style="display:none">TFC</span>
+      </div>
       <div class="brand-text">
         <h1><span class="the-family">THE FAMILY</span> <span class="community">COMMUNITY</span></h1>
         <div class="version">V 1.2.2</div>
@@ -679,7 +635,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
           <div class="topbar-profile" id="profileHeaderButton">
             <div class="avatar avatar-custom">
               <div class="avatar-frame size-sm">
-                <img id="headerAvatar" src="" alt="Profile">
+                <img id="headerAvatar" src="https://ui-avatars.com/api/?name=TFC&background=dc2626&color=ffffff&size=256&bold=true" alt="Profile">
                 <span class="avatar-shine"></span>
               </div>
             </div>
@@ -822,7 +778,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
             <div class="text"><h3>Form Klaim Reward Kaos TFC</h3><p>Isi alamat pengiriman lengkap</p></div>
           </div>
           <div class="ranking" style="padding:18px;">
-            <img id="rewardModalShirt" class="reward-shirt-preview" src="" alt="Kaos TFC">
+            <img id="rewardModalShirt" class="reward-shirt-preview" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgo2Ynf9CnevaxqoC2Dd_5-n5PkrDvffxGpilwoJuyPLcIQ8ys3OZgw40KGGN7eEIP-G4SH4oMIKyQuDqZPyenhppflDq-dn2qbGPZB1Av9Sya7qI1kGQCcSuxw_d2iUddOA0iUBmFMFs6LA1KTeV_UxdSUGzN7Z6TqVnW2EpRFsvL25Rcwtxh_pTubr32R/s3264/1000630067.jpg" alt="Kaos TFC">
             <div class="reward-stock-box" id="rewardStockBox">
               <i class="fas fa-tshirt"></i>
               <div class="stock-text">Stock Kaos TFC<strong id="stockKaosModalText">- / 5 pcs</strong></div>
@@ -995,7 +951,10 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 <aside class="login-drawer" id="loginDrawer">
   <div class="drawer-header"><button class="drawer-close" id="loginDrawerClose" type="button"><i class="fas fa-times"></i></button></div>
   <div class="drawer-body">
-    <div class="drawer-logo" id="loginLogo"><span class="logo-fallback">TFC</span></div>
+    <div class="drawer-logo" id="loginLogo">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png" alt="TFC" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="logo-fallback" style="display:none">TFC</span>
+    </div>
     <div class="drawer-title">LOGIN ANGGOTA</div>
     <div class="drawer-subtitle">Masuk ke akun The Family Community</div>
     <div class="message error" id="loginError"></div>
@@ -1041,7 +1000,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
     <div style="background:#111;border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:24px 20px;text-align:center;margin-bottom:16px;">
       <div id="detailAvatarWrap" style="position:relative;display:inline-block;margin-bottom:16px;">
         <div class="avatar-frame size-lg">
-          <img id="detailAvatar" src="" alt="Profile">
+          <img id="detailAvatar" src="https://ui-avatars.com/api/?name=TFC&background=dc2626&color=ffffff&size=256&bold=true" alt="Profile">
           <span class="avatar-shine"></span>
         </div>
         <button class="avatar-upload-btn" id="changePhotoBtn" type="button" title="Ganti Foto Profil">
@@ -1081,7 +1040,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
     </div>
     <div class="photo-preview-box">
       <div class="avatar-frame size-md preview-frame">
-        <img id="photoPreview" src="" alt="Preview">
+        <img id="photoPreview" src="https://ui-avatars.com/api/?name=TFC&background=dc2626&color=ffffff&size=256&bold=true" alt="Preview">
         <span class="avatar-shine"></span>
       </div>
       <div class="preview-info">
@@ -1255,7 +1214,7 @@ let notifStatusInterval = null;
 const SESSION_KEY = 'TFC_V100_SESSION';
 const BROADCAST_SEEN_KEY = 'TFC_BROADCAST_SEEN';
 const ABSEN_BUKA_JAM = 21;
-const ABSEN_TUTUP_JAM = 0;
+const ABSEN_TUTUP_JAM = 24; /* FIXED: 24 = tutup tengah malam */
 const DZO_URL = 'https://dzo-hub.com/c/DZOFAMILY';
 const DZO_CODE = 'DZOFAMILY';
 const LEADER_EMAIL_DEFAULT = 'docigangz@gmail.com';
@@ -1283,6 +1242,29 @@ function getSession() { try { const d = localStorage.getItem(SESSION_KEY); retur
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch (e) {} }
 function avatarUrl(n) { return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(n || 'TFC') + '&background=dc2626&color=ffffff&size=256&bold=true'; }
 
+/* ============ SANITIZER (PATCH) ============ */
+function sanitizeNotifHtml(html) {
+  const allowed = /^(strong|b|i|em|br|span|small|code|u|div|p)$/i;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = String(html);
+  (function walk(node) {
+    Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+      if (child.nodeType === 1) {
+        if (!allowed.test(child.tagName)) { node.replaceChild(document.createTextNode(child.textContent || ''), child); return; }
+        Array.prototype.slice.call(child.attributes).forEach(function (attr) {
+          const n = attr.name.toLowerCase();
+          const v = String(attr.value || '');
+          if (n.indexOf('on') === 0) child.removeAttribute(attr.name);
+          if ((n === 'href' || n === 'src') && /^\s*javascript:/i.test(v)) child.removeAttribute(attr.name);
+        });
+        walk(child);
+      }
+    });
+  })(tmp);
+  return tmp.innerHTML;
+}
+
+/* ============ MUSIC ============ */
 function playMusicFromClick() {
   try {
     const music = document.getElementById('tfcMusic');
@@ -1363,6 +1345,7 @@ function playMusicFromClick() {
   music.addEventListener('pause', function() { updateUI(false); });
 })();
 
+/* ============ NICK PARTICLES / VERIFY STATUS ============ */
 function initNickParticles() {
   const box = document.getElementById('nickParticles');
   if (!box) return;
@@ -1393,6 +1376,7 @@ document.addEventListener('mousemove', function(e) {
   });
 });
 
+/* ============ BLOCK NICKNAME COPY ============ */
 (function blockNicknameCopy() {
   const selector = '.nickname-value, #nicknameValue, #welcomeNickname, #headerNickname, #detailNickname, #detailUsername, .rank-name, .popup-code, .giveaway-participant-row .col-id, .giveaway-participant-row .col-akun';
   document.addEventListener('contextmenu', function(e) {
@@ -1419,6 +1403,7 @@ document.addEventListener('mousemove', function(e) {
   });
 })();
 
+/* ============ OVERLAY GUARD ============ */
 function isAnyOverlayOpen() {
   const d = document.getElementById('loginDrawer');
   if (d && d.classList.contains('show')) return true;
@@ -1452,15 +1437,17 @@ function watchOverlays() {
   });
 }
 
+/* ============ WIB TIME ============ */
 function getWIBDate() {
   const now = new Date();
   const wibString = now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
   return new Date(wibString);
 }
+/* PATCH: window 21:00–24:00 WIB */
 function isAttendanceOpen() {
   const wib = getWIBDate();
   const j = wib.getHours();
-  return (j >= ABSEN_BUKA_JAM && j <= 23) || (j >= 0 && j < ABSEN_TUTUP_JAM);
+  return j >= ABSEN_BUKA_JAM && j < ABSEN_TUTUP_JAM;
 }
 function getNextOpenTime() {
   const wib = getWIBDate();
@@ -1543,6 +1530,7 @@ function updateAbsenNowButton() {
   }
 }
 
+/* ============ NOTIF OVERLAY (PATCH: sanitize) ============ */
 function getNotifColor(t) { return { success:'#22c55e', error:'#ef4444', info:'#60a5fa', warning:'#fbbf24' }[t] || '#ef4444'; }
 function showNotif(opts) {
   opts = opts || {};
@@ -1556,7 +1544,7 @@ function showNotif(opts) {
   const iEl = document.getElementById('notifIconClass');
   if (iEl) iEl.className = 'fas ' + (iMap[t] || 'fa-bell');
   document.getElementById('notifTitle').textContent = opts.title || 'Notifikasi';
-  document.getElementById('notifMessage').innerHTML = opts.message || '';
+  document.getElementById('notifMessage').innerHTML = sanitizeNotifHtml(opts.message || '');
   const dBox = document.getElementById('notifDetailBox');
   if (opts.detail) { dBox.classList.add('show'); document.getElementById('notifDetailTanggal').textContent = opts.detail.tanggal || '-'; document.getElementById('notifDetailJam').textContent = opts.detail.jam || '-'; document.getElementById('notifDetailTotal').textContent = opts.detail.total || '-'; }
   else dBox.classList.remove('show');
@@ -1609,10 +1597,12 @@ function closeNotif() {
   notifCallback = null;
 }
 
+/* ============ BROADCAST SEEN ============ */
 function getSeenBroadcasts() { try { const r = localStorage.getItem(BROADCAST_SEEN_KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } }
 function markBroadcastSeen(id) { try { const s = getSeenBroadcasts(); s[id] = Date.now(); localStorage.setItem(BROADCAST_SEEN_KEY, JSON.stringify(s)); } catch (e) {} }
 function hasSeenBroadcast(id) { return !!getSeenBroadcasts()[id]; }
 
+/* ============ POPUP ============ */
 function showGuestPopup(info) {
   const o = document.getElementById('popupAds'), dS = document.getElementById('dzohubSection'), iS = document.getElementById('infoSection'), dv = document.getElementById('popupDivider'), closeBtn = document.getElementById('popupAdsClose'), infoCloseBtn = document.getElementById('popupInfoClose');
   if (!o || !dS) return;
@@ -1683,6 +1673,7 @@ function loadAndShowPopup() {
     .getSambutanGuest();
 }
 
+/* ============ CS TOPICS / AI ============ */
 const CS_TOPICS = [
   { id:'daftar', icon:'fa-user-plus', label:'Daftar', color:'#60a5fa', text:'Halo, saya ingin mendaftar sebagai anggota The Family Community.' },
   { id:'paket', icon:'fa-truck-fast', label:'Paket', color:'#a78bfa', text:'Halo, saya ingin menanyakan status pengiriman paket reward Kaos TFC saya.' },
@@ -1758,7 +1749,6 @@ function sendCsMessage(target) {
     showNotif({ type:'success', title:'PESAN TERKIRIM', message:'Anda akan diarahkan ke WhatsApp ' + (target === 'admin' ? 'Admin' : 'Co Leader'), autoMode:true, countdown:2 });
   }, 300);
 }
-
 function csNowTime() {
   const d = new Date();
   return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
@@ -1818,6 +1808,8 @@ function removeCsAiLoading() {
   const r = document.getElementById('csAiLoadingRow');
   if (r && r.parentNode) r.parentNode.removeChild(r);
 }
+
+/* PATCH: askAI() tidak kirim pesan user duplikat */
 function askAI() {
   if (csAiLoading) return;
   const ta = document.getElementById('csMessageInput');
@@ -1825,6 +1817,7 @@ function askAI() {
   const msg = ta.value.trim();
   if (!msg) { ta.focus(); return; }
   if (!serverAvailable()) { alert('Server tidak terhubung.'); return; }
+  const historyBefore = csChatHistory.slice(-8);
   renderCsAiMessage('user', msg);
   csChatHistory.push({ role: 'user', content: msg });
   ta.value = '';
@@ -1833,7 +1826,6 @@ function askAI() {
   const btn = document.getElementById('csAskAiBtn');
   if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; }
   renderCsAiLoading();
-  const historyToSend = csChatHistory.slice(-8);
   google.script.run
     .withSuccessHandler(function(r) {
       csAiLoading = false;
@@ -1853,9 +1845,10 @@ function askAI() {
       if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i>'; }
       renderCsAiMessage('assistant', '❌ Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'));
     })
-    .askGroqAI(msg, historyToSend);
+    .askGroqAI(msg, historyBefore);
 }
 
+/* ============ HERO SLIDER ============ */
 function startHeroSlider() {
   const track = document.getElementById('heroTrack'), dots = document.querySelectorAll('.hero-dot');
   if (!track || !dots.length) return;
@@ -1871,6 +1864,7 @@ function startHeroSlider() {
   heroSlideInterval = setInterval(function() { goTo(heroSlideIndex + 1); }, 5000);
 }
 
+/* ============ AVATAR ============ */
 function getAvatarSrc(user) {
   if (user && user.foto && /^https?:\/\//i.test(user.foto)) return user.foto;
   return avatarUrl(user && user.nickname);
@@ -1886,6 +1880,8 @@ function refreshAvatarUI() {
     img.src = src;
   });
 }
+
+ /* ============ GUEST / LOGGED-IN STATE ============ */
 function setGuestState() {
   currentUser = null;
   cachedPhotoOptions = null;
@@ -1955,6 +1951,7 @@ function updateTrackingMenuVisibility() {
   if (currentUser && hasClaimedReward) m.classList.add('show'); else m.classList.remove('show');
 }
 
+/* ============ VIEW SWITCH ============ */
 function switchView(v) {
   document.querySelectorAll('.view-section').forEach(function(s) { s.classList.remove('active'); });
   const map = { beranda:'viewBeranda', absen:'viewAbsen', nickname:'viewNickname', tracking:'viewTracking', ranking:'viewRanking', giveaway:'viewGiveaway' };
@@ -1973,12 +1970,15 @@ function switchView(v) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ============ MODAL CLOSE BINDINGS ============ */
 document.querySelectorAll('[data-close]').forEach(function(b) {
   b.addEventListener('click', function() { closeModal(document.getElementById(b.getAttribute('data-close'))); setTimeout(updateOverlayGuard, 50); });
 });
 document.querySelectorAll('.modal-overlay').forEach(function(o) {
   o.addEventListener('click', function(e) { if (e.target === o) { closeModal(o); setTimeout(updateOverlayGuard, 50); } });
 });
+
+/* ============ LOGIN DRAWER ============ */
 document.getElementById('loginTriggerButton').addEventListener('click', function() {
   closeCombinedPopup();
   document.getElementById('loginDrawer').classList.add('show');
@@ -2001,6 +2001,7 @@ function closeLoginDrawer() {
 document.getElementById('loginDrawerOverlay').addEventListener('click', closeLoginDrawer);
 document.getElementById('loginDrawerClose').addEventListener('click', closeLoginDrawer);
 
+/* ============ HERO JOIN ============ */
 const heroJoin = document.getElementById('heroJoinButton');
 if (heroJoin) {
   heroJoin.addEventListener('click', function() {
@@ -2010,6 +2011,7 @@ if (heroJoin) {
   });
 }
 
+/* ============ SIDEBAR NAV ============ */
 document.querySelectorAll('.sidebar-item').forEach(function(item) {
   item.addEventListener('click', function() {
     const v = item.getAttribute('data-view');
@@ -2037,6 +2039,7 @@ function requireLogin(name) {
   return false;
 }
 
+/* ============ LOGIN SUBMIT ============ */
 document.getElementById('loginButton').addEventListener('click', function() {
   const u = document.getElementById('loginUsername').value.trim();
   const p = document.getElementById('loginPassword').value.trim();
@@ -2062,6 +2065,8 @@ document.getElementById('loginButton').addEventListener('click', function() {
 ['loginUsername','loginPassword'].forEach(function(id) {
   document.getElementById(id).addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('loginButton').click(); } });
 });
+
+/* ============ REGISTER ============ */
 document.getElementById('openRegisterButton').addEventListener('click', function() {
   closeCombinedPopup(); closeLoginDrawer();
   setTimeout(function() {
@@ -2120,6 +2125,7 @@ document.getElementById('registerButton').addEventListener('click', function() {
     .registerAccount(data);
 });
 
+/* ============ MEMBERSHIP FORM ============ */
 function resetMembershipForm() {
   ['mIdGame','mNickname','mServer','mLevel','mUsername','mAlamat','mUmur','mWhatsapp','mEmail','mSosmed','mAlasan'].forEach(function(id) { const el = document.getElementById(id); if (el) el.value = ''; });
   hideMessage(document.getElementById('membershipError'));
@@ -2154,12 +2160,14 @@ function openWhatsapp(num, name) {
   window.open('https://wa.me/' + num + '?text=' + msg, '_blank');
 }
 
+/* ============ SOCIAL BUTTONS ============ */
 document.getElementById('tiktokButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.tiktokUrl) window.open(c.tiktokUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('discordButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.discordUrl) window.open(c.discordUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('facebookButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.facebookUrl) window.open(c.facebookUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('instagramButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.instagramUrl) window.open(c.instagramUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('youtubeButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.youtubeUrl) window.open(c.youtubeUrl, '_blank'); }).getAppConfig(); });
 
+/* ============ CS BINDINGS ============ */
 document.getElementById('csServiceBtn').addEventListener('click', openCsService);
 document.getElementById('menuCsAdmin').addEventListener('click', function(e) { e.preventDefault(); openCsService(); });
 document.getElementById('csServiceClose').addEventListener('click', function() { closeModal(document.getElementById('csServiceModal')); setTimeout(updateOverlayGuard, 50); });
@@ -2172,7 +2180,6 @@ document.getElementById('csClearChatBtn').addEventListener('click', function() {
   csChatHistory = [];
   const area = document.getElementById('csChatArea'); if (area) area.style.display = 'none';
 });
-
 document.getElementById('csContactLeaderBtn').addEventListener('click', function() {
   const ta = document.getElementById('csMessageInput');
   const msg = ta ? ta.value.trim() : '';
@@ -2201,7 +2208,6 @@ document.getElementById('csContactLeaderBtn').addEventListener('click', function
     '&body=' + encodeURIComponent(body);
   window.open(gmailUrl, '_blank');
 });
-
 (function initCsInput(){
   const ta = document.getElementById('csMessageInput');
   if (!ta) return;
@@ -2217,6 +2223,7 @@ document.getElementById('csContactLeaderBtn').addEventListener('click', function
   });
 })();
 
+/* ============ PROFILE MODAL ============ */
 document.getElementById('profileHeaderButton').addEventListener('click', function() {
   if (!currentUser) return;
   closeCombinedPopup();
@@ -2234,7 +2241,7 @@ document.getElementById('profileHeaderButton').addEventListener('click', functio
     .withFailureHandler(function() { document.getElementById('detailTotalAbsen').textContent = '0'; })
     .getMemberAttendanceCount(currentUser.idGame);
   google.script.run
-    .withSuccessHandler(function(r) { 
+    .withSuccessHandler(function(r) {
       if (r && r.success && r.ranking) {
         let pos = '-';
         for (let i = 0; i < r.ranking.length; i++) {
@@ -2246,7 +2253,7 @@ document.getElementById('profileHeaderButton').addEventListener('click', functio
     .withFailureHandler(function() { document.getElementById('detailRanking').textContent = '-'; })
     .getAttendanceRanking();
   google.script.run
-    .withSuccessHandler(function(r) { 
+    .withSuccessHandler(function(r) {
       if (r && r.success) {
         const streak = r.streakAsli || 0;
         const max = r.requiredDays || 15;
@@ -2257,6 +2264,7 @@ document.getElementById('profileHeaderButton').addEventListener('click', functio
     .getRewardEligibility(currentUser.idGame);
 });
 
+/* ============ PHOTO GALLERY ============ */
 document.getElementById('changePhotoBtn').addEventListener('click', function() {
   if (!currentUser) return;
   selectedPhotoUrl = currentUser.foto || '';
@@ -2274,7 +2282,6 @@ document.getElementById('changePhotoBtn').addEventListener('click', function() {
   setTimeout(updateOverlayGuard, 50);
   loadPhotoGallery();
 });
-
 function loadPhotoGallery() {
   const gallery = document.getElementById('photoGallery');
   if (!gallery) return;
@@ -2293,12 +2300,11 @@ function loadPhotoGallery() {
       cachedPhotoOptions = r.photos || [];
       renderPhotoGallery();
     })
-    .withFailureHandler(function(e) {
+    .withFailureHandler(function() {
       gallery.innerHTML = '<div class="photo-gallery-loading" style="color:#f87171;"><i class="fas fa-exclamation-triangle"></i> Koneksi gagal.</div>';
     })
     .getProfilePhotoOptions();
 }
-
 function renderPhotoGallery() {
   const gallery = document.getElementById('photoGallery');
   if (!gallery) return;
@@ -2346,7 +2352,6 @@ function renderPhotoGallery() {
   });
   gallery.insertBefore(defItem, gallery.firstChild);
 }
-
 document.getElementById('photoSaveBtn').addEventListener('click', function() {
   if (!currentUser || !serverAvailable()) return;
   const msg = document.getElementById('photoMessage');
@@ -2378,7 +2383,6 @@ document.getElementById('photoSaveBtn').addEventListener('click', function() {
     })
     .updateProfilePhoto(currentUser.idGame, selectedPhotoUrl);
 });
-
 document.getElementById('photoResetBtn').addEventListener('click', function() {
   if (!currentUser) return;
   const msg = document.getElementById('photoMessage');
@@ -2394,6 +2398,7 @@ document.getElementById('photoResetBtn').addEventListener('click', function() {
   showMessage(msg, 'Tekan SIMPAN untuk konfirmasi reset.', 'info');
 });
 
+/* ============ LOGOUT ============ */
 document.getElementById('logoutButton').addEventListener('click', function() {
   showNotif({
     type:'warning', title:'LOGOUT',
@@ -2406,6 +2411,7 @@ document.getElementById('logoutButton').addEventListener('click', function() {
   });
 });
 
+/* ============ ATTENDANCE CALENDAR ============ */
 function loadAttendanceCalendar(year, month) {
   const grid = document.getElementById('calendarGrid'), title = document.getElementById('calendarTitle'), summary = document.getElementById('calendarSummary');
   if (!grid) return;
@@ -2460,6 +2466,7 @@ function renderCalendar(year, month, attendedDates, bolosDates, recordedDates) {
 document.getElementById('calPrevBtn').addEventListener('click', function() { currentCalMonth--; if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; } loadAttendanceCalendar(currentCalYear, currentCalMonth); });
 document.getElementById('calNextBtn').addEventListener('click', function() { currentCalMonth++; if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; } loadAttendanceCalendar(currentCalYear, currentCalMonth); });
 
+/* ============ ABSEN FLOW ============ */
 document.getElementById('absenNowBtn').addEventListener('click', function() {
   if (!currentUser) return;
   if (!isAttendanceOpen()) { showNotif({ type:'warning', title:'BELUM WAKTUNYA', message:'Jam absen dibuka pukul <strong style="color:#fbbf24;">21:00 WIB</strong>.', autoMode:true, countdown:2 }); return; }
@@ -2496,7 +2503,7 @@ document.getElementById('absenNowBtn').addEventListener('click', function() {
           updateAbsenNowButton();
           showNotif({ type:'success', title:'SESI DIMULAI', message:'Sesi absen berhasil dimulai.<br><br>Sistem sedang memantau Anda. Silakan join room game dan mainkan game dengan sungguh-sungguh.<br><br>Kembali ke website/apk TFC setelah 30 menit, dan absen Anda akan <strong>TERCATAT OTOMATIS</strong>.', autoMode:false, showCancel:false, okText:'Siap, Gas Main!' });
         })
-        .withFailureHandler(function(e) {
+        .withFailureHandler(function() {
           btn.disabled = false; updateAbsenNowButton();
           showNotif({ type:'error', title:'KONEKSI GAGAL', message: 'Gagal memulai sesi.', autoMode:true, countdown:2 });
         })
@@ -2545,6 +2552,7 @@ function autoSubmitAttendance() {
     .checkAndSubmitAttendance(currentUser.idGame, startTime);
 }
 
+/* ============ REWARD ============ */
 function updateRewardClaimBanner() {
   const b = document.getElementById('rewardClaimBanner');
   if (!b) return;
@@ -2567,6 +2575,7 @@ document.getElementById('openRewardFormBtn').addEventListener('click', function(
   }
 });
 
+/* ============ NICKNAME ============ */
 function resetNicknameView() {
   cachedNicknameData = null;
   nicknameVerified = false;
@@ -2595,7 +2604,6 @@ function resetNicknameView() {
   hideMessage(document.getElementById('nicknameMessage'));
   initNickParticles();
 }
-
 document.getElementById('verifyNicknameButton').addEventListener('click', function() {
   if (!currentUser || !serverAvailable()) return;
   const btn = this, msg = document.getElementById('nicknameMessage');
@@ -2661,17 +2669,12 @@ document.getElementById('verifyNicknameButton').addEventListener('click', functi
 function copyToClipboard(text) {
   return new Promise(function(resolve) {
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(function() {
-        resolve(true);
-      }).catch(function() {
-        resolve(fallbackCopyExec(text));
-      });
+      navigator.clipboard.writeText(text).then(function() { resolve(true); }).catch(function() { resolve(fallbackCopyExec(text)); });
       return;
     }
     resolve(fallbackCopyExec(text));
   });
 }
-
 function fallbackCopyExec(text) {
   try {
     const ta = document.createElement('textarea');
@@ -2688,11 +2691,8 @@ function fallbackCopyExec(text) {
     const ok = document.execCommand('copy');
     document.body.removeChild(ta);
     return !!ok;
-  } catch (e) {
-    return false;
-  }
+  } catch (e) { return false; }
 }
-
 document.getElementById('copyNicknameButton').addEventListener('click', function() {
   if (!currentUser || !serverAvailable()) return;
   const btn = this;
@@ -2747,7 +2747,7 @@ document.getElementById('copyNicknameButton').addEventListener('click', function
           autoMode:true, countdown:4
         });
       })
-      .withFailureHandler(function(e) {
+      .withFailureHandler(function() {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-copy"></i> SALIN NICKNAME <span class="btn-glow"></span>';
         showNotif({
@@ -2761,6 +2761,7 @@ document.getElementById('copyNicknameButton').addEventListener('click', function
   });
 });
 
+/* ============ RANKING ============ */
 function loadRanking() {
   const c = document.getElementById('rankingContainer'), pc = document.getElementById('rankingContainerPanel');
   if (!c) return;
@@ -2797,6 +2798,7 @@ function loadRanking() {
     .getAttendanceRanking();
 }
 
+/* ============ REWARD DATA ============ */
 function checkRewardClaimStatus() {
   if (!currentUser || !serverAvailable()) return;
   google.script.run
@@ -2935,6 +2937,7 @@ document.getElementById('submitRewardButton').addEventListener('click', function
     .submitRewardClaim({ idGame: currentUser.idGame, username: currentUser.username, nickname: currentUser.nickname, whatsapp: currentUser.whatsapp || '', alamat: alamatKirim });
 });
 
+/* ============ TRACKING ============ */
 function determineStage(s) {
   s = (s || '').toUpperCase();
   if (s.indexOf('DITERIMA') > -1 || s.indexOf('SELESAI') > -1) return 3;
@@ -3008,6 +3011,7 @@ function loadTrackingView() {
     .getRewardClaimStatus(currentUser.idGame);
 }
 
+/* ============ POPUP / NOTIF GLOBAL BINDINGS ============ */
 document.getElementById('popupAdsClose').addEventListener('click', function() { closeCombinedPopup(); playMusicFromClick(); });
 document.getElementById('popupInfoClose').addEventListener('click', function() { closeCombinedPopup(); playMusicFromClick(); });
 document.getElementById('popupAds').addEventListener('click', function(e) { if (e.target === document.getElementById('popupAds')) { const dS = document.getElementById('dzohubSection'); if (dS && dS.style.display !== 'none') { closeCombinedPopup(); playMusicFromClick(); } } });
@@ -3027,6 +3031,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+/* ============ GIVEAWAY ============ */
 function renderParticipantsTable(ps) {
   const t = document.getElementById('giveawayParticipantsTable'), tb = document.getElementById('giveawayTotalBottom'), tt = document.getElementById('giveawayTotalParticipants');
   if (tb) tb.textContent = ps ? ps.length : 0;
@@ -3142,6 +3147,7 @@ function resetGiveaway() {
 }
 document.getElementById('resetGiveawayBtn').addEventListener('click', resetGiveaway);
 
+/* ============ SESSION RESTORE + CONFIG ============ */
 function restoreSession() {
   const s = getSession();
   if (!s) { setGuestState(); return; }
@@ -3164,12 +3170,14 @@ function loadConfig() {
     .getAppConfig();
 }
 
+/* ============ RESIZE ============ */
 window.addEventListener('resize', function() {
   const rp = document.getElementById('rightPanel');
   if (!rp || !currentUser) return;
   if (window.innerWidth >= 1025) rp.style.display = 'flex'; else rp.style.display = 'none';
 });
 
+/* ============ START ============ */
 function startApp() {
   loadConfig();
   restoreSession();
@@ -3188,6 +3196,7 @@ function startApp() {
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startApp);
 else startApp();
 
+/* ============ FCM / NOTIFICATION BUTTON ============ */
 function detectEnv() {
   const ua = navigator.userAgent || '';
   return {
@@ -3205,7 +3214,6 @@ function detectEnv() {
     isStandalone: window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true
   };
 }
-
 function getNotifStatus() {
   const env = detectEnv();
   if (env.isWebView) return { state: 'webview', label: 'APK', color: '#fbbf24' };
@@ -3220,21 +3228,16 @@ function getNotifStatus() {
   if (perm === 'denied') return { state: 'blocked', label: 'Blokir', color: '#f87171' };
   return { state: 'default', label: 'Notif', color: '#fbbf24' };
 }
-
 function updateNotificationButton() {
   const btn = document.getElementById('enableNotifBtn');
   const icon = document.getElementById('notifBtnIcon');
   const label = document.getElementById('notifBtnLabel');
   if (!btn) return;
-  if (!currentUser) {
-    btn.classList.remove('show', 'active', 'pulse', 'blocked', 'webview');
-    return;
-  }
+  if (!currentUser) { btn.classList.remove('show', 'active', 'pulse', 'blocked', 'webview'); return; }
   btn.classList.add('show');
   const status = getNotifStatus();
   btn.classList.remove('active', 'pulse', 'blocked', 'webview');
-  btn.style.borderColor = '';
-  btn.style.color = '';
+  btn.style.borderColor = ''; btn.style.color = '';
   if (status.state === 'active' || status.state === 'granted') {
     btn.classList.add('active');
     if (icon) icon.className = 'fas fa-bell';
@@ -3256,7 +3259,6 @@ function updateNotificationButton() {
     if (label) label.textContent = 'Notif';
   }
 }
-
 function showLocalNotification(title, body) {
   try {
     if (!('Notification' in window)) return false;
@@ -3264,40 +3266,22 @@ function showLocalNotification(title, body) {
     if (navigator.serviceWorker && navigator.serviceWorker.ready) {
       navigator.serviceWorker.ready.then(function(reg) {
         if (reg.showNotification) {
-          reg.showNotification(title, {
-            body: body,
-            icon: CONFIG_LOGO_FALLBACK,
-            badge: CONFIG_LOGO_FALLBACK,
-            tag: 'tfc-local-' + Date.now()
-          }).catch(function() {
-            try { new Notification(title, { body: body, icon: CONFIG_LOGO_FALLBACK }); } catch (e) {}
-          });
+          reg.showNotification(title, { body: body, icon: CONFIG_LOGO_FALLBACK, badge: CONFIG_LOGO_FALLBACK, tag: 'tfc-local-' + Date.now() })
+            .catch(function() { try { new Notification(title, { body: body, icon: CONFIG_LOGO_FALLBACK }); } catch (e) {} });
         }
-      }).catch(function() {
-        try { new Notification(title, { body: body }); } catch (e) {}
-      });
+      }).catch(function() { try { new Notification(title, { body: body }); } catch (e) {} });
       return true;
     }
     new Notification(title, { body: body });
     return true;
-  } catch (e) {
-    console.warn('[Notif] Local gagal:', e);
-    return false;
-  }
+  } catch (e) { console.warn('[Notif] Local gagal:', e); return false; }
 }
-
 async function initFirebaseMessaging() {
   if (fcmInitialized) return;
-  if (typeof firebase === 'undefined') {
-    console.warn('[FCM] Firebase SDK belum dimuat.');
-    return;
-  }
+  if (typeof firebase === 'undefined') { console.warn('[FCM] Firebase SDK belum dimuat.'); return; }
   try {
     if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
-    if (firebase.messaging.isSupported && !firebase.messaging.isSupported()) {
-      console.warn('[FCM] Browser tidak support FCM Messaging.');
-      return;
-    }
+    if (firebase.messaging.isSupported && !firebase.messaging.isSupported()) { console.warn('[FCM] Browser tidak support FCM Messaging.'); return; }
     fcmMessaging = firebase.messaging();
     fcmInitialized = true;
     fcmMessaging.onMessage(function(payload) {
@@ -3308,19 +3292,14 @@ async function initFirebaseMessaging() {
     });
   } catch (e) { console.error('[FCM] Gagal init:', e); }
 }
-
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return null;
   try {
     const swUrl = 'firebase-messaging-sw.js';
     const reg = await navigator.serviceWorker.register(swUrl, { scope: './' });
     return reg;
-  } catch (e) {
-    console.error('[FCM] SW gagal:', e);
-    return null;
-  }
+  } catch (e) { console.error('[FCM] SW gagal:', e); return null; }
 }
-
 async function mintaIzinDanSimpanToken() {
   const env = detectEnv();
   if (!currentUser) { alert('Login dulu untuk mengaktifkan notifikasi.'); return; }
@@ -3345,117 +3324,58 @@ async function mintaIzinDanSimpanToken() {
     });
     return;
   }
-
-  if (!env.hasNotificationAPI) {
-    showNotif({ type:'error', title:'BROWSER TIDAK SUPPORT', message:'Browser ini tidak mendukung Web Notification.<br><br>Gunakan <strong>Chrome / Edge / Firefox</strong> terbaru.', autoMode:false, showCancel:false, okText:'OK' });
-    return;
-  }
-
-  if (!env.isSecure) {
-    showNotif({ type:'error', title:'BUTUH HTTPS', message:'Notifikasi hanya jalan di <strong>HTTPS</strong> atau localhost.', autoMode:false, showCancel:false, okText:'OK' });
-    return;
-  }
+  if (!env.hasNotificationAPI) { showNotif({ type:'error', title:'BROWSER TIDAK SUPPORT', message:'Browser ini tidak mendukung Web Notification.<br><br>Gunakan <strong>Chrome / Edge / Firefox</strong> terbaru.', autoMode:false, showCancel:false, okText:'OK' }); return; }
+  if (!env.isSecure) { showNotif({ type:'error', title:'BUTUH HTTPS', message:'Notifikasi hanya jalan di <strong>HTTPS</strong> atau localhost.', autoMode:false, showCancel:false, okText:'OK' }); return; }
 
   if (Notification.permission === 'granted') {
     if (btn) btn.disabled = true;
     try {
       await initFirebaseMessaging();
       const reg = await registerServiceWorker();
-      if (!reg || !fcmMessaging) {
-        localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only');
-        updateNotificationButton();
-        showNotif({ type:'warning', title:'⚠️ NOTIF TERBATAS', message:'Izin sudah ada, tapi Service Worker gagal. Notifikasi hanya muncul <strong>saat tab web dibuka</strong>.', autoMode:false, showCancel:false, okText:'OK' });
-        if (btn) btn.disabled = false;
-        return;
-      }
+      if (!reg || !fcmMessaging) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'⚠️ NOTIF TERBATAS', message:'Izin sudah ada, tapi Service Worker gagal. Notifikasi hanya muncul <strong>saat tab web dibuka</strong>.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
       let token = null;
       try { token = await fcmMessaging.getToken({ vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg }); }
-      catch (e) {
-        localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only');
-        updateNotificationButton();
-        showNotif({ type:'warning', title:'⚠️ NOTIF TERBATAS', message:'Izin OK, tapi token FCM gagal: <code>' + escapeHtml(e.message || e.code || '?') + '</code><br><br>Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' });
-        if (btn) btn.disabled = false;
-        return;
-      }
+      catch (e) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'⚠️ NOTIF TERBATAS', message:'Izin OK, tapi token FCM gagal: <code>' + escapeHtml(e.message || e.code || '?') + '</code><br><br>Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
       if (token) {
         try { await new Promise(function(resolve) { google.script.run.withSuccessHandler(resolve).withFailureHandler(function() { resolve({ success: false }); }).saveFcmToken(currentUser.idGame, token); }); } catch (e) {}
         localStorage.setItem('TFC_FCM_TOKEN', token);
         updateNotificationButton();
         showNotif({ type:'success', title:'✅ NOTIFIKASI AKTIF', message:'Anda akan menerima pengingat absen.', autoMode:true, countdown:3 });
-      } else {
-        if (btn) btn.disabled = false;
-        showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() return null.<br>Cek FCM API V1 di Firebase Console.', autoMode:true, countdown:5 });
-      }
-    } catch (e) {
-      if (btn) btn.disabled = false;
-      showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), autoMode:true, countdown:4 });
-    }
+      } else { if (btn) btn.disabled = false; showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() return null.<br>Cek FCM API V1 di Firebase Console.', autoMode:true, countdown:5 }); }
+    } catch (e) { if (btn) btn.disabled = false; showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), autoMode:true, countdown:4 }); }
     return;
   }
 
-  if (Notification.permission === 'denied') {
-    showDeniedInstructions();
-    return;
-  }
+  if (Notification.permission === 'denied') { showDeniedInstructions(); return; }
 
   if (btn) btn.disabled = true;
   try {
     await initFirebaseMessaging();
     let permission = Notification.permission;
     if (permission === 'default') permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      if (btn) btn.disabled = false;
-      updateNotificationButton();
-      showNotif({ type:'warning', title:'IZIN DIBATALKAN', message:'Klik tombol 🔔 lagi untuk mencoba.<br><br>Pastikan pilih <strong>Allow</strong>, bukan Block.', autoMode:true, countdown:4 });
-      return;
-    }
+    if (permission !== 'granted') { if (btn) btn.disabled = false; updateNotificationButton(); showNotif({ type:'warning', title:'IZIN DIBATALKAN', message:'Klik tombol 🔔 lagi untuk mencoba.<br><br>Pastikan pilih <strong>Allow</strong>, bukan Block.', autoMode:true, countdown:4 }); return; }
     const reg = await registerServiceWorker();
-    if (!reg || !fcmMessaging) {
-      localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only');
-      updateNotificationButton();
-      showNotif({ type:'warning', title:'NOTIF TERBATAS', message:'Izin OK tapi SW gagal. Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' });
-      if (btn) btn.disabled = false;
-      return;
-    }
+    if (!reg || !fcmMessaging) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'NOTIF TERBATAS', message:'Izin OK tapi SW gagal. Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
     let token = null;
     try { token = await fcmMessaging.getToken({ vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg }); }
-    catch (e) {
-      localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only');
-      updateNotificationButton();
-      showNotif({ type:'warning', title:'NOTIF TERBATAS', message:'Token gagal: <code>' + escapeHtml(e.message || e.code || '?') + '</code><br><br>Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' });
-      if (btn) btn.disabled = false;
-      return;
-    }
+    catch (e) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'NOTIF TERBATAS', message:'Token gagal: <code>' + escapeHtml(e.message || e.code || '?') + '</code><br><br>Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
     if (token) {
       try { await new Promise(function(resolve) { google.script.run.withSuccessHandler(resolve).withFailureHandler(function() { resolve({ success: false }); }).saveFcmToken(currentUser.idGame, token); }); } catch (e) {}
       localStorage.setItem('TFC_FCM_TOKEN', token);
       updateNotificationButton();
       try { if (reg.showNotification) { await reg.showNotification('✅ TFC Notifikasi Aktif', { body: 'Notifikasi berfungsi!', icon: CONFIG_LOGO_FALLBACK }); } } catch (e) {}
       showNotif({ type:'success', title:'✅ NOTIFIKASI AKTIF', message:'Anda akan menerima pengingat absen otomatis.', autoMode:false, showCancel:false, okText:'Mengerti' });
-    } else {
-      if (btn) btn.disabled = false;
-      showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() return null.<br>Cek FCM API V1 di Firebase Console.', autoMode:true, countdown:5 });
-    }
-  } catch (e) {
-    if (btn) btn.disabled = false;
-    console.error('[FCM] Error:', e);
-    showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), autoMode:true, countdown:5 });
-  }
+    } else { if (btn) btn.disabled = false; showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() return null.<br>Cek FCM API V1 di Firebase Console.', autoMode:true, countdown:5 }); }
+  } catch (e) { if (btn) btn.disabled = false; console.error('[FCM] Error:', e); showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), autoMode:true, countdown:5 }); }
 }
-
 function showDeniedInstructions() {
   const env = detectEnv();
   let steps = '';
-  if (env.isIOS) {
-    steps = '<strong>iPhone / iPad (Safari):</strong><br>1. Settings → Safari<br>2. Advanced → Website Data<br>3. Cari domain TFC → Remove<br>4. Add to Home Screen → Allow';
-  } else if (env.isAndroid) {
-    steps = '<strong>Android (Chrome):</strong><br>1. Chrome ⋮ → Settings → Site settings<br>2. Notifications → cari domain TFC<br>3. Remove / Reset permissions<br>4. Refresh → Allow';
-  } else {
-    steps = '<strong>Chrome Desktop:</strong><br>1. Klik ikon 🔒 di address bar<br>2. Notifications → Allow<br>3. Refresh (Ctrl+Shift+R) → klik 🔔';
-  }
+  if (env.isIOS) steps = '<strong>iPhone / iPad (Safari):</strong><br>1. Settings → Safari<br>2. Advanced → Website Data<br>3. Cari domain TFC → Remove<br>4. Add to Home Screen → Allow';
+  else if (env.isAndroid) steps = '<strong>Android (Chrome):</strong><br>1. Chrome ⋮ → Settings → Site settings<br>2. Notifications → cari domain TFC<br>3. Remove / Reset permissions<br>4. Refresh → Allow';
+  else steps = '<strong>Chrome Desktop:</strong><br>1. Klik ikon 🔒 di address bar<br>2. Notifications → Allow<br>3. Refresh (Ctrl+Shift+R) → klik 🔔';
   showNotif({ type:'error', title:'🔕 IZIN DIBLOKIR', message:'Browser memblokir izin notifikasi.<br><br><div style="text-align:left;background:rgba(255,255,255,.03);padding:12px;border-radius:10px;font-size:11px;line-height:1.8;">' + steps + '</div>', autoMode:false, showCancel:false, okText:'Saya Mengerti' });
 }
-
 (function bindNotifButton() {
   const btn = document.getElementById('enableNotifBtn');
   if (!btn) return;
@@ -3465,7 +3385,6 @@ function showDeniedInstructions() {
     mintaIzinDanSimpanToken();
   });
 })();
-
 setTimeout(updateNotificationButton, 800);
 
 window.mintaIzinDanSimpanToken = mintaIzinDanSimpanToken;
