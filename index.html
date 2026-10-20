@@ -13,6 +13,7 @@
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbymngQ3Vmos2KQXHAR63O2K6M-2vj27birpiP3Gw0oqYRAji5xLA_CLtWjMzMcG83z_fQ/exec';
 const GAS_PROXY_URL = '';
+const API_TOKEN = ''; // opsional — isi hanya kalau API_TOKEN diset di Script Properties
 
 window.google = window.google || {};
 window.google.script = window.google.script || {};
@@ -20,11 +21,13 @@ window.google.script.run = (function () {
   function makeChain() {
     let _onSuccess = null, _onFailure = null;
     function finish(data, err) {
+      const ok = _onSuccess, fail = _onFailure;
+      _onSuccess = null; _onFailure = null;
       try {
-        if (err) { if (_onFailure) _onFailure(err); else console.error('[GAS]', err); }
-        else if (data && data.__error) { if (_onFailure) _onFailure(new Error(data.__error)); else console.error('[GAS Error]', data.__error); }
-        else { if (_onSuccess) _onSuccess(data); }
-      } finally { _onSuccess = null; _onFailure = null; }
+        if (err) { if (fail) fail(err); else console.error('[GAS]', err); }
+        else if (data && data.__error) { if (fail) fail(new Error(data.__error)); else console.error('[GAS Error]', data.__error); }
+        else if (ok) ok(data);
+      } catch (e) { console.error('[GAS handler]', e); }
     }
     function post(url, formData) {
       return fetch(url, { method: 'POST', body: formData, redirect: 'follow', mode: 'cors' })
@@ -38,6 +41,7 @@ window.google.script.run = (function () {
       const formData = new URLSearchParams();
       formData.append('action', fnName);
       formData.append('args', JSON.stringify(args));
+      if (API_TOKEN) formData.append('token', API_TOKEN);
       post(GAS_URL, formData)
         .then(function (res) {
           if (res.ok) return finish(res.data, null);
@@ -69,7 +73,10 @@ window.google.script.run = (function () {
     });
     return proxy;
   }
-  return makeChain();
+  // FIX: setiap akses ke google.script.run menghasilkan chain baru → concurrent calls tidak saling menimpa
+  return new Proxy({}, {
+    get: function (target, prop) { return makeChain()[prop]; }
+  });
 })();
 </script>
 
@@ -1176,7 +1183,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   <i class="fas fa-volume-mute" id="musicIcon"></i>
 </button>
 
-  <script>
+<script>
 (function() {
 'use strict';
 
@@ -1213,7 +1220,7 @@ let notifStatusInterval = null;
 const SESSION_KEY = 'TFC_V100_SESSION';
 const BROADCAST_SEEN_KEY = 'TFC_BROADCAST_SEEN';
 const ABSEN_BUKA_JAM = 21;
-const ABSEN_TUTUP_JAM = 24; /* FIXED: 24 = tutup tengah malam */
+const ABSEN_TUTUP_JAM = 24;
 const DZO_URL = 'https://dzo-hub.com/c/DZOFAMILY';
 const DZO_CODE = 'DZOFAMILY';
 const LEADER_EMAIL_DEFAULT = 'docigangz@gmail.com';
@@ -1241,7 +1248,6 @@ function getSession() { try { const d = localStorage.getItem(SESSION_KEY); retur
 function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch (e) {} }
 function avatarUrl(n) { return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(n || 'TFC') + '&background=dc2626&color=ffffff&size=256&bold=true'; }
 
-/* ============ SANITIZER (PATCH) ============ */
 function sanitizeNotifHtml(html) {
   const allowed = /^(strong|b|i|em|br|span|small|code|u|div|p)$/i;
   const tmp = document.createElement('div');
@@ -1253,8 +1259,10 @@ function sanitizeNotifHtml(html) {
         Array.prototype.slice.call(child.attributes).forEach(function (attr) {
           const n = attr.name.toLowerCase();
           const v = String(attr.value || '');
-          if (n.indexOf('on') === 0) child.removeAttribute(attr.name);
-          if ((n === 'href' || n === 'src') && /^\s*javascript:/i.test(v)) child.removeAttribute(attr.name);
+          if (n.indexOf('on') === 0 || n === 'style' || n === 'srcset' ||
+              ((n === 'href' || n === 'src') && /^\s*javascript:/i.test(v))) {
+            child.removeAttribute(attr.name);
+          }
         });
         walk(child);
       }
@@ -1263,7 +1271,6 @@ function sanitizeNotifHtml(html) {
   return tmp.innerHTML;
 }
 
-/* ============ MUSIC ============ */
 function playMusicFromClick() {
   try {
     const music = document.getElementById('tfcMusic');
@@ -1344,7 +1351,6 @@ function playMusicFromClick() {
   music.addEventListener('pause', function() { updateUI(false); });
 })();
 
-/* ============ NICK PARTICLES / VERIFY STATUS ============ */
 function initNickParticles() {
   const box = document.getElementById('nickParticles');
   if (!box) return;
@@ -1375,7 +1381,6 @@ document.addEventListener('mousemove', function(e) {
   });
 });
 
-/* ============ BLOCK NICKNAME COPY ============ */
 (function blockNicknameCopy() {
   const selector = '.nickname-value, #nicknameValue, #welcomeNickname, #headerNickname, #detailNickname, #detailUsername, .rank-name, .popup-code, .giveaway-participant-row .col-id, .giveaway-participant-row .col-akun';
   document.addEventListener('contextmenu', function(e) {
@@ -1402,7 +1407,6 @@ document.addEventListener('mousemove', function(e) {
   });
 })();
 
-/* ============ OVERLAY GUARD ============ */
 function isAnyOverlayOpen() {
   const d = document.getElementById('loginDrawer');
   if (d && d.classList.contains('show')) return true;
@@ -1436,13 +1440,11 @@ function watchOverlays() {
   });
 }
 
-/* ============ WIB TIME ============ */
 function getWIBDate() {
   const now = new Date();
   const wibString = now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
   return new Date(wibString);
 }
-/* PATCH: window 21:00–24:00 WIB */
 function isAttendanceOpen() {
   const wib = getWIBDate();
   const j = wib.getHours();
@@ -1529,7 +1531,6 @@ function updateAbsenNowButton() {
   }
 }
 
-/* ============ NOTIF OVERLAY (PATCH: sanitize) ============ */
 function getNotifColor(t) { return { success:'#22c55e', error:'#ef4444', info:'#60a5fa', warning:'#fbbf24' }[t] || '#ef4444'; }
 function showNotif(opts) {
   opts = opts || {};
@@ -1596,12 +1597,10 @@ function closeNotif() {
   notifCallback = null;
 }
 
-/* ============ BROADCAST SEEN ============ */
 function getSeenBroadcasts() { try { const r = localStorage.getItem(BROADCAST_SEEN_KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } }
 function markBroadcastSeen(id) { try { const s = getSeenBroadcasts(); s[id] = Date.now(); localStorage.setItem(BROADCAST_SEEN_KEY, JSON.stringify(s)); } catch (e) {} }
 function hasSeenBroadcast(id) { return !!getSeenBroadcasts()[id]; }
 
-/* ============ POPUP ============ */
 function showGuestPopup(info) {
   const o = document.getElementById('popupAds'), dS = document.getElementById('dzohubSection'), iS = document.getElementById('infoSection'), dv = document.getElementById('popupDivider'), closeBtn = document.getElementById('popupAdsClose'), infoCloseBtn = document.getElementById('popupInfoClose');
   if (!o || !dS) return;
@@ -1672,7 +1671,6 @@ function loadAndShowPopup() {
     .getSambutanGuest();
 }
 
-/* ============ CS TOPICS / AI ============ */
 const CS_TOPICS = [
   { id:'daftar', icon:'fa-user-plus', label:'Daftar', color:'#60a5fa', text:'Halo, saya ingin mendaftar sebagai anggota The Family Community.' },
   { id:'paket', icon:'fa-truck-fast', label:'Paket', color:'#a78bfa', text:'Halo, saya ingin menanyakan status pengiriman paket reward Kaos TFC saya.' },
@@ -1807,8 +1805,6 @@ function removeCsAiLoading() {
   const r = document.getElementById('csAiLoadingRow');
   if (r && r.parentNode) r.parentNode.removeChild(r);
 }
-
-/* PATCH: askAI() tidak kirim pesan user duplikat */
 function askAI() {
   if (csAiLoading) return;
   const ta = document.getElementById('csMessageInput');
@@ -1847,7 +1843,6 @@ function askAI() {
     .askGroqAI(msg, historyBefore);
 }
 
-/* ============ HERO SLIDER ============ */
 function startHeroSlider() {
   const track = document.getElementById('heroTrack'), dots = document.querySelectorAll('.hero-dot');
   if (!track || !dots.length) return;
@@ -1863,7 +1858,6 @@ function startHeroSlider() {
   heroSlideInterval = setInterval(function() { goTo(heroSlideIndex + 1); }, 5000);
 }
 
-/* ============ AVATAR ============ */
 function getAvatarSrc(user) {
   if (user && user.foto && /^https?:\/\//i.test(user.foto)) return user.foto;
   return avatarUrl(user && user.nickname);
@@ -1879,7 +1873,7 @@ function refreshAvatarUI() {
     img.src = src;
   });
 }
-  /* ============ GUEST / LOGGED-IN STATE ============ */
+
 function setGuestState() {
   currentUser = null;
   cachedPhotoOptions = null;
@@ -1949,7 +1943,6 @@ function updateTrackingMenuVisibility() {
   if (currentUser && hasClaimedReward) m.classList.add('show'); else m.classList.remove('show');
 }
 
-/* ============ VIEW SWITCH ============ */
 function switchView(v) {
   document.querySelectorAll('.view-section').forEach(function(s) { s.classList.remove('active'); });
   const map = { beranda:'viewBeranda', absen:'viewAbsen', nickname:'viewNickname', tracking:'viewTracking', ranking:'viewRanking', giveaway:'viewGiveaway' };
@@ -1968,7 +1961,6 @@ function switchView(v) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ============ MODAL CLOSE BINDINGS ============ */
 document.querySelectorAll('[data-close]').forEach(function(b) {
   b.addEventListener('click', function() { closeModal(document.getElementById(b.getAttribute('data-close'))); setTimeout(updateOverlayGuard, 50); });
 });
@@ -1976,7 +1968,6 @@ document.querySelectorAll('.modal-overlay').forEach(function(o) {
   o.addEventListener('click', function(e) { if (e.target === o) { closeModal(o); setTimeout(updateOverlayGuard, 50); } });
 });
 
-/* ============ LOGIN DRAWER ============ */
 document.getElementById('loginTriggerButton').addEventListener('click', function() {
   closeCombinedPopup();
   document.getElementById('loginDrawer').classList.add('show');
@@ -1999,7 +1990,6 @@ function closeLoginDrawer() {
 document.getElementById('loginDrawerOverlay').addEventListener('click', closeLoginDrawer);
 document.getElementById('loginDrawerClose').addEventListener('click', closeLoginDrawer);
 
-/* ============ HERO JOIN ============ */
 const heroJoin = document.getElementById('heroJoinButton');
 if (heroJoin) {
   heroJoin.addEventListener('click', function() {
@@ -2009,7 +1999,6 @@ if (heroJoin) {
   });
 }
 
-/* ============ SIDEBAR NAV ============ */
 document.querySelectorAll('.sidebar-item').forEach(function(item) {
   item.addEventListener('click', function() {
     const v = item.getAttribute('data-view');
@@ -2037,7 +2026,6 @@ function requireLogin(name) {
   return false;
 }
 
-/* ============ LOGIN SUBMIT ============ */
 document.getElementById('loginButton').addEventListener('click', function() {
   const u = document.getElementById('loginUsername').value.trim();
   const p = document.getElementById('loginPassword').value.trim();
@@ -2064,7 +2052,6 @@ document.getElementById('loginButton').addEventListener('click', function() {
   document.getElementById(id).addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('loginButton').click(); } });
 });
 
-/* ============ REGISTER ============ */
 document.getElementById('openRegisterButton').addEventListener('click', function() {
   closeCombinedPopup(); closeLoginDrawer();
   setTimeout(function() {
@@ -2123,7 +2110,6 @@ document.getElementById('registerButton').addEventListener('click', function() {
     .registerAccount(data);
 });
 
-/* ============ MEMBERSHIP FORM ============ */
 function resetMembershipForm() {
   ['mIdGame','mNickname','mServer','mLevel','mUsername','mAlamat','mUmur','mWhatsapp','mEmail','mSosmed','mAlasan'].forEach(function(id) { const el = document.getElementById(id); if (el) el.value = ''; });
   hideMessage(document.getElementById('membershipError'));
@@ -2158,14 +2144,12 @@ function openWhatsapp(num, name) {
   window.open('https://wa.me/' + num + '?text=' + msg, '_blank');
 }
 
-/* ============ SOCIAL BUTTONS ============ */
 document.getElementById('tiktokButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.tiktokUrl) window.open(c.tiktokUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('discordButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.discordUrl) window.open(c.discordUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('facebookButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.facebookUrl) window.open(c.facebookUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('instagramButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.instagramUrl) window.open(c.instagramUrl, '_blank'); }).getAppConfig(); });
 document.getElementById('youtubeButton').addEventListener('click', function() { if (!serverAvailable()) return; google.script.run.withSuccessHandler(function(c) { if (c && c.youtubeUrl) window.open(c.youtubeUrl, '_blank'); }).getAppConfig(); });
 
-/* ============ CS BINDINGS ============ */
 document.getElementById('csServiceBtn').addEventListener('click', openCsService);
 document.getElementById('menuCsAdmin').addEventListener('click', function(e) { e.preventDefault(); openCsService(); });
 document.getElementById('csServiceClose').addEventListener('click', function() { closeModal(document.getElementById('csServiceModal')); setTimeout(updateOverlayGuard, 50); });
@@ -2221,7 +2205,6 @@ document.getElementById('csContactLeaderBtn').addEventListener('click', function
   });
 })();
 
-/* ============ PROFILE MODAL ============ */
 document.getElementById('profileHeaderButton').addEventListener('click', function() {
   if (!currentUser) return;
   closeCombinedPopup();
@@ -2262,7 +2245,6 @@ document.getElementById('profileHeaderButton').addEventListener('click', functio
     .getRewardEligibility(currentUser.idGame);
 });
 
-/* ============ PHOTO GALLERY ============ */
 document.getElementById('changePhotoBtn').addEventListener('click', function() {
   if (!currentUser) return;
   selectedPhotoUrl = currentUser.foto || '';
@@ -2396,7 +2378,6 @@ document.getElementById('photoResetBtn').addEventListener('click', function() {
   showMessage(msg, 'Tekan SIMPAN untuk konfirmasi reset.', 'info');
 });
 
-/* ============ LOGOUT ============ */
 document.getElementById('logoutButton').addEventListener('click', function() {
   showNotif({
     type:'warning', title:'LOGOUT',
@@ -2409,7 +2390,6 @@ document.getElementById('logoutButton').addEventListener('click', function() {
   });
 });
 
-/* ============ ATTENDANCE CALENDAR ============ */
 function loadAttendanceCalendar(year, month) {
   const grid = document.getElementById('calendarGrid'), title = document.getElementById('calendarTitle'), summary = document.getElementById('calendarSummary');
   if (!grid) return;
@@ -2464,7 +2444,6 @@ function renderCalendar(year, month, attendedDates, bolosDates, recordedDates) {
 document.getElementById('calPrevBtn').addEventListener('click', function() { currentCalMonth--; if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; } loadAttendanceCalendar(currentCalYear, currentCalMonth); });
 document.getElementById('calNextBtn').addEventListener('click', function() { currentCalMonth++; if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; } loadAttendanceCalendar(currentCalYear, currentCalMonth); });
 
-/* ============ ABSEN FLOW ============ */
 document.getElementById('absenNowBtn').addEventListener('click', function() {
   if (!currentUser) return;
   if (!isAttendanceOpen()) { showNotif({ type:'warning', title:'BELUM WAKTUNYA', message:'Jam absen dibuka pukul <strong style="color:#fbbf24;">21:00 WIB</strong>.', autoMode:true, countdown:2 }); return; }
@@ -2550,7 +2529,6 @@ function autoSubmitAttendance() {
     .checkAndSubmitAttendance(currentUser.idGame, startTime);
 }
 
-/* ============ REWARD ============ */
 function updateRewardClaimBanner() {
   const b = document.getElementById('rewardClaimBanner');
   if (!b) return;
@@ -2573,7 +2551,6 @@ document.getElementById('openRewardFormBtn').addEventListener('click', function(
   }
 });
 
-/* ============ NICKNAME ============ */
 function resetNicknameView() {
   cachedNicknameData = null;
   nicknameVerified = false;
@@ -2759,7 +2736,6 @@ document.getElementById('copyNicknameButton').addEventListener('click', function
   });
 });
 
-/* ============ RANKING ============ */
 function loadRanking() {
   const c = document.getElementById('rankingContainer'), pc = document.getElementById('rankingContainerPanel');
   if (!c) return;
@@ -2796,7 +2772,6 @@ function loadRanking() {
     .getAttendanceRanking();
 }
 
-/* ============ REWARD DATA ============ */
 function checkRewardClaimStatus() {
   if (!currentUser || !serverAvailable()) return;
   google.script.run
@@ -2935,7 +2910,6 @@ document.getElementById('submitRewardButton').addEventListener('click', function
     .submitRewardClaim({ idGame: currentUser.idGame, username: currentUser.username, nickname: currentUser.nickname, whatsapp: currentUser.whatsapp || '', alamat: alamatKirim });
 });
 
-/* ============ TRACKING ============ */
 function determineStage(s) {
   s = (s || '').toUpperCase();
   if (s.indexOf('DITERIMA') > -1 || s.indexOf('SELESAI') > -1) return 3;
@@ -3009,7 +2983,6 @@ function loadTrackingView() {
     .getRewardClaimStatus(currentUser.idGame);
 }
 
-/* ============ POPUP / NOTIF GLOBAL BINDINGS ============ */
 document.getElementById('popupAdsClose').addEventListener('click', function() { closeCombinedPopup(); playMusicFromClick(); });
 document.getElementById('popupInfoClose').addEventListener('click', function() { closeCombinedPopup(); playMusicFromClick(); });
 document.getElementById('popupAds').addEventListener('click', function(e) { if (e.target === document.getElementById('popupAds')) { const dS = document.getElementById('dzohubSection'); if (dS && dS.style.display !== 'none') { closeCombinedPopup(); playMusicFromClick(); } } });
@@ -3029,7 +3002,6 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-/* ============ GIVEAWAY ============ */
 function renderParticipantsTable(ps) {
   const t = document.getElementById('giveawayParticipantsTable'), tb = document.getElementById('giveawayTotalBottom'), tt = document.getElementById('giveawayTotalParticipants');
   if (tb) tb.textContent = ps ? ps.length : 0;
@@ -3145,7 +3117,6 @@ function resetGiveaway() {
 }
 document.getElementById('resetGiveawayBtn').addEventListener('click', resetGiveaway);
 
-/* ============ SESSION RESTORE + CONFIG ============ */
 function restoreSession() {
   const s = getSession();
   if (!s) { setGuestState(); return; }
@@ -3168,14 +3139,12 @@ function loadConfig() {
     .getAppConfig();
 }
 
-/* ============ RESIZE ============ */
 window.addEventListener('resize', function() {
   const rp = document.getElementById('rightPanel');
   if (!rp || !currentUser) return;
   if (window.innerWidth >= 1025) rp.style.display = 'flex'; else rp.style.display = 'none';
 });
 
-/* ============ START ============ */
 function startApp() {
   loadConfig();
   restoreSession();
@@ -3194,7 +3163,6 @@ function startApp() {
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startApp);
 else startApp();
 
-/* ============ FCM / NOTIFICATION BUTTON ============ */
 function detectEnv() {
   const ua = navigator.userAgent || '';
   return {
