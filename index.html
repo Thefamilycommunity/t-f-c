@@ -13,7 +13,7 @@
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbymngQ3Vmos2KQXHAR63O2K6M-2vj27birpiP3Gw0oqYRAji5xLA_CLtWjMzMcG83z_fQ/exec';
 const GAS_PROXY_URL = '';
-const API_TOKEN = '';
+const API_TOKEN = ''; 
 
 window.google = window.google || {};
 window.google.script = window.google.script || {};
@@ -81,8 +81,6 @@ window.google.script.run = (function () {
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;min-width:0}
@@ -146,16 +144,6 @@ img{max-width:100%;height:auto;display:block}
 .topbar-logout{display:none;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:#141414;color:#9ca8bb;cursor:pointer;align-items:center;justify-content:center;font-size:13px;transition:.25s;flex-shrink:0}
 .topbar-logout.show{display:flex}
 .topbar-logout:hover{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
-.topbar-notif-btn{display:none;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:#141414;color:#9ca8bb;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;transition:all .25s ease;flex-shrink:0;min-width:0;white-space:nowrap}
-.topbar-notif-btn.show{display:inline-flex}
-.topbar-notif-btn i{font-size:13px}
-.topbar-notif-btn .notif-btn-label{display:none}
-.topbar-notif-btn:hover{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
-.topbar-notif-btn.active{background:rgba(34,197,94,.15);color:#4ade80;border-color:rgba(34,197,94,.35)}
-.topbar-notif-btn.blocked{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#f87171}
-.topbar-notif-btn.webview{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.35);color:#fbbf24}
-.topbar-notif-btn.pulse i{animation:notifBellPulse 2s ease-in-out infinite}
-@keyframes notifBellPulse{0%,100%{transform:rotate(0)}10%{transform:rotate(12deg)}20%{transform:rotate(-10deg)}30%{transform:rotate(8deg)}40%{transform:rotate(-6deg)}50%,100%{transform:rotate(0)}}
 .view-section{display:none;width:100%}
 .view-section.active{display:block;animation:fadeInUp .35s cubic-bezier(.4,0,.2,1)}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -558,8 +546,8 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 @media(min-width:901px) and (max-width:1024px){.sidebar{width:210px}.content{padding:20px 22px 40px}.right-panel{display:none!important}.hero-banner{height:250px}.hero-title{font-size:22px}}
 @media(min-width:768px) and (max-width:900px){.sidebar{width:78px;padding:14px 8px}.sidebar-brand{justify-content:center;padding:6px 0 14px}.sidebar-brand .brand-text{display:none}.sidebar-item{justify-content:center;padding:12px 8px;border-radius:14px}.sidebar-item span{display:none}.sidebar-item i{font-size:18px;width:auto}.sidebar-section-title{display:none}.content{padding:20px 22px 40px}.right-panel{display:none!important}.hero-banner{height:230px}.hero-title{font-size:21px}}
 @media(min-width:601px) and (max-width:767px){.sidebar{width:72px;padding:12px 6px}.sidebar-brand{justify-content:center;padding:6px 0 12px}.sidebar-brand .brand-text{display:none}.sidebar-item{justify-content:center;padding:11px 6px;border-radius:12px}.sidebar-item span{display:none}.sidebar-item i{font-size:17px;width:auto}.sidebar-section-title{display:none}.content{padding:18px 18px 40px}.right-panel{display:none!important}.hero-banner{height:210px;border-radius:18px}.hero-slide{padding:20px 18px}.hero-title{font-size:20px}.modal{padding:20px;border-radius:20px;max-width:440px}}
-@media(max-width:600px){body{background-attachment:scroll}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;max-height:68px;flex-direction:row;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));border-top:1px solid rgba(255,255,255,.06);border-right:none;z-index:100;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;gap:0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,10,10,.96);scrollbar-width:none}.sidebar::-webkit-scrollbar{display:none}.sidebar-brand,.sidebar-section-title{display:none}.sidebar-menu{flex-direction:row;justify-content:space-around;align-items:center;width:100%;gap:0;flex:1}.sidebar-item{flex:1 1 0;min-width:0;max-width:70px;flex-direction:column;gap:2px;padding:6px 2px;border-radius:10px;font-size:8px;justify-content:center;align-items:center;text-align:center}.sidebar-item::before{display:none}.sidebar-item i{font-size:16px;width:auto;line-height:1}.sidebar-item span{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:600}.sidebar-item.active{background:rgba(239,68,68,.14)}.main-area{padding-bottom:76px;flex-direction:column;width:100%}.content{padding:14px 14px 96px;width:100%;overflow-x:hidden}.topbar{gap:6px;margin-bottom:16px;padding-bottom:12px}.topbar-title{font-size:14px;line-height:1.3}.topbar-actions{gap:6px}.login-trigger-btn{padding:9px 16px;font-size:12px;min-height:38px}.topbar-profile{height:38px;padding:3px 10px 3px 3px;gap:6px}.topbar-profile .avatar{width:30px;height:30px}.topbar-profile .info .name{font-size:11px;max-width:80px}.topbar-logout{width:38px;height:38px;font-size:12px}.topbar-notif-btn{padding:0 10px;height:38px}.topbar-notif-btn .notif-btn-label{display:inline;font-size:10px}.hero-banner{height:180px;border-radius:16px}.hero-slide{padding:16px 14px}.hero-title{font-size:16px;margin-bottom:6px}.hero-desc{font-size:10.5px}.hero-btn{padding:10px 18px;font-size:12px;min-height:42px;width:100%;justify-content:center}.section-header{margin:16px 0 10px;gap:10px}.section-header .icon-box{width:32px;height:32px;font-size:12.5px;border-radius:9px}.section-header .text h3{font-size:12px}.section-header .text p{font-size:10px}.join-form-container,.ranking{padding:16px;border-radius:16px}.input-box input,.input-box select,.input-box textarea{font-size:13.5px;min-height:44px;padding:11px 12px 11px 40px;border-radius:12px}.input-box i{left:13px;font-size:12.5px}.btn{padding:11px 14px;font-size:13px;min-height:44px}.modal-overlay{padding:12px}.modal{padding:18px 16px;border-radius:18px;max-height:88vh;max-width:100%;width:100%}#csServiceModal .modal{padding:0!important;border-radius:18px;max-height:92vh}.nick-display-modern{padding:20px 14px;border-radius:16px}.nick-display-modern .nickname-value{font-size:17px}.nick-info-modern,.nick-warn-modern{padding:11px 12px;border-radius:11px}.nick-info-text,.nick-warn-text{font-size:9.5px}.verify-status-modern{font-size:10.5px;padding:8px 10px}.calendar-grid{gap:2px}.cal-day{border-radius:7px;font-size:10.5px}.calendar-weekdays div{font-size:8.5px}.calendar-summary{font-size:10.5px;padding:10px}.rank-row{padding:10px;gap:9px;border-radius:12px;margin-bottom:6px}.rank-number{width:32px;height:32px;font-size:11.5px;border-radius:9px}.rank-name{font-size:12px}.rank-count{font-size:10px;padding:3px 9px}.notif-overlay{padding:14px}.notif-card{padding:22px 18px 18px;border-radius:20px}.notif-icon-wrap{width:62px;height:62px;margin-bottom:12px}.notif-icon{width:48px;height:48px;font-size:20px}.notif-title{font-size:14px}.notif-message{font-size:12px}.notif-btn{padding:11px 12px;font-size:12px;min-height:42px}.notif-countdown-circle{width:68px;height:68px;margin-bottom:12px}.notif-countdown-circle .circle-number{font-size:22px}.popup-overlay{padding:12px;align-items:center;justify-content:center}.popup-ads{padding:18px 14px 16px;border-radius:18px;max-width:100%;width:100%;gap:11px;margin:auto;align-self:center;max-height:calc(100dvh - 24px)}.popup-title{font-size:14px}.popup-subtitle{font-size:11.5px}.popup-code{font-size:17px;padding:10px 16px;letter-spacing:2px}.popup-claim-btn{font-size:12.5px;min-height:44px;padding:11px 14px}.popup-close{width:30px;height:30px;top:10px;right:10px;font-size:11px}.popup-info-badge{font-size:8px;padding:4px 10px}.reward-claim-banner{padding:16px;border-radius:16px}.reward-claim-banner .banner-icon{font-size:34px}.reward-claim-banner .banner-title{font-size:13px}.reward-claim-banner .banner-desc{font-size:11px}.reward-stock-box{padding:11px 12px;border-radius:12px;gap:8px}.reward-stock-box .stock-text strong{font-size:14px}.tracking-header{padding:14px;border-radius:14px 14px 0 0}.tracking-header .resi-number{font-size:14px}.tracking-timeline{padding:16px 12px;border-radius:0 0 14px 14px}.timeline-item{gap:11px;padding-bottom:18px}.timeline-icon{width:22px;height:22px;font-size:9px}.timeline-item::before{left:10px;top:22px}.timeline-title{font-size:11px}.timeline-desc{font-size:9.5px}.status-badge-large{padding:14px;border-radius:14px}.status-badge-large .status-icon{font-size:28px}.status-badge-large .status-text{font-size:12px}.giveaway-setup-box{padding:14px;border-radius:14px}.giveaway-participants-info{font-size:10.5px;padding:10px 12px}.giveaway-participant-row{grid-template-columns:56px 1fr 1fr;padding:8px 10px;font-size:10.5px;gap:5px}.giveaway-participant-row .col-server{font-size:9px}#giveawayCountdown{padding:28px 14px}.giveaway-ring{width:120px;height:120px}#giveawayCountdownNumber{font-size:60px}.login-drawer{max-width:100%}.drawer-header{padding:16px 18px}.drawer-body{padding:24px 20px}.drawer-logo{width:64px;height:64px;margin-bottom:16px;border-radius:18px}.drawer-logo .logo-fallback{font-size:18px}.drawer-title{font-size:19px}.drawer-subtitle{font-size:12px;margin-bottom:22px}.social-footer{margin-top:22px;padding:18px;border-radius:18px}.social-footer .social-title{font-size:10px;letter-spacing:1.5px;margin-bottom:12px}.social-footer .social-buttons{gap:8px}.social-footer .social-btn{padding:10px 16px;font-size:12px;min-height:42px;flex:1 1 auto;justify-content:center}.social-footer .cs-admin-btn{font-size:12px;padding:12px;min-height:44px;margin-top:12px}.music-toggle{right:12px;bottom:calc(80px + env(safe-area-inset-bottom, 0px));width:42px;height:42px;font-size:15px}}
-@media(max-width:380px){.content{padding:12px 10px 92px}.main-area{padding-bottom:72px}.topbar-title{font-size:13px}.login-trigger-btn{padding:8px 14px;font-size:11.5px;min-height:36px}.topbar-profile{height:36px;padding:3px 8px 3px 3px}.topbar-profile .avatar{width:28px;height:28px}.topbar-logout{width:36px;height:36px;font-size:11.5px}.topbar-notif-btn{padding:0 9px;height:36px}.topbar-notif-btn .notif-btn-label{display:none}.hero-banner{height:160px;border-radius:14px}.hero-title{font-size:14px}.hero-desc{font-size:10px}.hero-btn{font-size:11.5px;min-height:38px;padding:9px 14px}.section-header .icon-box{width:30px;height:30px;font-size:12px;border-radius:8px}.section-header .text h3{font-size:11.5px}.section-header .text p{font-size:9.5px}.join-form-container,.ranking{padding:14px;border-radius:14px}.btn{font-size:12.5px;min-height:42px;padding:10px 12px}.input-box input,.input-box select,.input-box textarea{font-size:13px;min-height:42px;padding:10px 12px 10px 38px;border-radius:11px}.input-box i{left:12px;font-size:12px}.cal-day{font-size:9.5px;border-radius:6px}.calendar-weekdays div{font-size:8px}.sidebar-item i{font-size:15px}.sidebar-item span{font-size:7.5px}#giveawayCountdownNumber{font-size:50px}.giveaway-ring{width:100px;height:100px}.popup-ads{padding:16px 13px 13px;border-radius:16px;gap:10px;margin:auto;align-self:center}.popup-title{font-size:13px}.popup-subtitle{font-size:11px}.popup-code{font-size:15px;padding:9px 14px;letter-spacing:1.5px}.popup-claim-btn{font-size:11.5px;min-height:40px;padding:10px 12px}.notif-card{padding:20px 16px 16px;border-radius:18px}.notif-title{font-size:13.5px}.notif-message{font-size:11.5px}.notif-btn{font-size:11.5px;min-height:40px;padding:10px 10px}.nick-display-modern .nickname-value{font-size:16px}.rank-row{padding:9px;gap:7px}.rank-number{width:30px;height:30px;font-size:11px}.rank-name{font-size:11.5px}.rank-count{font-size:9.5px;padding:2px 7px}.music-toggle{width:38px;height:38px;font-size:14px;right:10px;bottom:calc(76px + env(safe-area-inset-bottom, 0px))}}
+@media(max-width:600px){body{background-attachment:scroll}.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;max-height:68px;flex-direction:row;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));border-top:1px solid rgba(255,255,255,.06);border-right:none;z-index:100;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;gap:0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,10,10,.96);scrollbar-width:none}.sidebar::-webkit-scrollbar{display:none}.sidebar-brand,.sidebar-section-title{display:none}.sidebar-menu{flex-direction:row;justify-content:space-around;align-items:center;width:100%;gap:0;flex:1}.sidebar-item{flex:1 1 0;min-width:0;max-width:70px;flex-direction:column;gap:2px;padding:6px 2px;border-radius:10px;font-size:8px;justify-content:center;align-items:center;text-align:center}.sidebar-item::before{display:none}.sidebar-item i{font-size:16px;width:auto;line-height:1}.sidebar-item span{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:600}.sidebar-item.active{background:rgba(239,68,68,.14)}.main-area{padding-bottom:76px;flex-direction:column;width:100%}.content{padding:14px 14px 96px;width:100%;overflow-x:hidden}.topbar{gap:6px;margin-bottom:16px;padding-bottom:12px}.topbar-title{font-size:14px;line-height:1.3}.topbar-actions{gap:6px}.login-trigger-btn{padding:9px 16px;font-size:12px;min-height:38px}.topbar-profile{height:38px;padding:3px 10px 3px 3px;gap:6px}.topbar-profile .avatar{width:30px;height:30px}.topbar-profile .info .name{font-size:11px;max-width:80px}.topbar-logout{width:38px;height:38px;font-size:12px}.hero-banner{height:180px;border-radius:16px}.hero-slide{padding:16px 14px}.hero-title{font-size:16px;margin-bottom:6px}.hero-desc{font-size:10.5px}.hero-btn{padding:10px 18px;font-size:12px;min-height:42px;width:100%;justify-content:center}.section-header{margin:16px 0 10px;gap:10px}.section-header .icon-box{width:32px;height:32px;font-size:12.5px;border-radius:9px}.section-header .text h3{font-size:12px}.section-header .text p{font-size:10px}.join-form-container,.ranking{padding:16px;border-radius:16px}.input-box input,.input-box select,.input-box textarea{font-size:13.5px;min-height:44px;padding:11px 12px 11px 40px;border-radius:12px}.input-box i{left:13px;font-size:12.5px}.btn{padding:11px 14px;font-size:13px;min-height:44px}.modal-overlay{padding:12px}.modal{padding:18px 16px;border-radius:18px;max-height:88vh;max-width:100%;width:100%}#csServiceModal .modal{padding:0!important;border-radius:18px;max-height:92vh}.nick-display-modern{padding:20px 14px;border-radius:16px}.nick-display-modern .nickname-value{font-size:17px}.nick-info-modern,.nick-warn-modern{padding:11px 12px;border-radius:11px}.nick-info-text,.nick-warn-text{font-size:9.5px}.verify-status-modern{font-size:10.5px;padding:8px 10px}.calendar-grid{gap:2px}.cal-day{border-radius:7px;font-size:10.5px}.calendar-weekdays div{font-size:8.5px}.calendar-summary{font-size:10.5px;padding:10px}.rank-row{padding:10px;gap:9px;border-radius:12px;margin-bottom:6px}.rank-number{width:32px;height:32px;font-size:11.5px;border-radius:9px}.rank-name{font-size:12px}.rank-count{font-size:10px;padding:3px 9px}.notif-overlay{padding:14px}.notif-card{padding:22px 18px 18px;border-radius:20px}.notif-icon-wrap{width:62px;height:62px;margin-bottom:12px}.notif-icon{width:48px;height:48px;font-size:20px}.notif-title{font-size:14px}.notif-message{font-size:12px}.notif-btn{padding:11px 12px;font-size:12px;min-height:42px}.notif-countdown-circle{width:68px;height:68px;margin-bottom:12px}.notif-countdown-circle .circle-number{font-size:22px}.popup-overlay{padding:12px;align-items:center;justify-content:center}.popup-ads{padding:18px 14px 16px;border-radius:18px;max-width:100%;width:100%;gap:11px;margin:auto;align-self:center;max-height:calc(100dvh - 24px)}.popup-title{font-size:14px}.popup-subtitle{font-size:11.5px}.popup-code{font-size:17px;padding:10px 16px;letter-spacing:2px}.popup-claim-btn{font-size:12.5px;min-height:44px;padding:11px 14px}.popup-close{width:30px;height:30px;top:10px;right:10px;font-size:11px}.popup-info-badge{font-size:8px;padding:4px 10px}.reward-claim-banner{padding:16px;border-radius:16px}.reward-claim-banner .banner-icon{font-size:34px}.reward-claim-banner .banner-title{font-size:13px}.reward-claim-banner .banner-desc{font-size:11px}.reward-stock-box{padding:11px 12px;border-radius:12px;gap:8px}.reward-stock-box .stock-text strong{font-size:14px}.tracking-header{padding:14px;border-radius:14px 14px 0 0}.tracking-header .resi-number{font-size:14px}.tracking-timeline{padding:16px 12px;border-radius:0 0 14px 14px}.timeline-item{gap:11px;padding-bottom:18px}.timeline-icon{width:22px;height:22px;font-size:9px}.timeline-item::before{left:10px;top:22px}.timeline-title{font-size:11px}.timeline-desc{font-size:9.5px}.status-badge-large{padding:14px;border-radius:14px}.status-badge-large .status-icon{font-size:28px}.status-badge-large .status-text{font-size:12px}.giveaway-setup-box{padding:14px;border-radius:14px}.giveaway-participants-info{font-size:10.5px;padding:10px 12px}.giveaway-participant-row{grid-template-columns:56px 1fr 1fr;padding:8px 10px;font-size:10.5px;gap:5px}.giveaway-participant-row .col-server{font-size:9px}#giveawayCountdown{padding:28px 14px}.giveaway-ring{width:120px;height:120px}#giveawayCountdownNumber{font-size:60px}.login-drawer{max-width:100%}.drawer-header{padding:16px 18px}.drawer-body{padding:24px 20px}.drawer-logo{width:64px;height:64px;margin-bottom:16px;border-radius:18px}.drawer-logo .logo-fallback{font-size:18px}.drawer-title{font-size:19px}.drawer-subtitle{font-size:12px;margin-bottom:22px}.social-footer{margin-top:22px;padding:18px;border-radius:18px}.social-footer .social-title{font-size:10px;letter-spacing:1.5px;margin-bottom:12px}.social-footer .social-buttons{gap:8px}.social-footer .social-btn{padding:10px 16px;font-size:12px;min-height:42px;flex:1 1 auto;justify-content:center}.social-footer .cs-admin-btn{font-size:12px;padding:12px;min-height:44px;margin-top:12px}.music-toggle{right:12px;bottom:calc(80px + env(safe-area-inset-bottom, 0px));width:42px;height:42px;font-size:15px}}
+@media(max-width:380px){.content{padding:12px 10px 92px}.main-area{padding-bottom:72px}.topbar-title{font-size:13px}.login-trigger-btn{padding:8px 14px;font-size:11.5px;min-height:36px}.topbar-profile{height:36px;padding:3px 8px 3px 3px}.topbar-profile .avatar{width:28px;height:28px}.topbar-logout{width:36px;height:36px;font-size:11.5px}.hero-banner{height:160px;border-radius:14px}.hero-title{font-size:14px}.hero-desc{font-size:10px}.hero-btn{font-size:11.5px;min-height:38px;padding:9px 14px}.section-header .icon-box{width:30px;height:30px;font-size:12px;border-radius:8px}.section-header .text h3{font-size:11.5px}.section-header .text p{font-size:9.5px}.join-form-container,.ranking{padding:14px;border-radius:14px}.btn{font-size:12.5px;min-height:42px;padding:10px 12px}.input-box input,.input-box select,.input-box textarea{font-size:13px;min-height:42px;padding:10px 12px 10px 38px;border-radius:11px}.input-box i{left:12px;font-size:12px}.cal-day{font-size:9.5px;border-radius:6px}.calendar-weekdays div{font-size:8px}.sidebar-item i{font-size:15px}.sidebar-item span{font-size:7.5px}#giveawayCountdownNumber{font-size:50px}.giveaway-ring{width:100px;height:100px}.popup-ads{padding:16px 13px 13px;border-radius:16px;gap:10px;margin:auto;align-self:center}.popup-title{font-size:13px}.popup-subtitle{font-size:11px}.popup-code{font-size:15px;padding:9px 14px;letter-spacing:1.5px}.popup-claim-btn{font-size:11.5px;min-height:40px;padding:10px 12px}.notif-card{padding:20px 16px 16px;border-radius:18px}.notif-title{font-size:13.5px}.notif-message{font-size:11.5px}.notif-btn{font-size:11.5px;min-height:40px;padding:10px 10px}.nick-display-modern .nickname-value{font-size:16px}.rank-row{padding:9px;gap:7px}.rank-number{width:30px;height:30px;font-size:11px}.rank-name{font-size:11.5px}.rank-count{font-size:9.5px;padding:2px 7px}.music-toggle{width:38px;height:38px;font-size:14px;right:10px;bottom:calc(76px + env(safe-area-inset-bottom, 0px))}}
 @media(max-width:320px){.content{padding:10px 8px 88px}.main-area{padding-bottom:68px}.topbar-title{font-size:12px}.hero-banner{height:140px}.hero-title{font-size:13px}.hero-desc{font-size:9.5px}.sidebar-item span{font-size:7px}.sidebar-item i{font-size:14px}.btn{font-size:12px;min-height:40px}.input-box input,.input-box select,.input-box textarea{font-size:12.5px;min-height:40px}.section-header .text h3{font-size:11px}.popup-title{font-size:12px}.popup-subtitle{font-size:10.5px}.popup-code{font-size:14px}.notif-title{font-size:13px}}
 @media(orientation:landscape) and (max-height:500px){.sidebar{position:fixed;top:0;left:0;bottom:0;right:auto;width:60px;height:100vh;max-height:none;flex-direction:column;padding:8px 5px;border-right:1px solid rgba(255,255,255,.06);border-top:none;overflow-y:auto}.sidebar-brand,.sidebar-section-title{display:none}.sidebar-menu{flex-direction:column;gap:4px;justify-content:flex-start;padding-top:6px;width:100%}.sidebar-item{flex:0 0 auto;width:100%;max-width:none;padding:8px 6px;border-radius:10px;flex-direction:column}.sidebar-item span{display:none}.sidebar-item i{font-size:16px}.main-area{padding-bottom:0}.content{padding:12px 14px 16px}.hero-banner{height:130px;border-radius:14px}.hero-title{font-size:14px}.btn{min-height:42px;font-size:12.5px}.input-box input,.input-box select,.input-box textarea{min-height:42px;font-size:12.5px}.popup-ads{max-height:calc(100dvh - 16px);padding:16px 18px 14px;gap:10px}.popup-title{font-size:13px}.popup-code{font-size:15px;padding:9px 16px}.popup-claim-btn{min-height:40px;font-size:12px}.notif-card{padding:18px 20px 16px}.notif-countdown-circle{width:60px;height:60px;margin-bottom:12px}.notif-countdown-circle .circle-number{font-size:22px}.notif-icon-wrap{width:56px;height:56px;margin-bottom:12px}.notif-icon{width:44px;height:44px;font-size:18px}.music-toggle{bottom:14px;right:14px;width:38px;height:38px;font-size:14px}}
 @media(min-width:601px) and (max-width:1024px){.right-panel{display:none!important}}
@@ -617,7 +605,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
       </div>
       <div class="brand-text">
         <h1><span class="the-family">THE FAMILY</span> <span class="community">COMMUNITY</span></h1>
-        <div class="version">V 1.2.0</div>
+        <div class="version">V 1.3.0</div>
       </div>
     </div>
     <nav class="sidebar-menu" id="sidebarMenu">
@@ -649,10 +637,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
               <div class="role" id="headerRole">MEMBER</div>
             </div>
           </div>
-          <button class="topbar-notif-btn" id="enableNotifBtn" type="button" aria-label="Aktifkan Notifikasi">
-            <i class="fas fa-bell-slash" id="notifBtnIcon"></i>
-            <span class="notif-btn-label" id="notifBtnLabel">Notif</span>
-          </button>
           <button class="topbar-logout" id="logoutButton" type="button"><i class="fas fa-right-from-bracket"></i></button>
         </div>
       </div>
@@ -947,7 +931,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
         <h4>Ranking Top</h4>
         <div id="rankingContainerPanel"><div style="font-size:11px;color:#8b93a3;">Memuat data...</div></div>
       </div>
-      <div class="panel-footer"><strong>THE FAMILY COMMUNITY</strong><br>V 1.2.0</div>
+      <div class="panel-footer"><strong>THE FAMILY COMMUNITY</strong><br>V 1.3.0</div>
     </aside>
   </div>
 </div>
@@ -1212,9 +1196,6 @@ let csChatHistory = [];
 let csAiLoading = false;
 let cachedPhotoOptions = null;
 let selectedPhotoUrl = '';
-let fcmMessaging = null;
-let fcmInitialized = false;
-let notifStatusInterval = null;
 
 const SESSION_KEY = 'TFC_V100_SESSION';
 const BROADCAST_SEEN_KEY = 'TFC_BROADCAST_SEEN';
@@ -1224,16 +1205,6 @@ const DZO_URL = 'https://dzo-hub.com/c/DZOFAMILY';
 const DZO_CODE = 'DZOFAMILY';
 const LEADER_EMAIL_DEFAULT = 'docigangz@gmail.com';
 const CONFIG_LOGO_FALLBACK = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png';
-
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDvejLxAr6OYRmcd6qZAFNCtehTnM2KCWE",
-  authDomain: "tfc-community-a6c19.firebaseapp.com",
-  projectId: "tfc-community-a6c19",
-  storageBucket: "tfc-community-a6c19.firebasestorage.app",
-  messagingSenderId: "297440142421",
-  appId: "1:297440142421:web:29346701d49a84bf1d60dc"
-};
-const FCM_VAPID_KEY = "BEeLPWlBkAf58iuUHKU3Ab3gyTtaHZ8Ft0V95519d3450Y68DM6bGaWG7KqAL1dYbPXLsTM3r4vS3XEF6SKkNjQ";
 
 function serverAvailable() { return typeof google !== 'undefined' && google.script && google.script.run; }
 function clean(v) { return String(v == null ? '' : v).trim(); }
@@ -1888,8 +1859,6 @@ function setGuestState() {
   if (lt) lt.style.display = 'inline-block';
   if (ph) ph.classList.remove('show');
   if (lo) lo.classList.remove('show');
-  const nb = document.getElementById('enableNotifBtn');
-  if (nb) nb.classList.remove('show', 'active', 'pulse', 'blocked', 'webview');
   const tt = document.getElementById('topbarTitle');
   if (tt) tt.innerHTML = 'Halo, <span id="welcomeNickname">Pengunjung</span>';
   const fs = document.getElementById('joinFormSection'); if (fs) fs.style.display = 'none';
@@ -1922,7 +1891,6 @@ function setLoggedInState(user) {
   attendanceInterval = setInterval(updateAttendanceStatus, 1000);
   switchView('absen');
   autoSubmitAttendance();
-  setTimeout(function() { updateNotificationButton(); }, 200);
   setTimeout(function() {
     if (!serverAvailable()) return;
     google.script.run
@@ -3150,10 +3118,6 @@ function startApp() {
   startHeroSlider();
   initNickParticles();
   watchOverlays();
-  if (notifStatusInterval) clearInterval(notifStatusInterval);
-  notifStatusInterval = setInterval(function() {
-    if (currentUser) updateNotificationButton();
-  }, 5000);
   setTimeout(function() {
     if (!currentUser && !isAnyOverlayOpen()) { popupAlreadyShown = true; loadAndShowPopup(); }
     else if (isAnyOverlayOpen()) { popupPendingShow = true; }
@@ -3162,197 +3126,7 @@ function startApp() {
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startApp);
 else startApp();
 
-function detectEnv() {
-  const ua = navigator.userAgent || '';
-  return {
-    isWebView: /wv/.test(ua) || /WebView/.test(ua) || (window.Android && typeof window.Android !== 'undefined'),
-    isAndroid: /Android/.test(ua),
-    isIOS: /iPad|iPhone|iPod/.test(ua) && !window.MSStream,
-    isChrome: /Chrome/.test(ua) && !/Edg|OPR/.test(ua),
-    isFirefox: /Firefox/.test(ua),
-    isSafari: /Safari/.test(ua) && !/Chrome/.test(ua),
-    isEdge: /Edg/.test(ua),
-    isSecure: window.isSecureContext,
-    hasNotificationAPI: 'Notification' in window,
-    hasSW: 'serviceWorker' in navigator,
-    hasPush: 'PushManager' in window,
-    isStandalone: window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true
-  };
-}
-function getNotifStatus() {
-  const env = detectEnv();
-  if (env.isWebView) return { state: 'webview', label: 'APK', color: '#fbbf24' };
-  if (!env.hasNotificationAPI) return { state: 'unsupported', label: 'N/A', color: '#f87171' };
-  if (!env.isSecure) return { state: 'insecure', label: 'HTTPS', color: '#f87171' };
-  const perm = Notification.permission;
-  if (perm === 'granted') {
-    const hasToken = !!localStorage.getItem('TFC_FCM_TOKEN');
-    if (hasToken) return { state: 'active', label: 'Aktif', color: '#4ade80' };
-    return { state: 'granted', label: 'Siap', color: '#60a5fa' };
-  }
-  if (perm === 'denied') return { state: 'blocked', label: 'Blokir', color: '#f87171' };
-  return { state: 'default', label: 'Notif', color: '#fbbf24' };
-}
-function updateNotificationButton() {
-  const btn = document.getElementById('enableNotifBtn');
-  const icon = document.getElementById('notifBtnIcon');
-  const label = document.getElementById('notifBtnLabel');
-  if (!btn) return;
-  if (!currentUser) { btn.classList.remove('show', 'active', 'pulse', 'blocked', 'webview'); return; }
-  btn.classList.add('show');
-  const status = getNotifStatus();
-  btn.classList.remove('active', 'pulse', 'blocked', 'webview');
-  btn.style.borderColor = ''; btn.style.color = '';
-  if (status.state === 'active' || status.state === 'granted') {
-    btn.classList.add('active');
-    if (icon) icon.className = 'fas fa-bell';
-    if (label) label.textContent = 'Aktif';
-  } else if (status.state === 'blocked') {
-    btn.classList.add('blocked', 'pulse');
-    if (icon) icon.className = 'fas fa-bell-slash';
-    if (label) label.textContent = 'Blokir';
-  } else if (status.state === 'webview') {
-    btn.classList.add('webview');
-    if (icon) icon.className = 'fas fa-mobile-screen';
-    if (label) label.textContent = 'APK';
-  } else if (status.state === 'unsupported' || status.state === 'insecure') {
-    if (icon) icon.className = 'fas fa-ban';
-    if (label) label.textContent = status.label;
-  } else {
-    btn.classList.add('pulse');
-    if (icon) icon.className = 'fas fa-bell-slash';
-    if (label) label.textContent = 'Notif';
-  }
-}
-function showLocalNotification(title, body) {
-  try {
-    if (!('Notification' in window)) return false;
-    if (Notification.permission !== 'granted') return false;
-    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-      navigator.serviceWorker.ready.then(function(reg) {
-        if (reg.showNotification) {
-          reg.showNotification(title, { body: body, icon: CONFIG_LOGO_FALLBACK, badge: CONFIG_LOGO_FALLBACK, tag: 'tfc-local-' + Date.now() })
-            .catch(function() { try { new Notification(title, { body: body, icon: CONFIG_LOGO_FALLBACK }); } catch (e) {} });
-        }
-      }).catch(function() { try { new Notification(title, { body: body }); } catch (e) {} });
-      return true;
-    }
-    new Notification(title, { body: body });
-    return true;
-  } catch (e) { console.warn('[Notif] Local gagal:', e); return false; }
-}
-async function initFirebaseMessaging() {
-  if (fcmInitialized) return;
-  if (typeof firebase === 'undefined') { console.warn('[FCM] Firebase SDK belum dimuat.'); return; }
-  try {
-    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
-    if (firebase.messaging.isSupported && !firebase.messaging.isSupported()) { console.warn('[FCM] Browser tidak support FCM Messaging.'); return; }
-    fcmMessaging = firebase.messaging();
-    fcmInitialized = true;
-    fcmMessaging.onMessage(function(payload) {
-      const title = (payload.notification && payload.notification.title) || 'TFC';
-      const body = (payload.notification && payload.notification.body) || 'Notifikasi';
-      showNotif({ type: 'info', title: title, message: body, autoMode: true, countdown: 5 });
-      showLocalNotification(title, body);
-    });
-  } catch (e) { console.error('[FCM] Gagal init:', e); }
-}
-async function registerServiceWorker() {
-  if (!('serviceWorker' in navigator)) return null;
-  try {
-    const swUrl = 'firebase-messaging-sw.js';
-    const reg = await navigator.serviceWorker.register(swUrl, { scope: './' });
-    return reg;
-  } catch (e) { console.error('[FCM] SW gagal:', e); return null; }
-}
-async function mintaIzinDanSimpanToken() {
-  const env = detectEnv();
-  if (!currentUser) { alert('Login dulu untuk mengaktifkan notifikasi.'); return; }
-  if (!serverAvailable()) { alert('Server tidak terhubung.'); return; }
-  const btn = document.getElementById('enableNotifBtn');
-
-  if (env.isWebView) {
-    if (window.AndroidNotification && typeof window.AndroidNotification.show === 'function') {
-      try {
-        window.AndroidNotification.show('TFC Notifikasi Aktif', 'Anda akan menerima pengingat absen dari TFC');
-        localStorage.setItem('TFC_FCM_TOKEN', 'native-bridge-active');
-        updateNotificationButton();
-        showNotif({ type:'success', title:'✅ NOTIFIKASI AKTIF (APK)', message:'Native notif berhasil diaktifkan.', autoMode:false, showCancel:false, okText:'OK' });
-        return;
-      } catch (e) { console.warn('Native bridge error:', e); }
-    }
-    showNotif({
-      type:'warning',
-      title:'⚠️ APK TIDAK SUPPORT NOTIF',
-      message:'APK ini pakai <strong>Android WebView</strong> yang tidak mendukung FCM.<br><br><strong style="color:#4ade80;">✅ SOLUSI:</strong><br>1. Buka <strong>Chrome</strong> di HP<br>2. Ketik URL web TFC<br>3. Login → klik 🔔 → <strong>Allow</strong><br>4. Menu Chrome ⋮ → <strong>Add to Home Screen</strong><br>5. Buka dari icon Home Screen → notif jalan',
-      autoMode:false, showCancel:false, okText:'Mengerti'
-    });
-    return;
-  }
-  if (!env.hasNotificationAPI) { showNotif({ type:'error', title:'BROWSER TIDAK SUPPORT', message:'Browser ini tidak mendukung Web Notification.<br><br>Gunakan <strong>Chrome / Edge / Firefox</strong> terbaru.', autoMode:false, showCancel:false, okText:'OK' }); return; }
-  if (!env.isSecure) { showNotif({ type:'error', title:'BUTUH HTTPS', message:'Notifikasi hanya jalan di <strong>HTTPS</strong> atau localhost.', autoMode:false, showCancel:false, okText:'OK' }); return; }
-
-  if (Notification.permission === 'granted') {
-    if (btn) btn.disabled = true;
-    try {
-      await initFirebaseMessaging();
-      const reg = await registerServiceWorker();
-      if (!reg || !fcmMessaging) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'⚠️ NOTIF TERBATAS', message:'Izin sudah ada, tapi Service Worker gagal. Notifikasi hanya muncul <strong>saat tab web dibuka</strong>.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
-      let token = null;
-      try { token = await fcmMessaging.getToken({ vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg }); }
-      catch (e) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'⚠️ NOTIF TERBATAS', message:'Izin OK, tapi token FCM gagal: <code>' + escapeHtml(e.message || e.code || '?') + '</code><br><br>Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
-      if (token) {
-        try { await new Promise(function(resolve) { google.script.run.withSuccessHandler(resolve).withFailureHandler(function() { resolve({ success: false }); }).saveFcmToken(currentUser.idGame, token); }); } catch (e) {}
-        localStorage.setItem('TFC_FCM_TOKEN', token);
-        updateNotificationButton();
-        showNotif({ type:'success', title:'✅ NOTIFIKASI AKTIF', message:'Anda akan menerima pengingat absen.', autoMode:true, countdown:3 });
-      } else { if (btn) btn.disabled = false; showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() return null.<br>Cek FCM API V1 di Firebase Console.', autoMode:true, countdown:5 }); }
-    } catch (e) { if (btn) btn.disabled = false; showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), autoMode:true, countdown:4 }); }
-    return;
-  }
-
-  if (Notification.permission === 'denied') { showDeniedInstructions(); return; }
-
-  if (btn) btn.disabled = true;
-  try {
-    await initFirebaseMessaging();
-    let permission = Notification.permission;
-    if (permission === 'default') permission = await Notification.requestPermission();
-    if (permission !== 'granted') { if (btn) btn.disabled = false; updateNotificationButton(); showNotif({ type:'warning', title:'IZIN DIBATALKAN', message:'Klik tombol 🔔 lagi untuk mencoba.<br><br>Pastikan pilih <strong>Allow</strong>, bukan Block.', autoMode:true, countdown:4 }); return; }
-    const reg = await registerServiceWorker();
-    if (!reg || !fcmMessaging) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'NOTIF TERBATAS', message:'Izin OK tapi SW gagal. Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
-    let token = null;
-    try { token = await fcmMessaging.getToken({ vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg }); }
-    catch (e) { localStorage.setItem('TFC_FCM_TOKEN', 'in-app-only'); updateNotificationButton(); showNotif({ type:'warning', title:'NOTIF TERBATAS', message:'Token gagal: <code>' + escapeHtml(e.message || e.code || '?') + '</code><br><br>Notif hanya muncul saat tab web dibuka.', autoMode:false, showCancel:false, okText:'OK' }); if (btn) btn.disabled = false; return; }
-    if (token) {
-      try { await new Promise(function(resolve) { google.script.run.withSuccessHandler(resolve).withFailureHandler(function() { resolve({ success: false }); }).saveFcmToken(currentUser.idGame, token); }); } catch (e) {}
-      localStorage.setItem('TFC_FCM_TOKEN', token);
-      updateNotificationButton();
-      try { if (reg.showNotification) { await reg.showNotification('✅ TFC Notifikasi Aktif', { body: 'Notifikasi berfungsi!', icon: CONFIG_LOGO_FALLBACK }); } } catch (e) {}
-      showNotif({ type:'success', title:'✅ NOTIFIKASI AKTIF', message:'Anda akan menerima pengingat absen otomatis.', autoMode:false, showCancel:false, okText:'Mengerti' });
-    } else { if (btn) btn.disabled = false; showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() return null.<br>Cek FCM API V1 di Firebase Console.', autoMode:true, countdown:5 }); }
-  } catch (e) { if (btn) btn.disabled = false; console.error('[FCM] Error:', e); showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), autoMode:true, countdown:5 }); }
-}
-function showDeniedInstructions() {
-  const env = detectEnv();
-  let steps = '';
-  if (env.isIOS) steps = '<strong>iPhone / iPad (Safari):</strong><br>1. Settings → Safari<br>2. Advanced → Website Data<br>3. Cari domain TFC → Remove<br>4. Add to Home Screen → Allow';
-  else if (env.isAndroid) steps = '<strong>Android (Chrome):</strong><br>1. Chrome ⋮ → Settings → Site settings<br>2. Notifications → cari domain TFC<br>3. Remove / Reset permissions<br>4. Refresh → Allow';
-  else steps = '<strong>Chrome Desktop:</strong><br>1. Klik ikon 🔒 di address bar<br>2. Notifications → Allow<br>3. Refresh (Ctrl+Shift+R) → klik 🔔';
-  showNotif({ type:'error', title:'🔕 IZIN DIBLOKIR', message:'Browser memblokir izin notifikasi.<br><br><div style="text-align:left;background:rgba(255,255,255,.03);padding:12px;border-radius:10px;font-size:11px;line-height:1.8;">' + steps + '</div>', autoMode:false, showCancel:false, okText:'Saya Mengerti' });
-}
-(function bindNotifButton() {
-  const btn = document.getElementById('enableNotifBtn');
-  if (!btn) return;
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    if (!currentUser) { showNotif({ type:'warning', title:'LOGIN DULU', message:'Silakan login.', autoMode:true, countdown:2 }); return; }
-    mintaIzinDanSimpanToken();
-  });
-})();
-setTimeout(updateNotificationButton, 800);
-
-window.mintaIzinDanSimpanToken = mintaIzinDanSimpanToken;
+window.mintaIzinDanSimpanToken = function() {};
 window.playMusicFromClick = playMusicFromClick;
 
 })();
