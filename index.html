@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<title>THE FAMILY COMMUNITY</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
+
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbymngQ3Vmos2KQXHAR63O2K6M-2vj27birpiP3Gw0oqYRAji5xLA_CLtWjMzMcG83z_fQ/exec';
+
+window.google = window.google || {};
+window.google.script = window.google.script || {};
+window.google.script.run = (function() {
+  let _onSuccess = null;
+  let _onFailure = null;
+  const chain = {
+    withSuccessHandler: function(fn) { _onSuccess = fn; return chain; },
+    withFailureHandler: function(fn) { _onFailure = fn; return chain; }
+  };
+
+  function callServer(fnName, args) {
+    const formData = new URLSearchParams();
+    formData.append('action', fnName);
+    formData.append('args', JSON.stringify(args));
+    fetch(GAS_URL, { method: 'POST', body: formData })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.__error) {
+          if (_onFailure) _onFailure(new Error(data.__error));
+          else console.error('[GAS Error]', data.__error);
+        } else {
+          if (_onSuccess) _onSuccess(data);
+        }
+      })
+      .catch(function(err) {
+        if (_onFailure) _onFailure(err);
+        else console.error('[GAS Network]', err);
+      })
+      .finally(function() { _onSuccess = null; _onFailure = null; });
+  }
+
+  return new Proxy(chain, {
+    get: function(target, prop) {
+      if (prop in target) return target[prop];
+      return function() {
+        const args = Array.prototype.slice.call(arguments);
+        callServer(prop, args);
+      };
+    }
+  });
+})();
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;min-width:0}
+html,body{width:100%;max-width:100vw;min-height:100%;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:radial-gradient(ellipse at top left,rgba(239,68,68,.08),transparent 50%),radial-gradient(ellipse at bottom right,rgba(96,165,250,.06),transparent 50%),#0a0a0a;background-attachment:fixed;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button,input,select,textarea{font-family:inherit;max-width:100%}
+button{-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+::selection{background:rgba(239,68,68,.3);color:#fff}
+img{max-width:100%;height:auto;display:block}
+.nickname-value,#nicknameValue,#welcomeNickname,#headerNickname,#detailNickname,#detailUsername,.rank-name,.popup-code,.giveaway-participant-row .col-id,.giveaway-participant-row .col-akun{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;word-break:break-word;overflow-wrap:anywhere}
+.btn,button,.social-btn,.login-trigger-btn,.popup-claim-btn,.hero-btn,.notif-btn,.banner-btn,.refresh-btn,.copy-resi-btn,.cs-topic-btn,.modal-close,.drawer-close,.topbar-logout,.popup-close,.cal-nav-btn{min-width:0;word-break:break-word;overflow-wrap:anywhere;white-space:normal;line-height:1.25}
+.hero-title,.section-header .text h3,.notif-title,.popup-title,.modal-header h3,.drawer-title,.rank-name,.calendar-title,.topbar-title,.nickname-value,.nick-display-modern .nickname-value{word-break:break-word;overflow-wrap:anywhere}
+.popup-overlay{z-index:99990}
+.drawer-overlay{z-index:99998}
+.login-drawer{z-index:99999}
+.modal-overlay{z-index:100000}
+.notif-overlay{z-index:100001}
+.app{width:100%;min-height:100vh;display:flex;background:transparent}
+.sidebar{width:260px;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid rgba(255,255,255,.05);padding:20px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sidebar-brand{display:flex;align-items:center;gap:12px;padding:10px 12px 20px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+.sidebar-brand .logo{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ef4444,#991b1b);overflow:hidden;flex-shrink:0;box-shadow:0 6px 20px rgba(220,38,38,.25)}
+.sidebar-brand .logo img{width:100%;height:100%;object-fit:cover}
+.sidebar-brand .logo-fallback{font-family:'Orbitron';font-size:15px;font-weight:900}
+.sidebar-brand .brand-text h1{font-family:'Orbitron';font-size:13px;font-weight:800;line-height:1.2}
+.sidebar-brand .brand-text h1 .the-family{color:#ef4444}
+.sidebar-brand .brand-text h1 .community{color:#fff}
+.sidebar-brand .brand-text .version{color:#65728a;font-size:9px;letter-spacing:1.5px;margin-top:2px}
+.sidebar-menu{display:flex;flex-direction:column;gap:3px;flex:1}
+.sidebar-section-title{color:#4a5568;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 12px 6px;font-weight:700}
+.sidebar-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:999px;color:#cbd5e1;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;border:none;background:transparent;width:100%;text-align:left;position:relative;overflow:hidden}
+.sidebar-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#ef4444,#fbbf24);transform:scaleY(0);transition:transform .3s ease;border-radius:0 4px 4px 0}
+.sidebar-item.active::before{transform:scaleY(1)}
+.sidebar-item i{font-size:14px;width:20px;text-align:center;color:#8b93a3;transition:color .25s;flex-shrink:0}
+.sidebar-item:hover{background:rgba(255,255,255,.04);color:#fff}
+.sidebar-item:hover i{color:#ef4444}
+.sidebar-item.active{background:#141414;color:#ef4444}
+.sidebar-item.active i{color:#ef4444}
+.sidebar-item.cs-admin{color:#ef4444}
+.sidebar-item.cs-admin i{color:#ef4444}
+.sidebar-item.tracking-menu,.sidebar-item.giveaway-menu{display:none}
+.sidebar-item.tracking-menu.show,.sidebar-item.giveaway-menu.show{display:flex}
+.sidebar-item.giveaway-menu i{color:#fbbf24}
+.main-area{flex:1;display:flex;min-width:0;max-width:100%}
+.content{flex:1;padding:24px 28px 48px;min-width:0;max-width:100%;overflow-x:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.05);flex-wrap:nowrap}
+.topbar-title{font-family:'Orbitron';font-size:19px;font-weight:800;line-height:1.3;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.topbar-title span{color:#ef4444}
+.topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.login-trigger-btn{padding:10px 24px;border-radius:999px;background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;font-weight:700;font-size:13px;border:none;cursor:pointer;position:relative;overflow:hidden;transition:.25s;min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.login-trigger-btn:hover{background:linear-gradient(135deg,#f87171,#dc2626);transform:translateY(-2px);box-shadow:0 10px 25px rgba(220,38,38,.3)}
+.topbar-profile{display:none;align-items:center;gap:8px;padding:4px 12px 4px 4px;height:42px;border-radius:999px;background:#141414;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:.25s}
+.topbar-profile.show{display:flex}
+.topbar-profile:hover{border-color:rgba(239,68,68,.3)}
+.topbar-profile .avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;border:2px solid #ef4444;flex-shrink:0}
+.topbar-profile .avatar img{width:100%;height:100%;object-fit:cover}
+.topbar-profile .info{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.topbar-profile .info .name{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
+.topbar-profile .info .role{font-size:9px;color:#ef4444;text-transform:uppercase}
+.topbar-logout{display:none;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:#141414;color:#9ca8bb;cursor:pointer;align-items:center;justify-content:center;font-size:13px;transition:.25s;flex-shrink:0}
+.topbar-logout.show{display:flex}
+.topbar-logout:hover{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
+.topbar-notif-btn{display:none;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:#141414;color:#9ca8bb;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;transition:all .25s ease;flex-shrink:0;min-width:0;white-space:nowrap}
+.topbar-notif-btn.show{display:inline-flex}
+.topbar-notif-btn i{font-size:13px}
+.topbar-notif-btn .notif-btn-label{display:none}
+.topbar-notif-btn:hover{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
+.topbar-notif-btn.active{background:rgba(34,197,94,.15);color:#4ade80;border-color:rgba(34,197,94,.35)}
+.topbar-notif-btn.active:hover{background:rgba(34,197,94,.22)}
+.topbar-notif-btn.blocked{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#f87171}
+.topbar-notif-btn.pulse i{animation:notifBellPulse 2s ease-in-out infinite}
+@keyframes notifBellPulse{0%,100%{transform:rotate(0)}10%{transform:rotate(12deg)}20%{transform:rotate(-10deg)}30%{transform:rotate(8deg)}40%{transform:rotate(-6deg)}50%,100%{transform:rotate(0)}}
+.view-section{display:none;width:100%}
+.view-section.active{display:block;animation:fadeInUp .35s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-wrapper{margin-bottom:22px}
+.hero-banner{position:relative;border-radius:20px;overflow:hidden;background:#141414;border:1px solid rgba(255,255,255,.06);height:280px}
+.hero-track{display:flex;width:100%;height:100%;transition:transform .55s ease}
+.hero-slide{min-width:100%;height:100%;position:relative;display:flex;align-items:flex-end;padding:26px 28px;background-size:cover;background-position:center}
+.hero-slide::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,10,.88),rgba(10,10,10,.55),rgba(10,10,10,.9))}
+.hero-content{position:relative;z-index:1;width:100%}
+.hero-date{font-size:10px;color:#8b93a3;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.hero-title{font-family:'Orbitron';font-size:26px;font-weight:800;line-height:1.2;margin-bottom:8px;max-width:700px}
+.hero-title span{color:#ef4444}
+.hero-desc{font-size:13px;color:#cbd5e1;line-height:1.55;max-width:600px}
+.hero-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:2}
+.hero-dot{width:8px;height:8px;border:0;border-radius:99px;background:rgba(255,255,255,.3);padding:0;cursor:pointer;transition:.3s}
+.hero-dot.active{width:24px;background:#ef4444}
+.hero-join-wrapper{margin-top:14px}
+.hero-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 24px;border-radius:999px;background:transparent;color:#ef4444;border:1.5px solid #ef4444;font-weight:700;font-size:13px;cursor:pointer;transition:.25s;min-height:44px}
+.hero-btn:hover{background:#ef4444;color:#fff;transform:translateY(-2px);box-shadow:0 10px 25px rgba(220,38,38,.25)}
+.section-header{display:flex;align-items:center;gap:12px;margin:22px 0 12px}
+.section-header:first-of-type{margin-top:0}
+.section-header .icon-box{width:38px;height:38px;border-radius:11px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.section-header .text{flex:1;min-width:0}
+.section-header .text h3{font-family:'Orbitron';font-size:14px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;line-height:1.3}
+.section-header .text p{font-size:11px;color:#6b7280;margin-top:2px;line-height:1.4}
+.join-form-container,.ranking{padding:20px;border-radius:20px;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;width:100%}
+.join-form-container>p{color:#8895a8;font-size:12px;line-height:1.6;margin-bottom:14px}
+.rank-row{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:rgba(255,255,255,.025);margin-bottom:8px;transition:all .25s ease;width:100%}
+.rank-row:hover{transform:translateX(4px);background:rgba(255,255,255,.04)}
+.rank-row.top-1{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(239,68,68,.02));border:1px solid rgba(239,68,68,.3)}
+.rank-row.top-2{background:linear-gradient(135deg,rgba(203,213,225,.09),rgba(203,213,225,.02));border:1px solid rgba(203,213,225,.2)}
+.rank-row.top-3{background:linear-gradient(135deg,rgba(180,83,9,.12),rgba(180,83,9,.03));border:1px solid rgba(180,83,9,.25)}
+.rank-number{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:rgba(239,68,68,.1);color:#ef4444;font-family:'Orbitron';font-weight:800;font-size:13px;flex-shrink:0}
+.rank-row.top-1 .rank-number{background:linear-gradient(135deg,#ef4444,#991b1b);color:#fff}
+.rank-row.top-2 .rank-number{background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#0f172a}
+.rank-row.top-3 .rank-number{background:linear-gradient(135deg,#d97706,#92400e);color:#fff}
+.rank-name{flex:1;font-size:13px;font-weight:600;color:#e5e7eb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.rank-count{color:#8b93a3;font-size:11px;padding:4px 11px;border-radius:999px;background:rgba(255,255,255,.04);flex-shrink:0}
+.social-footer{margin-top:26px;padding:20px;border-radius:20px;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.06);text-align:center}
+.social-footer .social-title{color:#69758a;font-size:11px;letter-spacing:2px;margin-bottom:12px;text-transform:uppercase;font-weight:600}
+.social-footer .social-buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.social-footer .social-btn{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#fff;padding:10px 20px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s;min-height:42px}
+.social-footer .social-btn:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3);color:#ef4444;transform:translateY(-2px)}
+.social-footer .social-btn#tiktokButton i{color:#fff}
+.social-footer .social-btn#discordButton i{color:#5865f2}
+.social-footer .social-btn#facebookButton i{color:#1877f2}
+.social-footer .social-btn#instagramButton i{color:#e4405f}
+.social-footer .social-btn#youtubeButton i{color:#ff0000}
+.social-footer .cs-admin-btn{margin-top:14px;width:100%;border:none;background:transparent;color:#ef4444;font-size:13px;font-weight:700;cursor:pointer;padding:12px;border-radius:999px;transition:.25s;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.social-footer .cs-admin-btn:hover{background:rgba(239,68,68,.1)}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:.3s}
+.drawer-overlay.show{opacity:1;visibility:visible}
+.login-drawer{position:fixed;top:0;right:0;width:100%;max-width:400px;height:100vh;max-height:100vh;background:linear-gradient(180deg,#1a1a1a,#141414);border-left:1px solid rgba(255,255,255,.08);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto;box-shadow:-20px 0 60px rgba(0,0,0,.6)}
+.login-drawer.show{transform:translateX(0)}
+.drawer-header{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:flex-end}
+.drawer-close{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#9ca8bb;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;font-size:14px}
+.drawer-close:hover{background:rgba(239,68,68,.1);color:#ef4444}
+.drawer-body{flex:1;padding:26px 24px}
+.drawer-logo{width:68px;height:68px;margin:0 auto 18px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#ef4444,#991b1b);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(220,38,38,.3)}
+.drawer-logo img{width:100%;height:100%;object-fit:cover}
+.drawer-logo .logo-fallback{font-family:'Orbitron';font-size:20px;font-weight:900}
+.drawer-title{text-align:center;font-family:'Orbitron';font-size:20px;margin-bottom:6px}
+.drawer-subtitle{text-align:center;color:#7d899c;font-size:12.5px;margin-bottom:24px}
+.drawer-links{margin-top:14px;text-align:center}
+.drawer-link-btn{border:none;background:transparent;color:#ef4444;font-size:12px;cursor:pointer;padding:8px;transition:.25s}
+.drawer-link-btn:hover{text-decoration:underline}
+.modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);overflow-y:auto}
+.modal-overlay.show{display:flex}
+.modal{width:100%;max-width:440px;max-height:90vh;overflow-y:auto;border-radius:22px;padding:22px;background:linear-gradient(165deg,#1a1a1a 0%,#141414 100%);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 80px rgba(0,0,0,.8);margin:auto}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px}
+.modal-header h3{font-family:'Orbitron';font-size:15px}
+.modal-close{border:none;background:transparent;color:#7b8799;font-size:17px;cursor:pointer;transition:.25s;flex-shrink:0}
+.modal-close:hover{color:#ef4444}
+.message{display:none;padding:11px;border-radius:12px;margin-bottom:12px;font-size:12px;text-align:center;line-height:1.5;word-break:break-word}
+.message.show{display:block}
+.message.error{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.message.success{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.message.info{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
+.nickname-box{text-align:center;padding:18px;border-radius:16px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);margin-bottom:12px}
+.nickname-label{color:#8b93a3;font-size:10px;letter-spacing:1px}
+.nickname-value{font-family:'Orbitron';font-size:20px;font-weight:800;margin:8px 0 14px;color:#ef4444;word-break:break-word}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.input-box{position:relative;margin-bottom:11px;width:100%}
+.input-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#6c788c;z-index:2;pointer-events:none;font-size:13px}
+.input-box input,.input-box select,.input-box textarea{width:100%;padding:12px 14px 12px 42px;border-radius:13px;border:1px solid rgba(255,255,255,.07);outline:none;background:rgba(255,255,255,.035);color:#fff;font-size:14px;min-height:46px;transition:.25s;line-height:1.4}
+.input-box input:focus,.input-box textarea:focus,.input-box select:focus{border-color:#ef4444;background:rgba(239,68,68,.03);box-shadow:0 0 0 3px rgba(239,68,68,.08)}
+.input-box textarea{min-height:80px;resize:vertical;padding-top:12px}
+.btn{width:100%;border:none;border-radius:999px;padding:12px 18px;font-weight:700;font-size:14px;cursor:pointer;transition:.25s;min-height:46px;position:relative;overflow:hidden;line-height:1.25;display:inline-flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.2px}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-red{color:#fff;background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.btn-red:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 35px rgba(220,38,38,.3)}
+.btn-dark{color:#ddd;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
+.btn-dark:hover{background:rgba(255,255,255,.08);border-color:rgba(239,68,68,.25);color:#ef4444}
+.btn i{font-size:13px;flex-shrink:0}
+.grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+@media(max-width:340px){.grid-2-col{grid-template-columns:1fr}}
+.notif-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;overflow-y:auto}
+.notif-overlay.show{opacity:1;visibility:visible}
+.notif-card{width:100%;max-width:400px;border-radius:22px;background:linear-gradient(180deg,#1a1a1a,#141414);border:1px solid rgba(255,255,255,.08);padding:26px 22px 22px;position:relative;text-align:center;margin:auto}
+.notif-icon-wrap{width:68px;height:68px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.notif-icon{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ef4444,#991b1b);color:#fff;font-size:22px}
+.notif-title{font-family:'Orbitron';font-size:16px;font-weight:800;margin-bottom:8px;line-height:1.3;word-break:break-word}
+.notif-message{font-size:12.5px;color:#aab3c2;line-height:1.6;margin-bottom:18px;word-break:break-word}
+.notif-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.notif-btn{padding:12px 14px;border-radius:999px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
+.notif-btn-primary{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff}
+.notif-btn-secondary{background:rgba(255,255,255,.05);color:#cbd5e1;border:1px solid rgba(255,255,255,.08)}
+.notif-card.success{--bg:linear-gradient(135deg,#22c55e,#15803d)}
+.notif-card.error{--bg:linear-gradient(135deg,#ef4444,#991b1b)}
+.notif-card.info{--bg:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.notif-card.warning{--bg:linear-gradient(135deg,#fbbf24,#d97706)}
+.notif-card.success .notif-icon{background:linear-gradient(135deg,#22c55e,#15803d)}
+.notif-card.error .notif-icon{background:linear-gradient(135deg,#ef4444,#991b1b)}
+.notif-card.info .notif-icon{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.notif-card.warning .notif-icon{background:linear-gradient(135deg,#fbbf24,#d97706)}
+.calendar-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.cal-nav-btn{width:36px;height:36px;min-width:36px;border-radius:11px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;font-size:12px}
+.cal-nav-btn:hover:not(:disabled){background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#ef4444}
+.cal-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.calendar-title{font-family:'Orbitron';font-size:13px;font-weight:700;text-align:center;flex:1;min-width:0}
+.calendar-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px}
+.calendar-weekdays div{text-align:center;font-size:9.5px;color:#69768a;font-weight:600;padding:4px 0}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day{aspect-ratio:1/1;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);position:relative;color:#cbd5e1;transition:all .25s ease}
+.cal-day.empty{background:transparent;border:none}
+.cal-day.future{color:#4b5563;opacity:.35}
+.cal-day.attended{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.5);color:#4ade80}
+.cal-day.missed{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#f87171}
+.cal-day.belum-absen{background:rgba(148,163,184,.06);border-color:rgba(148,163,184,.15);color:#8b93a3;opacity:.6}
+.cal-day.today-pending{background:rgba(251,191,36,.16);border-color:rgba(251,191,36,.55);color:#fbbf24}
+.cal-day .status-icon{font-size:8px;margin-top:1px}
+.calendar-legend{display:flex;justify-content:center;gap:10px 14px;margin-top:12px;font-size:9.5px;color:#9ca8bb;flex-wrap:wrap}
+.calendar-legend span{display:inline-flex;align-items:center;gap:4px}
+.calendar-summary{margin-top:12px;padding:12px;border-radius:13px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.12);text-align:center;font-size:11.5px;color:#aab3c2;line-height:1.55}
+.calendar-summary strong{font-family:'Orbitron';font-size:13px}
+.nick-modern-card{position:relative;overflow:hidden;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.06)}
+.nick-label-modern{position:relative;z-index:1;text-align:center;font-size:11px;color:#8b93a3;letter-spacing:2px;font-weight:800;margin-bottom:14px;text-transform:uppercase}
+.nick-label-modern i{color:#fbbf24;margin-right:6px}
+.nick-display-modern{position:relative;z-index:1;padding:26px 18px;border-radius:18px;background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.02));border:2px dashed rgba(96,165,250,.4);margin-bottom:14px;text-align:center;overflow:hidden;transition:all .35s ease}
+.nick-display-modern.unlocked{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.03));border-color:rgba(34,197,94,.5);box-shadow:0 0 40px rgba(34,197,94,.15)}
+.nick-display-modern.locked{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.02));border-color:rgba(239,68,68,.4)}
+.nick-display-modern .nickname-value{font-family:'Orbitron';font-size:clamp(18px,5vw,26px);font-weight:900;color:#60a5fa;word-break:break-word;line-height:1.3;margin:0;letter-spacing:.5px;position:relative;z-index:1;transition:color .35s ease}
+.nick-display-modern.unlocked .nickname-value{color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,.6),0 0 22px rgba(74,222,128,.35)}
+.nick-display-modern.locked .nickname-value{color:#f87171;font-size:clamp(15px,4vw,19px)}
+.nick-hint{position:relative;z-index:1;font-size:10px;color:#6b7280;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;font-weight:700}
+.nick-info-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border-radius:14px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);margin-bottom:11px}
+.nick-info-icon{width:26px;height:26px;border-radius:50%;background:rgba(96,165,250,.15);color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.nick-info-text{flex:1;font-size:11px;color:#93c5fd;line-height:1.55;word-break:break-word}
+.nick-warn-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:13px 15px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.25);margin-bottom:14px;overflow:hidden}
+.nick-warn-icon{width:26px;height:26px;border-radius:50%;background:rgba(251,191,36,.15);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.nick-warn-text{flex:1;font-size:10.5px;color:#fbbf24;line-height:1.55}
+.nick-warn-text strong{color:#fff}
+.verify-status-modern{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:11.5px;color:#9ca8bb;margin-bottom:12px;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);line-height:1.4;word-break:break-word}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,.8);flex-shrink:0}
+.verify-status-modern.verified .status-dot{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.8)}
+.verify-status-modern.failed .status-dot{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.8)}
+.nick-btn-modern{position:relative;z-index:1;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.nick-btn-modern:disabled{opacity:.55;cursor:not-allowed}
+.nick-btn-modern .btn-glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.25),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
+.nick-btn-modern:hover .btn-glow{opacity:1}
+.music-toggle{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom, 0px));width:46px;height:46px;border-radius:50%;border:1px solid rgba(239,68,68,.35);background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;z-index:100;box-shadow:0 8px 22px rgba(220,38,38,.35);transition:transform .25s,box-shadow .25s,background .25s}
+.music-toggle.muted{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15);color:#9ca8bb}
+@media(max-width:600px){.sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;max-height:68px;flex-direction:row;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));border-top:1px solid rgba(255,255,255,.06);border-right:none;z-index:100;overflow-x:auto;overflow-y:hidden;gap:0;backdrop-filter:blur(20px);background:rgba(10,10,10,.96)}.sidebar::-webkit-scrollbar{display:none}.sidebar-brand,.sidebar-section-title{display:none}.sidebar-menu{flex-direction:row;justify-content:space-around;align-items:center;width:100%;gap:0;flex:1}.sidebar-item{flex:1 1 0;min-width:0;max-width:70px;flex-direction:column;gap:2px;padding:6px 2px;border-radius:10px;font-size:8px;justify-content:center;align-items:center;text-align:center}.sidebar-item::before{display:none}.sidebar-item i{font-size:16px;width:auto;line-height:1}.sidebar-item span{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:600}.main-area{padding-bottom:76px;flex-direction:column;width:100%}.content{padding:14px 14px 96px;width:100%;overflow-x:hidden}.topbar{gap:6px;margin-bottom:16px;padding-bottom:12px}.topbar-title{font-size:14px;line-height:1.3}.topbar-actions{gap:6px}.login-trigger-btn{padding:9px 16px;font-size:12px;min-height:38px}.topbar-profile{height:38px;padding:3px 10px 3px 3px;gap:6px}.topbar-profile .avatar{width:30px;height:30px}.topbar-profile .info .name{font-size:11px;max-width:80px}.topbar-logout{width:38px;height:38px;font-size:12px}.topbar-notif-btn{padding:0 10px;height:38px}.topbar-notif-btn .notif-btn-label{display:inline;font-size:10px}.hero-banner{height:180px;border-radius:16px}.hero-slide{padding:16px 14px}.hero-title{font-size:16px;margin-bottom:6px}.hero-desc{font-size:10.5px}.hero-btn{padding:10px 18px;font-size:12px;min-height:42px;width:100%;justify-content:center}.section-header{margin:16px 0 10px;gap:10px}.section-header .icon-box{width:32px;height:32px;font-size:12.5px;border-radius:9px}.section-header .text h3{font-size:12px}.section-header .text p{font-size:10px}.join-form-container,.ranking{padding:16px;border-radius:16px}.input-box input,.input-box select,.input-box textarea{font-size:13.5px;min-height:44px;padding:11px 12px 11px 40px;border-radius:12px}.input-box i{left:13px;font-size:12.5px}.btn{padding:11px 14px;font-size:13px;min-height:44px}.modal-overlay{padding:12px}.modal{padding:18px 16px;border-radius:18px;max-height:88vh;max-width:100%;width:100%}.notif-card{padding:22px 18px 18px;border-radius:20px}.notif-icon-wrap{width:62px;height:62px;margin-bottom:12px}.notif-icon{width:48px;height:48px;font-size:20px}.notif-title{font-size:14px}.notif-message{font-size:12px}.notif-btn{padding:11px 12px;font-size:12px;min-height:42px}.login-drawer{max-width:100%}.drawer-header{padding:16px 18px}.drawer-body{padding:24px 20px}.drawer-logo{width:64px;height:64px;margin-bottom:16px;border-radius:18px}.drawer-logo .logo-fallback{font-size:18px}.drawer-title{font-size:19px}.drawer-subtitle{font-size:12px;margin-bottom:22px}.social-footer{margin-top:22px;padding:18px;border-radius:18px}.social-footer .social-title{font-size:10px;letter-spacing:1.5px;margin-bottom:12px}.social-footer .social-buttons{gap:8px}.social-footer .social-btn{padding:10px 16px;font-size:12px;min-height:42px;flex:1 1 auto;justify-content:center}.social-footer .cs-admin-btn{font-size:12px;padding:12px;min-height:44px;margin-top:12px}.music-toggle{right:12px;bottom:calc(80px + env(safe-area-inset-bottom, 0px));width:42px;height:42px;font-size:15px}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo" id="headerLogo"><span class="logo-fallback">TFC</span></div>
+      <div class="brand-text">
+        <h1><span class="the-family">THE FAMILY</span> <span class="community">COMMUNITY</span></h1>
+        <div class="version">V 2.0.0</div>
+      </div>
+    </div>
+    <nav class="sidebar-menu" id="sidebarMenu">
+      <div class="sidebar-section-title">MENU</div>
+      <button class="sidebar-item active" data-view="beranda" type="button" id="menuBeranda"><i class="fas fa-home"></i><span>Beranda</span></button>
+      <button class="sidebar-item" data-view="absen" type="button"><i class="fas fa-calendar-check"></i><span>Absen</span></button>
+      <button class="sidebar-item" data-view="nickname" type="button"><i class="fas fa-id-badge"></i><span>Klaim Nick</span></button>
+      <button class="sidebar-item" data-view="ranking" type="button"><i class="fas fa-trophy"></i><span>Ranking</span></button>
+    </nav>
+  </aside>
+
+  <div class="main-area">
+    <main class="content">
+      <div class="topbar">
+        <div class="topbar-title" id="topbarTitle">Halo, <span id="welcomeNickname">Pengunjung</span></div>
+        <div class="topbar-actions">
+          <button class="login-trigger-btn" id="loginTriggerButton" type="button">Masuk</button>
+          <div class="topbar-profile" id="profileHeaderButton">
+            <div class="avatar"><img id="headerAvatar" src="" alt="Profile"></div>
+            <div class="info">
+              <div class="name" id="headerNickname">Anggota</div>
+              <div class="role" id="headerRole">MEMBER</div>
+            </div>
+          </div>
+          <button class="topbar-notif-btn" id="enableNotifBtn" type="button" aria-label="Aktifkan Notifikasi">
+            <i class="fas fa-bell-slash" id="notifBtnIcon"></i>
+            <span class="notif-btn-label" id="notifBtnLabel">Notif</span>
+          </button>
+          <button class="topbar-logout" id="logoutButton" type="button"><i class="fas fa-right-from-bracket"></i></button>
+        </div>
+      </div>
+
+      <section class="view-section active" id="viewBeranda">
+        <div class="hero-wrapper">
+          <div class="hero-banner">
+            <div class="hero-track" id="heroTrack">
+              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSA7KUAWJNe6jpct875DaRln9f3sgp-QiTFSZN-qsZUdDl-8LN_6hNrI-bNEuFGMK8l1eNkTx21SJRzxqodba4ClDU_OmtrH_pK1ZdO_Av24RVpKM0pg6Xd3FMTJJ6kiWA2iQNuVaS-lxtlxGL5CrmIkm3ECO5dS5K1R8oRwHlddWaPhCqyAV9BJYHLPD/s4096/1000549350.jpg');">
+                <div class="hero-content">
+                  <div class="hero-date">HARI INI</div>
+                  <div class="hero-title">WELCOME TO <span>THE FAMILY COMMUNITY</span></div>
+                  <div class="hero-desc">Satu keluarga, berbeda cerita, tetap satu tujuan.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-join-wrapper">
+            <button class="hero-btn" id="heroJoinButton" type="button">Gabung Sekarang <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <div class="social-footer">
+          <div class="social-title">IKUTI KAMI DI</div>
+          <div class="social-buttons">
+            <button class="social-btn" id="tiktokButton" type="button"><i class="fab fa-tiktok"></i> TikTok</button>
+            <button class="social-btn" id="discordButton" type="button"><i class="fab fa-discord"></i> Discord</button>
+            <button class="social-btn" id="facebookButton" type="button"><i class="fab fa-facebook"></i> Facebook</button>
+            <button class="social-btn" id="instagramButton" type="button"><i class="fab fa-instagram"></i> Instagram</button>
+            <button class="social-btn" id="youtubeButton" type="button"><i class="fab fa-youtube"></i> YouTube</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view-section" id="viewAbsen">
+        <div class="section-header">
+          <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+          <div class="text"><h3>Absen Anggota</h3><p>Catat kehadiran harian dan lihat riwayat</p></div>
+        </div>
+        <div class="ranking" style="padding:18px;">
+          <div id="attendanceStatus" style="margin-bottom:12px;display:flex;align-items:center;gap:6px;padding:10px 12px;border-radius:12px;font-size:10.5px;font-weight:600;background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.18);">
+            <i class="fas fa-clock"></i>
+            <span id="attendanceStatusText">Memuat...</span>
+            <span id="attendanceCountdown" style="font-family:Orbitron;font-size:10px;color:#fbbf24;margin-left:auto;"></span>
+          </div>
+          <div class="calendar-nav">
+            <button class="cal-nav-btn" id="calPrevBtn" type="button"><i class="fas fa-chevron-left"></i></button>
+            <div class="calendar-title" id="calendarTitle">-</div>
+            <button class="cal-nav-btn" id="calNextBtn" type="button"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div class="calendar-weekdays"><div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div></div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="calendar-legend">
+            <span><i class="fas fa-check-circle" style="color:#4ade80;"></i> Hadir</span>
+            <span><i class="fas fa-times-circle" style="color:#f87171;"></i> Bolos</span>
+            <span><i class="fas fa-minus-circle" style="color:#8b93a3;"></i> Belum</span>
+            <span><i class="fas fa-clock" style="color:#fbbf24;"></i> Hari Ini</span>
+          </div>
+          <div class="calendar-summary" id="calendarSummary">Memuat data...</div>
+          <button class="btn btn-red" id="absenNowBtn" type="button" style="margin-top:12px;"><i class="fas fa-fingerprint"></i> ABSEN SEKARANG</button>
+        </div>
+      </section>
+
+      <section class="view-section" id="viewNickname">
+        <div class="section-header">
+          <div class="icon-box"><i class="fas fa-id-badge"></i></div>
+          <div class="text"><h3>Klaim Nickname</h3><p>Verifikasi untuk membuka nickname Anda</p></div>
+        </div>
+        <div class="ranking nick-modern-card" style="padding:20px;">
+          <div class="message" id="nicknameMessage"></div>
+          <div class="nick-label-modern"><i class="fas fa-magic"></i> NICKNAME ANDA</div>
+          <div class="nick-display-modern" id="nickDisplayBox">
+            <div class="nickname-value" id="nicknameValue">•••••••••</div>
+            <div class="nick-hint"><i class="fas fa-shield"></i> VERIFIKASI DULU UNTUK MEMBUKA</div>
+          </div>
+          <div class="nick-info-modern">
+            <div class="nick-info-icon"><i class="fas fa-info-circle"></i></div>
+            <div class="nick-info-text" id="nicknameInfoText">Nickname diambil otomatis dari data TFC Anda</div>
+          </div>
+          <div class="nick-warn-modern">
+            <div class="nick-warn-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="nick-warn-text">
+              <strong>⚠️ PERINGATAN</strong>
+              <div style="margin-top:6px;">• Nickname otomatis dari data TFC<br>• Salin hanya <strong>1x</strong> saja<br>• Font di luar kebijakan = <span style="color:#f87171;">BUKAN anggota TFC</span></div>
+            </div>
+          </div>
+          <div class="verify-status-modern" id="verifyStatus"><span class="status-dot"></span> Klik tombol di bawah untuk memverifikasi</div>
+          <button class="btn btn-red nick-btn-modern" id="verifyNicknameButton" type="button"><i class="fas fa-shield"></i> VERIFIKASI NICKNAME <span class="btn-glow"></span></button>
+          <button class="btn btn-dark nick-btn-modern" id="copyNicknameButton" disabled style="margin-top:8px;" type="button"><i class="fas fa-copy"></i> SALIN NICKNAME <span class="btn-glow"></span></button>
+        </div>
+      </section>
+
+      <section class="view-section" id="viewRanking">
+        <div class="section-header">
+          <div class="icon-box"><i class="fas fa-trophy"></i></div>
+          <div class="text"><h3>Ranking Anggota</h3><p>Top 20 anggota paling rajin absen</p></div>
+        </div>
+        <div class="ranking"><div id="rankingContainer"><div class="rank-row"><div class="rank-number">-</div><div class="rank-name">Memuat data...</div></div></div></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="drawer-overlay" id="loginDrawerOverlay"></div>
+<aside class="login-drawer" id="loginDrawer">
+  <div class="drawer-header"><button class="drawer-close" id="loginDrawerClose" type="button"><i class="fas fa-times"></i></button></div>
+  <div class="drawer-body">
+    <div class="drawer-logo" id="loginLogo"><span class="logo-fallback">TFC</span></div>
+    <div class="drawer-title">LOGIN ANGGOTA</div>
+    <div class="drawer-subtitle">Masuk ke akun The Family Community</div>
+    <div class="message error" id="loginError"></div>
+    <div class="input-box"><i class="fas fa-user"></i><input type="text" id="loginUsername" placeholder="Username"></div>
+    <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="Password"></div>
+    <button class="btn btn-red" id="loginButton" type="button"><i class="fas fa-right-to-bracket"></i> Masuk</button>
+    <div class="drawer-links"><button class="drawer-link-btn" id="openRegisterButton" type="button"><i class="fas fa-user-plus"></i> Belum punya akun? Daftar</button></div>
+  </div>
+</aside>
+
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <div class="modal-header"><h3><i class="fas fa-user-plus"></i> DAFTAR AKUN</h3><button class="modal-close" data-close="registerModal" type="button"><i class="fas fa-times"></i></button></div>
+    <div class="message error" id="registerError"></div>
+    <div class="message success" id="registerSuccess"></div>
+    <div class="input-box"><i class="fas fa-gamepad"></i><input type="text" id="registerIdGame" placeholder="ID Game terdaftar"></div>
+    <button class="btn btn-dark" id="checkIdGameButton" type="button"><i class="fas fa-search"></i> CEK ID GAME</button>
+    <div id="registerAccountFields" style="display:none;margin-top:14px;">
+      <div class="nickname-box"><div class="nickname-label">DATA ANGGOTA</div><div class="nickname-value" id="registerNickname">-</div><div style="font-size:11px;color:#78859a;" id="registerRole">-</div></div>
+      <div class="input-box"><i class="fas fa-user"></i><input type="text" id="registerUsername" placeholder="Username baru"></div>
+      <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="registerPassword" placeholder="Password baru"></div>
+      <div class="input-box"><i class="fab fa-whatsapp"></i><input type="text" id="registerWhatsapp" placeholder="Nomor WhatsApp"></div>
+      <button class="btn btn-red" id="registerButton" type="button"><i class="fas fa-user-check"></i> BUAT AKUN</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif-overlay" id="notifOverlay">
+  <div class="notif-card" id="notifCard">
+    <div class="notif-icon-wrap"><div class="notif-icon"><i class="fas fa-check" id="notifIconClass"></i></div></div>
+    <div class="notif-title" id="notifTitle">Notifikasi</div>
+    <div class="notif-message" id="notifMessage">Pesan</div>
+    <div class="notif-actions" id="notifActions"><button class="notif-btn notif-btn-secondary" id="notifBtnCancel" type="button">Batal</button><button class="notif-btn notif-btn-primary" id="notifBtnConfirm" type="button">OK</button></div>
+  </div>
+</div>
+
+<audio id="tfcMusic" loop preload="auto" playsinline style="display:none;">
+  <source src="https://cdn.jsdelivr.net/gh/gangz1221/sambutan-tfc@main/KATA%20SAMBUTAN%20TFC.mp3" type="audio/mpeg">
+</audio>
+<button id="musicToggle" type="button" aria-label="Toggle Music" class="music-toggle muted">
+  <i class="fas fa-volume-mute" id="musicIcon"></i>
+</button>
+
+<script>
+(function() {
+'use strict';
+
+let currentUser = null;
+let attendanceInterval = null;
+let currentCalYear = new Date().getFullYear();
+let currentCalMonth = new Date().getMonth();
+let notifCallback = null;
+let fcmMessaging = null;
+let fcmInitialized = false;
+let notifStatusInterval = null;
+
+const SESSION_KEY = 'TFC_V2_SESSION';
+const ABSEN_BUKA_JAM = 21;
+const ABSEN_TUTUP_JAM = 0;
+const CONFIG_LOGO = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png';
+
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDvejLxAr6OYRmcd6qZAFNCtehTnM2KCWE",
+  authDomain: "tfc-community-a6c19.firebaseapp.com",
+  projectId: "tfc-community-a6c19",
+  storageBucket: "tfc-community-a6c19.firebasestorage.app",
+  messagingSenderId: "297440142421",
+  appId: "1:297440142421:web:29346701d49a84bf1d60dc"
+};
+const FCM_VAPID_KEY = "BEeLPWlBkAf58iuUHKU3Ab3gyTtaHZ8Ft0V95519d3450Y68DM6bGaWG7KqAL1dYbPXLsTM3r4vS3XEF6SKkNjQ";
+
+function serverAvailable() { return typeof google !== 'undefined' && google.script && google.script.run; }
+function clean(v) { return String(v == null ? '' : v).trim(); }
+function escapeHtml(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
+function showMessage(el, msg, type) { if (!el) return; el.textContent = msg || ''; el.className = 'message ' + type + ' show'; }
+function hideMessage(el) { if (el) el.className = 'message'; }
+function openModal(m) { if (m) m.classList.add('show'); }
+function closeModal(m) { if (m) m.classList.remove('show'); }
+function saveSession(u) { try { localStorage.setItem(SESSION_KEY, JSON.stringify({ idGame: u.idGame, username: u.username, foto: u.foto || '' })); } catch (e) {} }
+function getSession() { try { const d = localStorage.getItem(SESSION_KEY); return d ? JSON.parse(d) : null; } catch (e) { return null; } }
+function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch (e) {} }
+function avatarUrl(n) { return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(n || 'TFC') + '&background=dc2626&color=ffffff&size=256&bold=true'; }
+
+function getWIBDate() { const now = new Date(); const s = now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }); return new Date(s); }
+function isAttendanceOpen() { const j = getWIBDate().getHours(); return (j >= ABSEN_BUKA_JAM && j <= 23) || (j >= 0 && j < ABSEN_TUTUP_JAM); }
+function getNextOpenTime() { const wib = getWIBDate(); const j = wib.getHours(); if (j >= ABSEN_BUKA_JAM) { const b = new Date(wib); b.setDate(b.getDate() + 1); b.setHours(ABSEN_BUKA_JAM, 0, 0, 0); return b; } else { const t = new Date(wib); t.setHours(ABSEN_BUKA_JAM, 0, 0, 0); return t; } }
+function updateAttendanceStatus() {
+  const sEl = document.getElementById('attendanceStatus'), tEl = document.getElementById('attendanceStatusText'), cEl = document.getElementById('attendanceCountdown');
+  if (!sEl || !tEl) return;
+  const wib = getWIBDate();
+  const timeString = wib.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+  if (isAttendanceOpen()) { sEl.style.background = 'rgba(34,197,94,.12)'; sEl.style.color = '#4ade80'; sEl.style.borderColor = 'rgba(34,197,94,.2)'; tEl.textContent = '✅ WAKTU ABSEN DIBUKA (' + timeString + ')'; if (cEl) cEl.textContent = ''; }
+  else { sEl.style.background = 'rgba(239,68,68,.1)'; sEl.style.color = '#f87171'; sEl.style.borderColor = 'rgba(239,68,68,.18)'; tEl.textContent = '⏳ Belum waktunya (' + timeString + ')'; if (cEl) { const next = getNextOpenTime(); const d = next - wib; if (d > 0) { const h = Math.floor(d/3600000); const m = Math.floor((d%3600000)/60000); const s = Math.floor((d%60000)/1000); cEl.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); } else cEl.textContent = '00:00:00'; } }
+}
+
+function showNotif(opts) {
+  opts = opts || {};
+  const o = document.getElementById('notifOverlay'), c = document.getElementById('notifCard');
+  if (!o || !c) return;
+  const t = opts.type || 'info';
+  c.className = 'notif-card ' + t;
+  const iMap = { success:'fa-check', error:'fa-times', info:'fa-info', warning:'fa-exclamation-triangle' };
+  const iEl = document.getElementById('notifIconClass');
+  if (iEl) iEl.className = 'fas ' + (iMap[t] || 'fa-bell');
+  document.getElementById('notifTitle').textContent = opts.title || 'Notifikasi';
+  document.getElementById('notifMessage').innerHTML = opts.message || '';
+  const bC = document.getElementById('notifBtnCancel'), bK = document.getElementById('notifBtnConfirm');
+  if (opts.showCancel === false) { if (bC) bC.style.display = 'none'; if (bK) bK.textContent = opts.okText || 'OK'; }
+  else { if (bC) { bC.style.display = 'inline-flex'; bC.textContent = opts.cancelText || 'Batal'; } if (bK) bK.textContent = opts.okText || 'OK'; }
+  notifCallback = opts.onConfirm || null;
+  o.classList.add('show');
+}
+function closeNotif() { const o = document.getElementById('notifOverlay'); if (o) o.classList.remove('show'); notifCallback = null; }
+
+document.getElementById('notifBtnConfirm').addEventListener('click', function() { const cb = notifCallback; closeNotif(); if (typeof cb === 'function') cb(true); });
+document.getElementById('notifBtnCancel').addEventListener('click', function() { const cb = notifCallback; closeNotif(); if (typeof cb === 'function') cb(false); });
+
+function setGuestState() {
+  currentUser = null;
+  if (attendanceInterval) { clearInterval(attendanceInterval); attendanceInterval = null; }
+  const mb = document.getElementById('menuBeranda'); if (mb) mb.style.display = 'flex';
+  const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
+  if (lt) lt.style.display = 'inline-block';
+  if (ph) ph.classList.remove('show');
+  if (lo) lo.classList.remove('show');
+  const nb = document.getElementById('enableNotifBtn');
+  if (nb) nb.classList.remove('show', 'active', 'pulse', 'blocked');
+  const tt = document.getElementById('topbarTitle'); if (tt) tt.innerHTML = 'Halo, <span>Pengunjung</span>';
+  switchView('beranda');
+  updateAttendanceStatus();
+  attendanceInterval = setInterval(updateAttendanceStatus, 1000);
+}
+function setLoggedInState(user) {
+  currentUser = user;
+  const mb = document.getElementById('menuBeranda'); if (mb) mb.style.display = 'none';
+  const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
+  if (lt) lt.style.display = 'none';
+  if (ph) ph.classList.add('show');
+  if (lo) lo.classList.add('show');
+  document.getElementById('headerAvatar').src = getAvatarSrc(user);
+  document.getElementById('headerNickname').textContent = user.nickname || 'Anggota';
+  document.getElementById('headerRole').textContent = user.role || 'MEMBER';
+  const tt = document.getElementById('topbarTitle'); if (tt) tt.innerHTML = 'Halo, <span>' + escapeHtml(user.nickname) + '</span>';
+  loadRanking();
+  if (attendanceInterval) clearInterval(attendanceInterval);
+  updateAttendanceStatus();
+  attendanceInterval = setInterval(updateAttendanceStatus, 1000);
+  switchView('absen');
+  setTimeout(updateNotificationButton, 300);
+}
+function getAvatarSrc(u) { return (u && u.foto && /^https?:\/\//i.test(u.foto)) ? u.foto : avatarUrl(u && u.nickname); }
+
+function switchView(v) {
+  document.querySelectorAll('.view-section').forEach(function(s) { s.classList.remove('active'); });
+  const map = { beranda:'viewBeranda', absen:'viewAbsen', nickname:'viewNickname', ranking:'viewRanking' };
+  const tid = map[v]; if (tid) { const t = document.getElementById(tid); if (t) t.classList.add('active'); }
+  document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); if (i.getAttribute('data-view') === v) i.classList.add('active'); });
+  if (v === 'absen' && currentUser) { currentCalYear = new Date().getFullYear(); currentCalMonth = new Date().getMonth(); loadAttendanceCalendar(currentCalYear, currentCalMonth); }
+  if (v === 'ranking') loadRanking();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('loginTriggerButton').addEventListener('click', function() {
+  document.getElementById('loginDrawer').classList.add('show');
+  document.getElementById('loginDrawerOverlay').classList.add('show');
+  hideMessage(document.getElementById('loginError'));
+});
+function closeLoginDrawer() { document.getElementById('loginDrawer').classList.remove('show'); document.getElementById('loginDrawerOverlay').classList.remove('show'); }
+document.getElementById('loginDrawerOverlay').addEventListener('click', closeLoginDrawer);
+document.getElementById('loginDrawerClose').addEventListener('click', closeLoginDrawer);
+
+document.getElementById('loginButton').addEventListener('click', function() {
+  const u = document.getElementById('loginUsername').value.trim();
+  const p = document.getElementById('loginPassword').value.trim();
+  const err = document.getElementById('loginError');
+  hideMessage(err);
+  if (!u || !p) { showMessage(err, 'Username dan password wajib diisi.', 'error'); return; }
+  if (!serverAvailable()) { showMessage(err, 'Server tidak terhubung.', 'error'); return; }
+  const btn = this;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Memeriksa...';
+  google.script.run
+    .withSuccessHandler(function(r) {
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk';
+      if (!r || !r.success) { showMessage(err, r && r.message ? r.message : 'Login gagal.', 'error'); return; }
+      saveSession(r.user);
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+      setLoggedInState(r.user);
+      setTimeout(closeLoginDrawer, 400);
+    })
+    .withFailureHandler(function(e) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Masuk'; showMessage(err, 'Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'), 'error'); })
+    .login(u, p);
+});
+
+document.querySelectorAll('[data-close]').forEach(function(b) {
+  b.addEventListener('click', function() { closeModal(document.getElementById(b.getAttribute('data-close'))); });
+});
+
+document.getElementById('openRegisterButton').addEventListener('click', function() {
+  closeLoginDrawer();
+  setTimeout(function() {
+    document.getElementById('registerIdGame').value = '';
+    document.getElementById('registerAccountFields').style.display = 'none';
+    hideMessage(document.getElementById('registerError'));
+    hideMessage(document.getElementById('registerSuccess'));
+    openModal(document.getElementById('registerModal'));
+  }, 300);
+});
+document.getElementById('checkIdGameButton').addEventListener('click', function() {
+  const id = document.getElementById('registerIdGame').value.trim();
+  const err = document.getElementById('registerError');
+  hideMessage(err);
+  if (!id) { showMessage(err, 'Masukkan ID Game.', 'error'); return; }
+  const btn = this;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Memeriksa...';
+  google.script.run
+    .withSuccessHandler(function(r) {
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-search"></i> CEK ID GAME';
+      if (!r || !r.success) { showMessage(err, r && r.message ? r.message : 'Gagal.', 'error'); document.getElementById('registerAccountFields').style.display = 'none'; return; }
+      document.getElementById('registerNickname').textContent = r.nickname || '-';
+      document.getElementById('registerRole').textContent = 'ROLE: ' + (r.role || 'MEMBER');
+      document.getElementById('registerWhatsapp').value = r.whatsapp || '';
+      document.getElementById('registerAccountFields').style.display = 'block';
+    })
+    .withFailureHandler(function(e) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-search"></i> CEK ID GAME'; showMessage(err, 'Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'), 'error'); })
+    .checkIdGameForRegistration(id);
+});
+document.getElementById('registerButton').addEventListener('click', function() {
+  const data = { idGame: document.getElementById('registerIdGame').value.trim(), username: document.getElementById('registerUsername').value.trim(), password: document.getElementById('registerPassword').value.trim(), whatsapp: document.getElementById('registerWhatsapp').value.trim() };
+  const err = document.getElementById('registerError'), succ = document.getElementById('registerSuccess');
+  hideMessage(err); hideMessage(succ);
+  if (!data.idGame || !data.username || !data.password || !data.whatsapp) { showMessage(err, 'Semua data wajib diisi.', 'error'); return; }
+  const btn = this;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Membuat akun...';
+  google.script.run
+    .withSuccessHandler(function(r) {
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-user-check"></i> BUAT AKUN';
+      if (!r || !r.success) { showMessage(err, r && r.message ? r.message : 'Gagal.', 'error'); return; }
+      showMessage(succ, 'Akun berhasil dibuat. Silakan login.', 'success');
+      setTimeout(function() {
+        closeModal(document.getElementById('registerModal'));
+        document.getElementById('loginUsername').value = data.username;
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginDrawer').classList.add('show');
+        document.getElementById('loginDrawerOverlay').classList.add('show');
+      }, 1200);
+    })
+    .withFailureHandler(function(e) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-user-check"></i> BUAT AKUN'; showMessage(err, 'Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'), 'error'); })
+    .registerAccount(data);
+});
+
+document.getElementById('verifyNicknameButton').addEventListener('click', function() {
+  if (!currentUser || !serverAvailable()) return;
+  const btn = this, msg = document.getElementById('nicknameMessage');
+  hideMessage(msg);
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Memverifikasi...';
+  google.script.run
+    .withSuccessHandler(function(r) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-shield"></i> VERIFIKASI NICKNAME';
+      if (!r || !r.success) {
+        showMessage(msg, r && r.message ? r.message : '❌ Verifikasi gagal.', 'error');
+        document.getElementById('nickDisplayBox').classList.add('locked');
+        return;
+      }
+      window._cachedNickname = r.nickname;
+      document.getElementById('nicknameValue').textContent = r.nickname || '-';
+      document.getElementById('nicknameInfoText').innerHTML = 'Nama: <strong style="color:#fff;">' + escapeHtml(r.namaAsli) + '</strong>';
+      document.getElementById('nickDisplayBox').classList.remove('locked');
+      document.getElementById('nickDisplayBox').classList.add('unlocked');
+      document.getElementById('verifyStatus').className = 'verify-status-modern verified';
+      document.getElementById('verifyStatus').innerHTML = '<span class="status-dot"></span> ✅ Verifikasi berhasil!';
+      const cb = document.getElementById('copyNicknameButton');
+      cb.disabled = false;
+      showMessage(msg, '✅ Verifikasi berhasil! Klik SALIN.', 'success');
+    })
+    .withFailureHandler(function(e) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-shield"></i> VERIFIKASI NICKNAME'; showMessage(msg, 'Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'), 'error'); })
+    .verifikasiNickname(currentUser.idGame);
+});
+
+document.getElementById('copyNicknameButton').addEventListener('click', function() {
+  if (!currentUser) return;
+  const btn = this;
+  if (btn.disabled) return;
+  const n = window._cachedNickname;
+  if (!n) { showNotif({ type:'warning', title:'VERIFIKASI DULU', message:'Klik verifikasi dulu.', showCancel:false, okText:'OK' }); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Menyalin...';
+
+  function doCopy(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(function() { return true; }).catch(function() { return fallbackCopy(text); });
+    }
+    return Promise.resolve(fallbackCopy(text));
+  }
+  function fallbackCopy(text) {
+    try { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); document.body.removeChild(ta); return !!ok; } catch (e) { return false; }
+  }
+
+  doCopy(n).then(function(copied) {
+    if (!copied) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-copy"></i> SALIN NICKNAME';
+      showNotif({ type:'error', title:'GAGAL MENYALIN', message:'Clipboard diblokir. Copy manual:<br><br><strong style="color:#60a5fa;">' + escapeHtml(n) + '</strong>', showCancel:false, okText:'OK' });
+      return;
+    }
+    google.script.run
+      .withSuccessHandler(function(r) {
+        btn.innerHTML = '<i class="fas fa-check"></i> SUDAH DISALIN';
+        btn.style.background = 'rgba(34,197,94,.1)';
+        btn.style.color = '#4ade80';
+        if (!r || !r.success) {
+          showNotif({ type:'warning', title:'SUDAH TERCATAT', message: (r && r.message ? r.message : 'Nickname sudah pernah disalin.') + '<br><br><strong style="color:#60a5fa;">' + escapeHtml(n) + '</strong>', showCancel:false, okText:'OK' });
+          return;
+        }
+        showNotif({ type:'success', title:'✅ BERHASIL DISALIN', message:'Nickname: <strong style="color:#60a5fa;">' + escapeHtml(n) + '</strong><br><br>Tercatat di Sheet KLAIM.', showCancel:false, okText:'OK' });
+      })
+      .withFailureHandler(function(e) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-copy"></i> SALIN NICKNAME';
+        showNotif({ type:'warning', title:'TERSALIN TAPI GAGAL CATAT', message:'Nickname di clipboard: <strong>' + escapeHtml(n) + '</strong><br><br>Error: ' + (e && e.message ? e.message : 'Unknown'), showCancel:false, okText:'OK' });
+      })
+      .cekDanSimpanKlaimNick(currentUser.idGame);
+  });
+});
+
+function loadRanking() {
+  const c = document.getElementById('rankingContainer');
+  if (!c) return;
+  if (!serverAvailable()) { c.innerHTML = '<div class="rank-row"><div class="rank-name">Server tidak terhubung.</div></div>'; return; }
+  google.script.run
+    .withSuccessHandler(function(r) {
+      if (!r || !r.success || !r.ranking || !r.ranking.length) { c.innerHTML = '<div class="rank-row"><div class="rank-name">Belum ada data.</div></div>'; return; }
+      c.innerHTML = '';
+      r.ranking.forEach(function(m, i) {
+        const row = document.createElement('div');
+        let cls = 'rank-row';
+        if (i === 0) cls += ' top-1'; else if (i === 1) cls += ' top-2'; else if (i === 2) cls += ' top-3';
+        row.className = cls;
+        row.innerHTML = '<div class="rank-number">' + (i + 1) + '</div><div class="rank-name">' + escapeHtml(m.nickname || '-') + '</div><div class="rank-count">' + escapeHtml(m.total) + ' absen</div>';
+        c.appendChild(row);
+      });
+    })
+    .withFailureHandler(function() { c.innerHTML = '<div class="rank-row"><div class="rank-name">Gagal memuat.</div></div>'; })
+    .getAttendanceRanking();
+}
+
+function loadAttendanceCalendar(year, month) {
+  const grid = document.getElementById('calendarGrid'), title = document.getElementById('calendarTitle'), summary = document.getElementById('calendarSummary');
+  if (!grid) return;
+  const mn = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  title.textContent = mn[month] + ' ' + year;
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#69768a;font-size:12px;">Memuat...</div>';
+  if (!serverAvailable() || !currentUser) { renderCalendar(year, month, [], []); return; }
+  google.script.run
+    .withSuccessHandler(function(r) { renderCalendar(year, month, (r && r.attendedDates) || [], (r && r.bolosDates) || []); })
+    .withFailureHandler(function() { renderCalendar(year, month, [], []); })
+    .getAttendanceHistory(currentUser.idGame, year, month);
+}
+function renderCalendar(year, month, attendedDates, bolosDates) {
+  const grid = document.getElementById('calendarGrid'), summary = document.getElementById('calendarSummary');
+  if (!grid) return;
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const now = new Date(); now.setHours(0,0,0,0);
+  const isCurrentMonth = (year === now.getFullYear() && month === now.getMonth());
+  const isPastMonth = (year < now.getFullYear()) || (year === now.getFullYear() && month < now.getMonth());
+  const todayDate = now.getDate();
+  let html = '', hadir = 0, bolos = 0, belum = 0;
+  for (let i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const cd = new Date(year, month, d); cd.setHours(0,0,0,0);
+    const isToday = isCurrentMonth && d === todayDate;
+    const isFuture = cd > now;
+    const isAttended = attendedDates.indexOf(d) > -1;
+    const isBolos = bolosDates.indexOf(d) > -1;
+    let cls = 'cal-day', icon = '';
+    if (isFuture) cls += ' future';
+    else if (isToday) { if (isAttended) { cls += ' attended'; icon = '<i class="fas fa-check-circle status-icon"></i>'; hadir++; } else if (isBolos) { cls += ' missed'; icon = '<i class="fas fa-times-circle status-icon"></i>'; bolos++; } else { cls += ' today-pending'; icon = '<i class="fas fa-clock status-icon"></i>'; } }
+    else if (isAttended) { cls += ' attended'; icon = '<i class="fas fa-check-circle status-icon"></i>'; hadir++; }
+    else if (isBolos) { cls += ' missed'; icon = '<i class="fas fa-times-circle status-icon"></i>'; bolos++; }
+    else { cls += ' belum-absen'; icon = '<i class="fas fa-minus-circle status-icon"></i>'; belum++; }
+    html += '<div class="' + cls + '"><span>' + d + '</span>' + icon + '</div>';
+  }
+  grid.innerHTML = html;
+  const total = isCurrentMonth ? todayDate : (isPastMonth ? daysInMonth : 0);
+  summary.innerHTML = 'Hadir: <strong style="color:#4ade80;">' + hadir + '</strong> • Bolos: <strong style="color:#f87171;">' + bolos + '</strong> • Belum: <strong style="color:#8b93a3;">' + belum + '</strong><br><span style="font-size:10px;color:#69768a;">Total hari berjalan: ' + total + '</span>';
+}
+document.getElementById('calPrevBtn').addEventListener('click', function() { currentCalMonth--; if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; } loadAttendanceCalendar(currentCalYear, currentCalMonth); });
+document.getElementById('calNextBtn').addEventListener('click', function() { currentCalMonth++; if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; } loadAttendanceCalendar(currentCalYear, currentCalMonth); });
+
+document.getElementById('absenNowBtn').addEventListener('click', function() {
+  if (!currentUser) return;
+  if (!isAttendanceOpen()) { showNotif({ type:'warning', title:'BELUM WAKTUNYA', message:'Jam absen dibuka pukul <strong style="color:#fbbf24;">21:00 WIB</strong>.', showCancel:false, okText:'OK' }); return; }
+  if (!serverAvailable()) { showNotif({ type:'error', title:'KONEKSI GAGAL', message:'Server tidak terhubung.', showCancel:false, okText:'OK' }); return; }
+  const btn = this;
+  const key = 'TFC_ABSEN_EXPIRE_' + currentUser.idGame;
+  const now = Date.now();
+  const expireTime = localStorage.getItem(key);
+  if (expireTime) { const sisa = Number(expireTime) - now; if (sisa > 0) { showNotif({ type:'info', title:'SEDANG DIPANTAU', message:'Sesi room masih berjalan. Tunggu sampai 30 menit selesai.', showCancel:false, okText:'OK' }); return; } }
+  showNotif({
+    type: 'warning', title: '⚠️ KOMITMEN ANGGOTA TFC',
+    message: 'Setelah klik tombol di bawah, Anda <strong>WAJIB bermain game / stay room minimal 30 MENIT</strong>.',
+    showCancel: true, okText: 'Saya Siap!', cancelText: 'Batal',
+    onConfirm: function(ok) {
+      if (!ok) return;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Memulai...';
+      google.script.run
+        .withSuccessHandler(function(r) {
+          btn.disabled = false;
+          if (!r || !r.success) { showNotif({ type:'error', title:'GAGAL', message: r && r.message ? escapeHtml(r.message) : 'Gagal.', showCancel:false, okText:'OK' }); return; }
+          localStorage.setItem(key, r.expireTime);
+          btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SEDANG DIPANTAU';
+          btn.style.background = 'linear-gradient(135deg,#60a5fa,#3b82f6)';
+          btn.disabled = true;
+          showNotif({ type:'success', title:'SESI DIMULAI', message:'Silakan main game 30 menit. Absen tercatat otomatis saat kembali.', showCancel:false, okText:'Gas!' });
+        })
+        .withFailureHandler(function(e) { btn.disabled = false; showNotif({ type:'error', title:'GAGAL', message: e && e.message ? e.message : 'Unknown', showCancel:false, okText:'OK' }); })
+        .startAttendanceSession(currentUser.idGame);
+    }
+  });
+});
+
+setInterval(function() {
+  if (!currentUser || !serverAvailable()) return;
+  const key = 'TFC_ABSEN_EXPIRE_' + currentUser.idGame;
+  const expireTime = localStorage.getItem(key);
+  if (!expireTime) return;
+  if (Date.now() < Number(expireTime)) return;
+  const startTime = Number(expireTime) - (30 * 60 * 1000);
+  localStorage.removeItem(key);
+  google.script.run
+    .withSuccessHandler(function(r) {
+      const btn = document.getElementById('absenNowBtn');
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-fingerprint"></i> ABSEN SEKARANG'; btn.style.background = ''; }
+      if (r && r.success) {
+        showNotif({ type:'success', title:'ABSEN BERHASIL', message:'Kehadiran tercatat: <strong>' + (r.tanggal || '-') + ' ' + (r.jam || '-') + '</strong>', showCancel:false, okText:'OK' });
+        loadAttendanceCalendar(currentCalYear, currentCalMonth);
+      } else if (r && r.isBolos) {
+        showNotif({ type:'error', title:'WAKTU HABIS (BOLOS)', message: r.message || 'Anda melewati batas.', showCancel:false, okText:'OK' });
+      } else {
+        showNotif({ type:'error', title:'ABSEN GAGAL', message: r && r.message ? escapeHtml(r.message) : 'Gagal.', showCancel:false, okText:'OK' });
+      }
+    })
+    .withFailureHandler(function(e) { showNotif({ type:'error', title:'KONEKSI GAGAL', message: e && e.message ? e.message : 'Unknown', showCancel:false, okText:'OK' }); })
+    .checkAndSubmitAttendance(currentUser.idGame, startTime);
+}, 5000);
+
+document.querySelectorAll('.sidebar-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    const v = item.getAttribute('data-view');
+    if (!v) return;
+    if (v === 'beranda' || v === 'ranking') { switchView(v); return; }
+    if (!currentUser) { document.getElementById('loginDrawer').classList.add('show'); document.getElementById('loginDrawerOverlay').classList.add('show'); return; }
+    switchView(v);
+  });
+});
+
+document.getElementById('logoutButton').addEventListener('click', function() {
+  showNotif({
+    type:'warning', title:'LOGOUT',
+    message:'Keluar dari akun <strong>' + escapeHtml(currentUser ? currentUser.nickname : '') + '</strong>?',
+    showCancel: true, okText: 'Ya, Keluar', cancelText: 'Batal',
+    onConfirm: function(ok) { if (!ok) return; clearSession(); setGuestState(); }
+  });
+});
+
+document.getElementById('heroJoinButton').addEventListener('click', function() {
+  showNotif({ type:'info', title:'GABUNG TFC', message:'Silakan daftar lewat menu <strong>Masuk → Belum punya akun</strong>.', showCancel:false, okText:'OK' });
+});
+
+document.getElementById('tiktokButton').addEventListener('click', function() { window.open('https://www.tiktok.com/@thefamily.club', '_blank'); });
+document.getElementById('discordButton').addEventListener('click', function() { window.open('https://discord.gg/Dxhy3aDeVW', '_blank'); });
+document.getElementById('facebookButton').addEventListener('click', function() { window.open('https://www.facebook.com/profile.php?id=61558031377227', '_blank'); });
+document.getElementById('instagramButton').addEventListener('click', function() { window.open('https://www.instagram.com/thefamily.clubb/', '_blank'); });
+document.getElementById('youtubeButton').addEventListener('click', function() { window.open('https://www.youtube.com/@Thefamilycommunity', '_blank'); });
+
+function restoreSession() {
+  const s = getSession();
+  if (!s) { setGuestState(); return; }
+  if (!serverAvailable()) { clearSession(); setGuestState(); return; }
+  google.script.run
+    .withSuccessHandler(function(r) { if (r && r.success && r.user) { saveSession(r.user); setLoggedInState(r.user); } else { clearSession(); setGuestState(); } })
+    .withFailureHandler(function() { clearSession(); setGuestState(); })
+    .getProfile(s.idGame);
+}
+
+function detectEnv() {
+  const ua = navigator.userAgent || '';
+  return {
+    isWebView: /wv/.test(ua) || /WebView/.test(ua) || (window.Android && typeof window.Android !== 'undefined'),
+    isSecure: window.isSecureContext,
+    hasNotificationAPI: 'Notification' in window,
+    hasSW: 'serviceWorker' in navigator
+  };
+}
+
+function getNotifStatus() {
+  const env = detectEnv();
+  if (env.isWebView) return { state: 'webview', label: 'APK' };
+  if (!env.hasNotificationAPI) return { state: 'unsupported', label: 'N/A' };
+  if (!env.isSecure) return { state: 'insecure', label: 'HTTPS' };
+  const perm = Notification.permission;
+  if (perm === 'granted') {
+    const hasToken = !!localStorage.getItem('TFC_FCM_TOKEN');
+    return { state: hasToken ? 'active' : 'granted', label: hasToken ? 'Aktif' : 'Siap' };
+  }
+  if (perm === 'denied') return { state: 'blocked', label: 'Blokir' };
+  return { state: 'default', label: 'Notif' };
+}
+
+function updateNotificationButton() {
+  const btn = document.getElementById('enableNotifBtn');
+  const icon = document.getElementById('notifBtnIcon');
+  const label = document.getElementById('notifBtnLabel');
+  if (!btn) return;
+  if (!currentUser) { btn.classList.remove('show', 'active', 'pulse', 'blocked'); return; }
+  btn.classList.add('show');
+  const s = getNotifStatus();
+  btn.classList.remove('active', 'pulse', 'blocked');
+  if (s.state === 'active' || s.state === 'granted') { btn.classList.add('active'); if (icon) icon.className = 'fas fa-bell'; if (label) label.textContent = 'Aktif'; }
+  else if (s.state === 'blocked') { btn.classList.add('blocked', 'pulse'); if (icon) icon.className = 'fas fa-bell-slash'; if (label) label.textContent = 'Blokir'; }
+  else if (s.state === 'webview') { if (icon) icon.className = 'fas fa-mobile-screen'; if (label) label.textContent = 'APK'; }
+  else if (s.state === 'unsupported' || s.state === 'insecure') { if (icon) icon.className = 'fas fa-ban'; if (label) label.textContent = s.label; }
+  else { btn.classList.add('pulse'); if (icon) icon.className = 'fas fa-bell-slash'; if (label) label.textContent = 'Notif'; }
+}
+
+async function initFirebaseMessaging() {
+  if (fcmInitialized) return;
+  if (typeof firebase === 'undefined') { console.warn('[FCM] SDK belum dimuat.'); return; }
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    fcmMessaging = firebase.messaging();
+    fcmInitialized = true;
+    console.log('[FCM] siap.');
+    fcmMessaging.onMessage(function(payload) {
+      const title = (payload.notification && payload.notification.title) || 'TFC';
+      const body = (payload.notification && payload.notification.body) || 'Notifikasi';
+      showNotif({ type: 'info', title: title, message: body, showCancel: false, okText: 'OK' });
+    });
+  } catch (e) { console.error('[FCM] Init gagal:', e); }
+}
+
+async function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return null;
+  try {
+    const reg = await navigator.serviceWorker.register('firebase-messaging-sw.js', { scope: './' });
+    console.log('[FCM] SW terdaftar:', reg);
+    return reg;
+  } catch (e) { console.error('[FCM] SW gagal:', e); return null; }
+}
+
+async function mintaIzinDanSimpanToken() {
+  const env = detectEnv();
+  if (!currentUser) { showNotif({ type:'warning', title:'LOGIN DULU', message:'Silakan login.', showCancel:false, okText:'OK' }); return; }
+
+  if (env.isWebView) {
+    showNotif({ type:'warning', title:'APK TIDAK SUPPORT NOTIF', message:'Buka TFC di <strong>Chrome</strong> lewat URL GitHub Pages untuk notifikasi.', showCancel:false, okText:'Mengerti' });
+    return;
+  }
+  if (!env.hasNotificationAPI) { showNotif({ type:'error', title:'BROWSER TIDAK SUPPORT', message:'Gunakan Chrome/Edge/Firefox terbaru.', showCancel:false, okText:'OK' }); return; }
+  if (!env.isSecure) { showNotif({ type:'error', title:'BUTUH HTTPS', message:'Notifikasi hanya jalan di HTTPS.', showCancel:false, okText:'OK' }); return; }
+
+  const btn = document.getElementById('enableNotifBtn');
+  if (btn) btn.disabled = true;
+
+  try {
+    await initFirebaseMessaging();
+    let permission = Notification.permission;
+
+    if (permission === 'denied') {
+      if (btn) btn.disabled = false;
+      showNotif({
+        type:'error', title:'🔕 IZIN DIBLOKIR',
+        message:'Browser memblokir izin notifikasi.<br><br><strong>Cara reset:</strong><br>1. Klik ikon 🔒 di address bar<br>2. Notifications → <strong>Allow</strong><br>3. Refresh halaman (F5)<br>4. Klik tombol 🔔 lagi<br><br><em>Atau buka <code>chrome://settings/content/notifications</code> → hapus domain ini.</em>',
+        showCancel: false, okText: 'Mengerti'
+      });
+      return;
+    }
+
+    if (permission === 'default') {
+      permission = await Notification.requestPermission();
+    }
+
+    if (permission !== 'granted') {
+      if (btn) btn.disabled = false;
+      updateNotificationButton();
+      showNotif({ type:'warning', title:'IZIN DIBATALKAN', message:'Klik tombol 🔔 lagi untuk mencoba.', showCancel:false, okText:'OK' });
+      return;
+    }
+
+    const reg = await registerServiceWorker();
+    if (!reg) {
+      if (btn) btn.disabled = false;
+      showNotif({ type:'error', title:'SW GAGAL', message:'File <code>firebase-messaging-sw.js</code> tidak ditemukan.<br><br>Pastikan file ada di root GitHub Pages.', showCancel:false, okText:'OK' });
+      return;
+    }
+
+    let token;
+    try {
+      token = await fcmMessaging.getToken({ vapidKey: FCM_VAPID_KEY, serviceWorkerRegistration: reg });
+    } catch (e) {
+      if (btn) btn.disabled = false;
+      showNotif({ type:'error', title:'TOKEN GAGAL', message: escapeHtml(e.message || e.code || 'Unknown'), showCancel:false, okText:'OK' });
+      return;
+    }
+
+    if (!token) { if (btn) btn.disabled = false; showNotif({ type:'error', title:'TOKEN KOSONG', message:'getToken() null.', showCancel:false, okText:'OK' }); return; }
+
+    try {
+      await new Promise(function(resolve) { google.script.run.withSuccessHandler(resolve).withFailureHandler(function() { resolve({ success: false }); }).saveFcmToken(currentUser.idGame, token); });
+    } catch (e) {}
+
+    localStorage.setItem('TFC_FCM_TOKEN', token);
+    updateNotificationButton();
+
+    try {
+      if (reg.showNotification) {
+        await reg.showNotification('✅ TFC Notifikasi Aktif', { body: 'Kalau notifikasi ini muncul, berarti berhasil!', icon: CONFIG_LOGO });
+      }
+    } catch (e) {}
+
+    showNotif({ type:'success', title:'✅ NOTIFIKASI AKTIF', message:'Anda akan menerima pengingat absen otomatis.', showCancel:false, okText:'Mengerti' });
+  } catch (e) {
+    if (btn) btn.disabled = false;
+    showNotif({ type:'error', title:'GAGAL', message: escapeHtml(e.message || 'Unknown'), showCancel:false, okText:'OK' });
+  }
+}
+
+document.getElementById('enableNotifBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  if (!currentUser) { showNotif({ type:'warning', title:'LOGIN DULU', message:'Silakan login.', showCancel:false, okText:'OK' }); return; }
+  mintaIzinDanSimpanToken();
+});
+
+(function initMusic() {
+  const music = document.getElementById('tfcMusic');
+  const toggle = document.getElementById('musicToggle');
+  const icon = document.getElementById('musicIcon');
+  if (!music || !toggle) return;
+  music.volume = 0.7;
+  let muted = false;
+  try { muted = localStorage.getItem('TFC_MUSIC_MUTED') === 'true'; } catch (e) {}
+  function updateUI(playing) {
+    if (!toggle || !icon) return;
+    if (playing && !muted) { toggle.classList.remove('muted'); icon.className = 'fas fa-volume-up'; }
+    else { toggle.classList.add('muted'); icon.className = 'fas fa-volume-mute'; }
+  }
+  updateUI(false);
+  toggle.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); if (music.paused) { muted = false; try { localStorage.setItem('TFC_MUSIC_MUTED', 'false'); } catch (e) {} music.play().then(function() { updateUI(true); }).catch(function() {}); } else { music.pause(); muted = true; try { localStorage.setItem('TFC_MUSIC_MUTED', 'true'); } catch (e) {} updateUI(false); } });
+})();
+
+function startApp() {
+  restoreSession();
+  updateAttendanceStatus();
+  attendanceInterval = setInterval(updateAttendanceStatus, 1000);
+  if (notifStatusInterval) clearInterval(notifStatusInterval);
+  notifStatusInterval = setInterval(function() { if (currentUser) updateNotificationButton(); }, 5000);
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startApp);
+else startApp();
+
+})();
+</script>
+</body>
+</html>
