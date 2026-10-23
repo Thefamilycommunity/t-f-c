@@ -68,17 +68,16 @@ button{-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 ::selection{background:rgba(239,68,68,.3);color:#fff}
 img{max-width:100%;height:auto;display:block}
-/* STRICT NICKNAME: tidak bisa diseleksi di mana pun */
-#headerNickname,#detailNickname,#detailUsername,#welcomeNickname,#nicknameValue,#registerNickname,#pubNickname,.rank-name,.rank-row .rank-name,#rankingContainerPanel .rank-name,.nick-display-modern .nickname-value,.giveaway-participant-row .col-akun,.giveaway-participant-row .col-id,.popup-code,.notif-message strong{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;word-break:break-word;overflow-wrap:anywhere}
+#headerNickname,#detailNickname,#detailUsername,#welcomeNickname,#nicknameValue,#registerNickname,#pubNickname,.rank-name,.rank-row .rank-name,#rankingContainerPanel .rank-name,.nick-display-modern .nickname-value,.giveaway-participant-row .col-akun,.giveaway-participant-row .col-id,.popup-code,.notif-message strong{-webkit-user-select:none!important;-moz-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;word-break:break-word;overflow-wrap:anywhere}
 html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-user-select:text!important;user-select:text!important}
 .btn,button,.social-btn,.login-trigger-btn,.popup-claim-btn,.hero-btn,.notif-btn,.banner-btn,.refresh-btn,.copy-resi-btn,.cs-topic-btn,.modal-close,.drawer-close,.topbar-logout,.popup-close,.cal-nav-btn{min-width:0;word-break:break-word;overflow-wrap:anywhere;white-space:normal;line-height:1.25}
-.hero-title,.section-header .text h3,.notif-title,.popup-title,.modal-header h3,.drawer-title,.rank-name,.calendar-title,.topbar-title,.nickname-value,.nick-display-modern .nickname-value{word-break:break-word;overflow-wrap:anywhere}
+.hero-title,.section-header .text h3,.notif-title,.popup-title,.modal-header h3,.drawer-title,.rank-name,.calendar-title,.topbar-title{word-break:break-word;overflow-wrap:anywhere}
 .popup-overlay{z-index:99990}.drawer-overlay{z-index:99998}.login-drawer{z-index:99999}.modal-overlay{z-index:100000}.notif-overlay{z-index:100001}
 #fireworksCanvas{z-index:99997}#coinRainCanvas{z-index:100005}
 .app{width:100%;min-height:100vh;display:flex;background:transparent}
 .sidebar{width:260px;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-right:1px solid rgba(255,255,255,.05);padding:20px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
 .sidebar-brand{display:flex;align-items:center;gap:12px;padding:10px 12px 20px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:14px}
-.sidebar-brand .logo{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ef4444,#991b1b);overflow:hidden;flex-shrink:0;box-shadow:0 6px 20px rgba(220,38,38,.25)}
+.sidebar-brand .logo{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ef4444,#991b1b);overflow:hidden;flex-shrink:0}
 .sidebar-brand .logo img{width:100%;height:100%;object-fit:cover}
 .sidebar-brand .logo-fallback{font-family:'Orbitron';font-size:15px;font-weight:900}
 .sidebar-brand .brand-text h1{font-family:'Orbitron';font-size:13px;font-weight:800;line-height:1.2}
@@ -106,7 +105,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .topbar-title span{color:#ef4444}
 .topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .login-trigger-btn{padding:10px 24px;border-radius:999px;background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;font-weight:700;font-size:13px;border:none;cursor:pointer;transition:.25s;min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-.login-trigger-btn:hover{background:linear-gradient(135deg,#f87171,#dc2626);transform:translateY(-2px);box-shadow:0 10px 25px rgba(220,38,38,.3)}
+.login-trigger-btn:hover{background:linear-gradient(135deg,#f87171,#dc2626);transform:translateY(-2px)}
 .topbar-profile{display:none;align-items:center;gap:8px;padding:4px 12px 4px 4px;height:42px;border-radius:999px;background:#141414;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:.25s}
 .topbar-profile.show{display:flex}
 .topbar-profile:hover{border-color:rgba(239,68,68,.3)}
@@ -136,7 +135,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .hero-dot.active{width:24px;background:#ef4444}
 .hero-join-wrapper{margin-top:14px}
 .hero-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 24px;border-radius:999px;background:transparent;color:#ef4444;border:1.5px solid #ef4444;font-weight:700;font-size:13px;cursor:pointer;transition:.25s;min-height:44px}
-.hero-btn:hover{background:#ef4444;color:#fff;transform:translateY(-2px);box-shadow:0 10px 25px rgba(220,38,38,.25)}
+.hero-btn:hover{background:#ef4444;color:#fff;transform:translateY(-2px)}
 .section-header{display:flex;align-items:center;gap:12px;margin:22px 0 12px}
 .section-header:first-of-type{margin-top:0}
 .section-header .icon-box{width:38px;height:38px;border-radius:11px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
@@ -185,7 +184,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .drawer-close{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#9ca8bb;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;font-size:14px}
 .drawer-close:hover{background:rgba(239,68,68,.1);color:#ef4444}
 .drawer-body{flex:1;padding:26px 24px}
-.drawer-logo{width:68px;height:68px;margin:0 auto 18px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#ef4444,#991b1b);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(220,38,38,.3)}
+.drawer-logo{width:68px;height:68px;margin:0 auto 18px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#ef4444,#991b1b);display:flex;align-items:center;justify-content:center}
 .drawer-logo img{width:100%;height:100%;object-fit:cover}
 .drawer-logo .logo-fallback{font-family:'Orbitron';font-size:20px;font-weight:900}
 .drawer-title{text-align:center;font-family:'Orbitron';font-size:20px;margin-bottom:6px}
@@ -228,7 +227,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .music-toggle.muted{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15);color:#9ca8bb;box-shadow:0 6px 16px rgba(0,0,0,.4)}
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;overflow-y:auto}
 .popup-overlay.show{opacity:1;visibility:visible}
-.popup-ads{width:100%;max-width:420px;max-height:calc(100dvh - 32px);overflow-y:auto;border-radius:22px;background:linear-gradient(165deg,#1a1a1a,#141414,#0f0f0f);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 90px rgba(0,0,0,.9);padding:22px 20px 18px;position:relative;text-align:center;transform:scale(.85);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s;display:flex;flex-direction:column;gap:12px;margin:auto}
+.popup-ads{width:100%;max-width:420px;max-height:calc(100dvh - 32px);overflow-y:auto;border-radius:22px;background:linear-gradient(165deg,#1a1a1a,#141414,#0f0f0f);border:1px solid rgba(255,255,255,.08);padding:22px 20px 18px;position:relative;text-align:center;transform:scale(.85);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s;display:flex;flex-direction:column;gap:12px;margin:auto}
 .popup-overlay.show .popup-ads{transform:scale(1);opacity:1}
 .popup-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#9ca8bb;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;z-index:2}
 .popup-close-info{position:absolute;top:12px;right:12px;display:none}
@@ -343,7 +342,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .point-legend .pl-item{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:12px;padding:10px 8px;text-align:center}
 .point-legend .pl-item .pl-min{font-family:'Orbitron';font-size:13px;font-weight:800;color:#fbbf24}
 .point-legend .pl-item .pl-pt{font-size:10px;color:#9ca8bb;margin-top:2px}
-/* KATALOG TFC STORE */
 .katalog-wrap{display:flex;flex-direction:column;gap:10px;width:100%}
 .katalog-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(251,191,36,.04));border:1px solid rgba(251,191,36,.25)}
 .katalog-top .saldo-label{font-size:11px;color:#aab3c2;display:flex;align-items:center;gap:6px}
@@ -382,7 +380,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .reward-claim-banner .banner-title{font-family:'Orbitron';font-size:14px;font-weight:800;color:#fbbf24;margin-bottom:6px}
 .reward-claim-banner .banner-desc{font-size:11px;color:#cbd5e1;line-height:1.55;margin-bottom:12px}
 .reward-claim-banner .banner-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:999px;background:linear-gradient(135deg,#fbbf24,#d97706);color:#1a1a1a;font-weight:800;font-size:12.5px;border:none;cursor:pointer;min-height:44px;width:100%}
-/* TRACKING */
 .tracking-container{margin-top:12px}
 .tracking-header{padding:14px;border-radius:14px 14px 0 0;background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(59,130,246,.05));border:1px solid rgba(59,130,246,.25);border-bottom:none;text-align:center}
 .tracking-header .resi-label{font-size:10px;color:#8b93a3;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
@@ -422,7 +419,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .tracking-empty{text-align:center;padding:26px 16px}
 .tracking-empty i{font-size:40px;color:#4b5563;margin-bottom:10px}
 .tracking-empty .empty-text{font-size:12.5px;color:#8b93a3;line-height:1.55}
-/* CS */
 .cs-chat-header{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:14px 14px 0 0;background:#1f2c34;border:1px solid rgba(37,211,102,.15);border-bottom:none}
 .cs-chat-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:#fff}
 .cs-chat-title{font-size:11.5px;color:#25d366;font-weight:800;letter-spacing:.4px;flex:1;min-width:0}
@@ -470,7 +466,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .cs-contact-btn.admin{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1);color:#f87171}
 #csServiceModal .modal{display:flex;flex-direction:column;max-height:92vh;padding:0;overflow:hidden;background:#0b141a}
 #csServiceModal .cs-scroll-body{flex:1;overflow-y:auto}
-/* AVATAR */
 .avatar-frame{position:relative;display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;padding:4px;background:#0a0a0a;isolation:isolate}
 .avatar-frame::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0%,transparent 70%,#60a5fa 85%,#fff 100%);animation:rotateRing 3s linear infinite;z-index:-2}
 .avatar-frame::after{content:'';position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(from 180deg,transparent 0%,transparent 70%,#ef4444 85%,#fff 100%);animation:rotateRingReverse 4s linear infinite;z-index:-1}
@@ -498,7 +493,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .photo-preview-box .preview-info{flex:1;min-width:0}
 .photo-preview-box .preview-label{font-size:9.5px;color:#8b93a3;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px}
 .photo-preview-box .preview-name{font-size:13px;color:#fff;font-weight:700}
-/* RESPONSIVE */
 @media(max-width:1024px){.right-panel{display:none!important}}
 @media(max-width:600px){
   .sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;max-height:68px;flex-direction:row;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(255,255,255,.06);z-index:100;overflow-x:auto;gap:0;backdrop-filter:blur(20px);background:rgba(10,10,10,.96)}
@@ -534,8 +528,10 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(239,68,68,.4)}
+@keyframes giveawayRingSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 </style>
 </head>
+
 <body>
 <div class="app">
   <aside class="sidebar">
@@ -655,7 +651,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
         </div>
       </section>
 
-            <!-- ABSEN -->
+      <!-- ABSEN -->
       <section class="view-section" id="viewAbsen">
         <div class="section-header">
           <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
@@ -709,7 +705,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
           <div class="katalog-wrap">
             <div class="katalog-top">
               <div class="saldo-label">
-                <img id="saldoPointIcon" src="" alt="Point TFC" onerror="this.outerHTML='<i class=\'fas fa-coins\' style=\'color:#fbbf24;\'></i>'">
+                <img id="saldoPointIcon" alt="Point TFC" style="width:16px;height:16px;object-fit:contain;">
                 Point TFC Anda
               </div>
               <div class="saldo-value" id="saldoPointKatalog">0 <small>Poin</small></div>
@@ -734,7 +730,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
         </div>
       </section>
 
-      <!-- TRACKING -->
+            <!-- TRACKING -->
       <section class="view-section" id="viewTracking">
         <div class="section-header">
           <div class="icon-box"><i class="fas fa-truck-fast"></i></div>
@@ -951,7 +947,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
         </div>
         <div style="display:flex;align-items:center;gap:14px;padding:12px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);">
           <div style="width:38px;height:38px;border-radius:14px;background:rgba(251,191,36,.1);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:16px;">
-            <img id="detailPointIcon" src="" alt="Point TFC" style="width:22px;height:22px;object-fit:contain;" onerror="this.outerHTML='<i class=\'fas fa-coins\' style=\'color:#fbbf24;font-size:16px;\'></i>'">
+            <img id="detailPointIcon" alt="Point TFC" style="width:22px;height:22px;object-fit:contain;">
           </div>
           <div><div style="font-size:15px;font-weight:700;color:#fff;" id="detailPointTFC">0</div><div style="font-size:10px;color:#8b93a3;">Point TFC</div></div>
         </div>
@@ -1012,7 +1008,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.15);">
         <div style="display:flex;align-items:center;gap:10px;">
-          <img id="pubPointIcon" src="" alt="Point TFC" style="width:14px;height:14px;object-fit:contain;" onerror="this.outerHTML='<i class=\'fas fa-coins\' style=\'color:#fbbf24;\'></i>'">
+          <img id="pubPointIcon" alt="Point TFC" style="width:14px;height:14px;object-fit:contain;">
           <span style="font-size:12px;color:#cbd5e1;">Point TFC</span>
         </div>
         <div style="font-family:'Orbitron';font-size:14px;font-weight:800;color:#fbbf24;" id="pubPoint">0</div>
@@ -1025,7 +1021,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   </div>
 </div>
 
-<!-- KATALOG MODAL (TUKAR REWARD) -->
+<!-- KATALOG MODAL -->
 <div class="modal-overlay" id="katalogModal">
   <div class="modal" style="max-width:440px;">
     <div class="modal-header">
@@ -1129,10 +1125,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 </audio>
 <button id="musicToggle" type="button" aria-label="Toggle Music" class="music-toggle muted"><i class="fas fa-volume-mute" id="musicIcon"></i></button>
 
-<style>
-@keyframes giveawayRingSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-</style>
-
 <script>
 (function() {
 'use strict';
@@ -1205,7 +1197,7 @@ function fixDriveUrl(url) {
 }
 function pointIconHtml(sizePx) {
   const s = sizePx || 16;
-  return '<img src="' + escapeHtml(POINT_ICON_URL) + '" alt="Point TFC" style="width:' + s + 'px;height:' + s + 'px;object-fit:contain;display:inline-block;vertical-align:middle;" onerror="this.outerHTML=\'<i class=&quot;fas fa-coins&quot; style=&quot;color:#fbbf24;font-size:' + s + 'px;&quot;></i>\'">';
+  return '<img src="' + escapeHtml(POINT_ICON_URL) + '" alt="Point TFC" style="width:' + s + 'px;height:' + s + 'px;object-fit:contain;display:inline-block;vertical-align:middle;">';
 }
 function sanitizeNotifHtml(html) {
   const allowed = /^(strong|b|i|em|br|span|small|code|u|div|p)$/i;
@@ -1267,7 +1259,7 @@ function playMusicFromClick() {
     const KEY = 'TFC_MUSIC_MUTED'; if (!music) return;
     let userMuted = false; try { userMuted = localStorage.getItem(KEY) === 'true'; } catch (e) {}
     if (userMuted) return;
-    if (music.paused) music.play().then(function() { if (icon) icon.className = 'fas fa-volume-up'; if (toggle) { toggle.classList.remove('muted'); } }).catch(function() {});
+    if (music.paused) music.play().then(function() { if (icon) icon.className = 'fas fa-volume-up'; if (toggle) toggle.classList.remove('muted'); }).catch(function() {});
   } catch (e) {}
 }
 (function initMusic() {
@@ -1590,6 +1582,14 @@ function refreshAvatarUI() {
   ['headerAvatar','detailAvatar'].forEach(function(id) { const img = document.getElementById(id); if (!img) return; img.onerror = function() { img.src = fallback; }; img.src = src; });
 }
 
+/* ---------- POINT ICONS ---------- */
+function applyPointIcons() {
+  ['saldoPointIcon','detailPointIcon','pubPointIcon'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.src = POINT_ICON_URL;
+  });
+}
+
 /* ---------- STATE ---------- */
 function setGuestState() {
   currentUser = null; cachedPhotoOptions = null; cachedRewardData = null; cachedRankingData = null; currentTrackingData = null;
@@ -1823,7 +1823,6 @@ document.getElementById('profileHeaderButton').addEventListener('click', functio
   document.getElementById('detailTotalAbsen').textContent = '...';
   document.getElementById('detailPointTFC').textContent = '...';
   document.getElementById('detailRanking').textContent = '...';
-  const dpi = document.getElementById('detailPointIcon'); if (dpi) dpi.src = POINT_ICON_URL;
   openModal(document.getElementById('profileModal'));
   if (!serverAvailable()) return;
   google.script.run.withSuccessHandler(function(r) { document.getElementById('detailTotalAbsen').textContent = (r && r.success) ? r.total : 0; }).withFailureHandler(function() { document.getElementById('detailTotalAbsen').textContent = '0'; }).getMemberAttendanceCount(currentUser.idGame);
@@ -2164,7 +2163,6 @@ function openPublicProfile(m) {
   document.getElementById('pubTotalAbsen').textContent = (m.total || 0) + ' Hari';
   document.getElementById('pubPoint').textContent = (m.point || 0) + ' Poin';
   document.getElementById('pubRank').textContent = '#' + (m.rank || '-');
-  const ppi = document.getElementById('pubPointIcon'); if (ppi) ppi.src = POINT_ICON_URL;
   openModal(document.getElementById('publicProfileModal'));
 }
 
@@ -2175,7 +2173,7 @@ function checkRewardClaimStatus() {
 }
 function loadStockKaos() {
   if (!serverAvailable()) return;
-  google.script.run.withSuccessHandler(function(r) { if (!r || !r.success) return; const shirtUrl = cachedStockData ? cachedStockData.rewardShirtImageUrl : ''; cachedStockData = r; if (shirtUrl) cachedStockData.rewardShirtImageUrl = shirtUrl; updateRewardClaimBanner(); }).withFailureHandler(function() {}).getStockKaos();
+  google.script.run.withSuccessHandler(function(r) { if (!r || !r.success) return; cachedStockData = r; updateRewardClaimBanner(); }).withFailureHandler(function() {}).getStockKaos();
 }
 function preloadRewardData() {
   if (!currentUser || !serverAvailable()) return;
@@ -2199,7 +2197,6 @@ function loadKatalogReward() {
       if (!r || !r.success) { c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#f87171;font-size:11px;">Gagal memuat katalog.</div>'; return; }
       katalogItems = r.catalog || [];
       if (sEl) sEl.innerHTML = (r.userPoint || 0) + ' <small>Poin</small>';
-      const icon = document.getElementById('saldoPointIcon'); if (icon) icon.src = POINT_ICON_URL;
       if (currentUser) { currentUser.point = r.userPoint || 0; saveSession(currentUser); }
       renderKatalogGrid(r.userPoint || 0);
     })
@@ -2322,7 +2319,7 @@ function submitTukar(item) {
     .submitRewardClaim({ idGame: currentUser.idGame, username: currentUser.username, nickname: currentUser.nickname, whatsapp: currentUser.whatsapp || '', alamat: alamat, rewardId: item.id });
 }
 
-/* ---------- TRACKING FISIK vs DIGITAL-TRADE ---------- */
+/* ---------- TRACKING ---------- */
 function determineStageFisik(status) {
   status = (status || '').toUpperCase();
   if (status.indexOf('DITERIMA') > -1 || status.indexOf('SELESAI') > -1) return 3;
@@ -2497,6 +2494,7 @@ function loadConfig() {
 window.addEventListener('resize', function() { const rp = document.getElementById('rightPanel'); if (!rp || !currentUser) return; if (window.innerWidth >= 1025) rp.style.display = 'flex'; else rp.style.display = 'none'; });
 
 function startApp() {
+  applyPointIcons();
   loadConfig(); restoreSession(); startHeroSlider(); initNickParticles(); watchOverlays();
   setTimeout(function() { if (!currentUser && !isAnyOverlayOpen()) { popupAlreadyShown = true; loadAndShowPopup(); } else if (isAnyOverlayOpen()) { popupPendingShow = true; } }, 2000);
 }
