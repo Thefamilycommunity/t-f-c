@@ -552,7 +552,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
       <button class="sidebar-item" data-view="nickname" type="button"><i class="fas fa-id-badge"></i><span>Klaim Nick</span></button>
       <button class="sidebar-item tracking-menu" data-view="tracking" type="button" id="menuTracking"><i class="fas fa-truck-fast"></i><span>Cek Paket</span></button>
       <button class="sidebar-item" data-view="ranking" type="button"><i class="fas fa-trophy"></i><span>Ranking</span></button>
-      <button class="sidebar-item" data-view="katalog" type="button" id="menuKatalog"><i class="fas fa-store"></i><span>Katalog Poin</span></button>
+      <button class="sidebar-item" data-view="katalog" type="button" id="menuKatalog"><i class="fas fa-store"></i><span>TFC Store</span></button>
       <button class="sidebar-item giveaway-menu" data-view="giveaway" type="button" id="menuGiveaway"><i class="fas fa-gift"></i><span>Giveaway</span></button>
       <button class="sidebar-item cs-admin" data-view="csadmin" type="button" id="menuCsAdmin" style="display:none;"><i class="fas fa-headset"></i><span>CS</span></button>
     </nav>
@@ -730,7 +730,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
         </div>
       </section>
 
-            <!-- TRACKING -->
+      <!-- TRACKING -->
       <section class="view-section" id="viewTracking">
         <div class="section-header">
           <div class="icon-box"><i class="fas fa-truck-fast"></i></div>
@@ -2246,7 +2246,7 @@ document.getElementById('katalogSearch').addEventListener('input', function(e) {
 document.getElementById('katalogFilter').addEventListener('change', function(e) { katalogFilterValue = e.target.value; renderKatalogGrid(currentUser ? (Number(currentUser.point) || 0) : 0); });
 
 function openTukarModal(item) {
-  if (!currentUser) { requireLogin('Katalog'); return; }
+  if (!currentUser) { requireLogin('TFC Store'); return; }
   pendingRewardItem = item;
   const body = document.getElementById('katalogModalBody'); if (!body) return;
   const isDigital = String(item.tipe || '').toUpperCase() === 'DIGITAL';
