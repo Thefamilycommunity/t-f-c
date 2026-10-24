@@ -584,13 +584,13 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
         <div class="hero-wrapper">
           <div class="hero-banner">
             <div class="hero-track" id="heroTrack">
-              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDl8mvs8eVBVp7_rx0H4P1aYR2votvhq-nekjKHKVWyVHjajs0viRJCgg1lEGPI53nrZIUw4YBuYeZXI8VjVJgkA8wjeI-MhFSyxXYrd26v0-BvXl0RSeqzUZMMrlGCNbdhKPn1RMGbP-xNxHPiGPAaKsFBIJv2BQvoRea1wMlLBQOyEXhQ9xH5wcmAysR/s1846/340.png');">
+              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSA7KUAWJNe6jpct875DaRln9f3sgp-QiTFSZN-qsZUdDl-8LN_6hNrI-bNEuFGMK8l1eNkTx21SJRzxqodba4ClDU_OmtrH_pK1ZdO_0Av24RVpKM0pg6Xd3FMTJJ6kiWA2iQNuVaS-lxtlxGL5CrmIkm3ECO5dS5K1R8oRwHlddWaPhCqyAV9BJYHLPD/s4096/1000549350.jpg');">
                 <div class="hero-content"><div class="hero-date">HARI INI</div><div class="hero-title">WELCOME TO <span>THE FAMILY COMMUNITY</span></div><div class="hero-desc">Satu keluarga, berbeda cerita, tetap satu tujuan.</div></div>
               </div>
-              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigtRYbGOj3h60OUbhYvVc8uJyGrpd2igbDhwMQj1aSLIfWqB3Ysp-2zdE-p0_gOSQuJUgXLrijsb0L4mzQpyenuwrf9d7OS-ZLQBq_M-bD9Vz3MKdMacyKHCi48_24DmV8O1YsjS7eXlykQER7xOYf-XQtrWZ6rs_1S103U3oFq75BcHjQgp8fumuIcXyP/s1846/339.png');">
+              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcIl_Zo9JAdg5ikg9fZdlXL4mzdQOcxc0iWGO8Srk8Tz_VsCfFbJnhvpzgGRuV7wUrrFN5AGFOSHnyvMvq5nWYBqFq16bc0EiLr4hxXV3_Qn-cTfamw4-BizFa-B0-6ZNcdqI_oI3WoiykCSgr_f155SHAUd5z0hqOVBGWIVK34DPOAQLDlhO-5bqp4evC/s5120/1000596345.jpg');">
                 <div class="hero-content"><div class="hero-date">KOMUNITAS</div><div class="hero-title"><span>CONNECT</span> • GROW • TOGETHER</div><div class="hero-desc">Bangun kebersamaan bersama anggota TFC.</div></div>
               </div>
-              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMsxRJL2Vc6PofnjFtSCyrN1KjuZYDqPYGErz2dT_zEOn_2dJUrjxkhX_dxALv_s8jrkkV_ezK-8miyKqB-1xmUgNJmEjqK3ji4LBfmQIBVmapSEJTZg8uPkj05B1S3SFsbQ5RF8McKeNyQGOHvDSCktpaSOUhA9TOlNh59M2E-ZukCa62lBS1yybePOmg/s1671/338.png');">
+              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjtc4lOtgxGmo1a_Mq5TC5KEFvXHf3qwgjH3BAHqnJI58TlHC5AodLsW7nr5sUaKrWTxpXQK7D10_AbPOmBGsjI_mPoij9EKriMZmX4ZeZlpFAPBAQMGIB5MOgcvqsTg_nt977YDCPaQhHWFx2ctVbrBj6xNXCF9aitzRpUazlklnzBFK4d_IrLt01oJzu1/s2460/1000618994.jpg');">
                 <div class="hero-content"><div class="hero-date">JOIN US</div><div class="hero-title">JOIN <span>TFC</span> TODAY</div><div class="hero-desc">Gunakan ID Game yang terdaftar untuk membuat akun.</div></div>
               </div>
             </div>
@@ -1194,6 +1194,10 @@ function fixDriveUrl(url) {
   const m = url.match(/id=([a-zA-Z0-9_-]+)/) || url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (m && m[1]) return 'https://lh3.googleusercontent.com/d/' + m[1];
   return url;
+}
+function formatPoint(n) {
+  const num = Number(n) || 0;
+  return num.toLocaleString('id-ID');
 }
 function pointIconHtml(sizePx) {
   const s = sizePx || 16;
@@ -1826,7 +1830,7 @@ document.getElementById('profileHeaderButton').addEventListener('click', functio
   openModal(document.getElementById('profileModal'));
   if (!serverAvailable()) return;
   google.script.run.withSuccessHandler(function(r) { document.getElementById('detailTotalAbsen').textContent = (r && r.success) ? r.total : 0; }).withFailureHandler(function() { document.getElementById('detailTotalAbsen').textContent = '0'; }).getMemberAttendanceCount(currentUser.idGame);
-  google.script.run.withSuccessHandler(function(r) { if (r && r.success) { const pt = r.point || 0; document.getElementById('detailPointTFC').textContent = pt; currentUser.point = pt; saveSession(currentUser); } else document.getElementById('detailPointTFC').textContent = '0'; }).withFailureHandler(function() { document.getElementById('detailPointTFC').textContent = '0'; }).getRewardEligibility(currentUser.idGame);
+  google.script.run.withSuccessHandler(function(r) { if (r && r.success) { const pt = r.point || 0; document.getElementById('detailPointTFC').textContent = formatPoint(pt); currentUser.point = pt; saveSession(currentUser); } else document.getElementById('detailPointTFC').textContent = '0'; }).withFailureHandler(function() { document.getElementById('detailPointTFC').textContent = '0'; }).getRewardEligibility(currentUser.idGame);
   google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.ranking) { let pos = '-'; for (let i = 0; i < r.ranking.length; i++) if (String(r.ranking[i].idGame) === String(currentUser.idGame)) { pos = '#' + (i + 1); break; } document.getElementById('detailRanking').textContent = pos; } else document.getElementById('detailRanking').textContent = '-'; }).withFailureHandler(function() { document.getElementById('detailRanking').textContent = '-'; }).getAttendanceRanking();
 });
 
@@ -1987,7 +1991,7 @@ document.getElementById('absenNowBtn').addEventListener('click', function() {
   if (expireTime) { const sisa = Number(expireTime) - now; if (sisa > 0) { showNotif({ type:'info', title:'SEDANG DIPANTAU', message:'Sistem mendeteksi Anda sedang dalam sesi room.<br>Harap tetap berada di dalam room game hingga waktu yang ditentukan habis.', autoMode:true, countdown:3 }); return; } else { autoSubmitAttendance(); return; } }
   showNotif({
     type: 'warning', title: '⚠️ KOMITMEN ANGGOTA TFC',
-    message: 'Perhatian!<br><br>Setelah menekan tombol di bawah, Anda WAJIB:<br><br>1. Segera masuk ke ROOM TFC di game <b>Drive Zone Online</b>.<br>2. Stay / bermain di room tersebut minimal <b>30 MENIT</b>.<br>3. Setelah 30 menit, WAJIB kembali ke web/APK TFC agar kehadiran Anda tercatat <b>OTOMATIS</b>.<br><br>⏰ Batas maksimal kembali: <b>Jam 23:30 WIB</b>.<br>Jika lewat jam 23:30 WIB, sistem OTOMATIS mencatat Anda <b>BOLOS</b>.',
+    message: 'Perhatian!<br><br>Setelah menekan tombol di bawah, Anda WAJIB:<br><br>1. Segera masuk ke ROOM TFC di game <b>Drive Zone Online</b>.<br>2. Stay / bermain di room tersebut minimal <b>30 MENIT</b>.<br>3. Setelah 30 menit, WAJIB kembali ke web/APK TFC agar kehadiran Anda tercatat <b>OTOMATIS</b>.<br><br>⏰ Batas maksimal kembali: <b>Jam 23:59 WIB</b>.<br>Jika lewat jam 23:59 WIB, sistem OTOMATIS mencatat Anda <b>BOLOS</b>.',
     autoMode: false, showCancel: true, okText: 'SIAP, SAYA MASUK ROOM TFC', cancelText: 'Batal',
     onConfirm: function(ok) {
       if (!ok) return;
@@ -2010,22 +2014,22 @@ function autoSubmitAttendance() {
   if (!expireTime) return;
   const now = Date.now(); if (now < Number(expireTime)) return;
   const startTime = Number(expireTime) - (30 * 60 * 1000);
-  const wib = getWIBDate(); const jamWIB = wib.getHours();
-  const isLewatBatas = (jamWIB >= 0 && jamWIB < 21);
+  const wib = getWIBDate(); const jamWIB = wib.getHours(); const menitWIB = wib.getMinutes();
+  const isLewatBatas = (jamWIB === 0) || (jamWIB === 23 && menitWIB > 59);
   localStorage.removeItem(key);
-  showNotif({ type: 'info', title: 'MEMPROSES ABSEN', message: isLewatBatas ? 'Sesi room Anda selesai.<br>Namun Anda melewati batas jam 23:30 WIB.<br>Sistem sedang mencatat status...' : 'Sesi room selesai. Sistem sedang mencatat kehadiran Anda...', autoMode: true, countdown: 3 });
+  showNotif({ type: 'info', title: 'MEMPROSES ABSEN', message: isLewatBatas ? 'Sesi room Anda selesai.<br>Namun Anda melewati batas jam 23:59 WIB.<br>Sistem sedang mencatat status...' : 'Sesi room selesai. Sistem sedang mencatat kehadiran Anda...', autoMode: true, countdown: 3 });
   const btn = document.getElementById('absenNowBtn'); if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Menyimpan...'; }
   google.script.run
     .withSuccessHandler(function(r) {
       if (btn) btn.disabled = false; updateAbsenNowButton();
       if (r && r.success) {
         launchCoinRain('rain');
-        showNotif({ type:'success', title:'ABSEN BERHASIL!', message:'Terima kasih sudah stay di Room TFC!<br><br>Durasi Main: <strong>' + (r.durasi || 30) + ' Menit</strong><br>Point Didapat: <strong style="color:#fbbf24;">+' + (r.pointDidapat || 10) + ' Poin TFC</strong>', detail: { tanggal: r.tanggal || '-', jam: r.jam || '-', total: 'Total Point: ' + (r.totalPoint || 0) + ' Poin' }, autoMode:true, countdown:4 });
+        showNotif({ type:'success', title:'ABSEN BERHASIL!', message:'Terima kasih sudah stay di Room TFC!<br><br>Durasi Main: <strong>' + (r.durasi || 30) + ' Menit</strong><br>Point Didapat: <strong style="color:#fbbf24;">+' + (r.pointDidapat || 10) + ' Poin TFC</strong>', detail: { tanggal: r.tanggal || '-', jam: r.jam || '-', total: 'Total Point: ' + formatPoint(r.totalPoint || 0) + ' Poin' }, autoMode:true, countdown:4 });
         if (currentUser) { currentUser.point = r.totalPoint || (Number(currentUser.point) + (r.pointDidapat || 10)); saveSession(currentUser); }
         cachedRewardData = null; cachedRankingData = null;
         loadAttendanceCalendar(currentCalYear, currentCalMonth); loadRanking(); preloadRewardData(); refreshRewardDataSilent(); updateRewardClaimBanner(); loadKatalogReward();
       } else if (r && r.isBolos) {
-        showNotif({ type:'error', title:'⏰ WAKTU HABIS (BOLOS)', message: r.message || 'Anda melewati batas jam 23:30 WIB.<br>Absen tercatat sebagai <strong>BOLOS</strong>.', detail: { tanggal: r.tanggal || '-', jam: r.jam || '-', total: 'BOLOS' }, autoMode:true, countdown:5 });
+        showNotif({ type:'error', title:'⏰ WAKTU HABIS (BOLOS)', message: r.message || 'Anda melewati batas jam 23:59 WIB.<br>Absen tercatat sebagai <strong>BOLOS</strong>.', detail: { tanggal: r.tanggal || '-', jam: r.jam || '-', total: 'BOLOS' }, autoMode:true, countdown:5 });
         loadAttendanceCalendar(currentCalYear, currentCalMonth); loadRanking();
       } else {
         showNotif({ type:'error', title:'ABSEN GAGAL', message: r && r.message ? escapeHtml(r.message) : 'Gagal.', autoMode:true, countdown:4 });
@@ -2161,7 +2165,7 @@ function openPublicProfile(m) {
   document.getElementById('pubNickname').textContent = m.nickname || '-';
   document.getElementById('pubIdGame').textContent = m.idGame || '-';
   document.getElementById('pubTotalAbsen').textContent = (m.total || 0) + ' Hari';
-  document.getElementById('pubPoint').textContent = (m.point || 0) + ' Poin';
+  document.getElementById('pubPoint').textContent = formatPoint(m.point) + ' Poin';
   document.getElementById('pubRank').textContent = '#' + (m.rank || '-');
   openModal(document.getElementById('publicProfileModal'));
 }
@@ -2196,7 +2200,7 @@ function loadKatalogReward() {
     .withSuccessHandler(function(r) {
       if (!r || !r.success) { c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#f87171;font-size:11px;">Gagal memuat katalog.</div>'; return; }
       katalogItems = r.catalog || [];
-      if (sEl) sEl.innerHTML = (r.userPoint || 0) + ' <small>Poin</small>';
+      if (sEl) sEl.innerHTML = formatPoint(r.userPoint) + ' <small>Poin</small>';
       if (currentUser) { currentUser.point = r.userPoint || 0; saveSession(currentUser); }
       renderKatalogGrid(r.userPoint || 0);
     })
@@ -2234,7 +2238,7 @@ function renderKatalogGrid(userPoint) {
       '</div>' +
       '<div class="kc-body">' +
         '<div class="kc-name">' + escapeHtml(item.nama) + '</div>' +
-        '<div class="kc-price">' + pointIconHtml(12) + ' ' + item.point + '</div>' +
+        '<div class="kc-price">' + pointIconHtml(12) + ' ' + formatPoint(item.point) + '</div>' +
         '<div class="kc-stock ' + (lowStock ? 'low' : '') + '">Stock: ' + item.stock + '</div>' +
         '<button class="kc-btn" ' + (disabled ? 'disabled' : '') + '>' + label + '</button>' +
       '</div>';
@@ -2255,7 +2259,7 @@ function openTukarModal(item) {
       '<div style="text-align:center;margin-bottom:14px;">' +
         (item.gambar ? '<img src="' + escapeHtml(fixDriveUrl(item.gambar)) + '" style="width:120px;height:120px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);margin-bottom:10px;" onerror="this.style.display=\'none\'">' : '') +
         '<div style="font-family:Orbitron;font-size:14px;font-weight:800;color:#fff;">' + escapeHtml(item.nama) + '</div>' +
-        '<div style="font-size:11px;color:#8b93a3;margin-top:4px;">Hadiah Digital • ' + item.point + ' Poin</div>' +
+        '<div style="font-size:11px;color:#8b93a3;margin-top:4px;">Hadiah Digital • ' + formatPoint(item.point) + ' Poin</div>' +
       '</div>' +
       '<div style="padding:12px;border-radius:12px;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.25);font-size:11px;color:#c084fc;line-height:1.6;margin-bottom:12px;">' +
         '<i class="fas fa-info-circle"></i> <strong>Cara menerima hadiah digital:</strong><br>' +
@@ -2270,7 +2274,7 @@ function openTukarModal(item) {
       '<div style="text-align:center;margin-bottom:14px;">' +
         (item.gambar ? '<img src="' + escapeHtml(fixDriveUrl(item.gambar)) + '" style="width:120px;height:120px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.08);margin-bottom:10px;" onerror="this.style.display=\'none\'">' : '') +
         '<div style="font-family:Orbitron;font-size:14px;font-weight:800;color:#fff;">' + escapeHtml(item.nama) + '</div>' +
-        '<div style="font-size:11px;color:#8b93a3;margin-top:4px;">Hadiah Fisik • ' + item.point + ' Poin</div>' +
+        '<div style="font-size:11px;color:#8b93a3;margin-top:4px;">Hadiah Fisik • ' + formatPoint(item.point) + ' Poin</div>' +
       '</div>' +
       '<div class="message" id="tukarMessage"></div>' +
       '<div style="font-size:12px;font-weight:700;margin-bottom:8px;text-align:center;"><i class="fas fa-map-pin"></i> ALAMAT PENGIRIMAN</div>' +
@@ -2310,7 +2314,7 @@ function submitTukar(item) {
       if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-check"></i> KIRIM'; }
       if (!r || !r.success) { showMessage(msg, r && r.message ? r.message : 'Gagal menukar.', 'error'); return; }
       launchCoinRain('burst');
-      showNotif({ type:'success', title:'✅ PENUKARAN BERHASIL', message:'Hadiah: <strong>' + escapeHtml(item.nama) + '</strong><br>Sisa Poin: <strong style="color:#fbbf24;">' + (r.pointSisa || 0) + ' Poin</strong>' + (isDigital ? '<br><br>Leader akan trade hadiah ke ID Game Anda.' : '<br><br>Cek status di menu <strong>Cek Paket</strong>.'), autoMode:true, countdown:4 });
+      showNotif({ type:'success', title:'✅ PENUKARAN BERHASIL', message:'Hadiah: <strong>' + escapeHtml(item.nama) + '</strong><br>Sisa Poin: <strong style="color:#fbbf24;">' + formatPoint(r.pointSisa || 0) + ' Poin</strong>' + (isDigital ? '<br><br>Leader akan trade hadiah ke ID Game Anda.' : '<br><br>Cek status di menu <strong>Cek Paket</strong>.'), autoMode:true, countdown:4 });
       closeModal(document.getElementById('katalogModal'));
       loadKatalogReward(); checkRewardClaimStatus(); refreshRewardDataSilent();
       if (!isDigital) { updateTrackingMenuVisibility(); setTimeout(function() { switchView('tracking'); loadTrackingView(); }, 800); }
