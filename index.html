@@ -131,6 +131,22 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .sidebar-item.tracking-menu.show,.sidebar-item.giveaway-menu.show{display:flex}
 .sidebar-item.giveaway-menu i{color:#fbbf24}
 
+/* ---------- HAPUS menu login dari sidebar (dipindah ke Beranda Quick Access) ---------- */
+.sidebar-item[data-view="absen"],
+.sidebar-item[data-view="nickname"],
+.sidebar-item[data-view="tracking"],
+.sidebar-item[data-view="giveaway"],
+.sidebar-item[data-view="csadmin"]{
+  display:none!important;
+}
+
+/* ---------- Urutan menu DESKTOP ---------- */
+@media(min-width:601px){
+  .sidebar-item[data-view="beranda"]{order:1}
+  .sidebar-item[data-view="katalog"]{order:2}
+  .sidebar-item[data-view="ranking"]{order:3}
+}
+
 .main-area{flex:1;display:flex;min-width:0;max-width:100%}
 .content{flex:1;padding:26px 30px 56px;min-width:0;max-width:100%;overflow-x:hidden}
 
@@ -171,7 +187,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .hero-dot{width:8px;height:8px;border:0;border-radius:99px;background:rgba(255,255,255,.3);padding:0;transition:.3s}
 .hero-dot.active{width:28px;background:#ef4444}
 
-/* ---------- Hero Action Buttons (3 tombol rata) ---------- */
+/* ---------- Hero Action Buttons ---------- */
 .hero-join-wrapper{
   margin-top:16px;
   display:grid;
@@ -195,6 +211,37 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
   .hero-join-wrapper{grid-template-columns:1fr 1fr;}
   .hero-join-wrapper #heroJoinButton{grid-column:1 / -1;}
 }
+
+/* ---------- Quick Access (Beranda Anggota) ---------- */
+#memberBerandaContent{padding:8px 0}
+.quick-access-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:8px;
+}
+@media(min-width:700px){
+  .quick-access-grid{grid-template-columns:repeat(4,1fr);}
+}
+.quick-access-card{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:24px 14px;border-radius:18px;
+  background:linear-gradient(165deg,rgba(26,26,26,.98),rgba(15,15,15,.98));
+  border:1px solid rgba(255,255,255,.07);
+  color:#fff;font-weight:700;font-size:13px;
+  transition:.25s;min-height:120px;
+  cursor:pointer;
+}
+.quick-access-card:hover{
+  border-color:rgba(239,68,68,.35);
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(220,38,38,.2);
+}
+.quick-access-card i{font-size:28px;color:#ef4444;}
+.quick-access-card[data-view="nickname"] i{color:#60a5fa;}
+.quick-access-card[data-view="tracking"] i{color:#60a5fa;}
+.quick-access-card[data-view="giveaway"] i{color:#fbbf24;}
+.quick-access-card[data-view="giveaway"]{display:none}
 
 /* ---------- Stats cards ---------- */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px;margin-bottom:24px}
@@ -243,8 +290,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .social-footer .social-btn#facebookButton i{color:#1877f2}
 .social-footer .social-btn#instagramButton i{color:#e4405f}
 .social-footer .social-btn#youtubeButton i{color:#ff0000}
-.social-footer .cs-admin-btn{margin-top:16px;width:100%;border:none;background:transparent;color:#ef4444;font-size:13px;font-weight:700;padding:13px;border-radius:999px;transition:.25s;min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.social-footer .cs-admin-btn:hover{background:rgba(239,68,68,.12)}
 
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:.3s}
 .drawer-overlay.show{opacity:1;visibility:visible}
@@ -300,6 +345,31 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .music-toggle{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border-radius:50%;border:1px solid rgba(239,68,68,.4);background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;z-index:100;box-shadow:0 10px 28px rgba(220,38,38,.4);transition:transform .25s,box-shadow .25s}
 .music-toggle:hover{transform:scale(1.08)}
 .music-toggle.muted{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);color:#9ca8bb;box-shadow:0 8px 20px rgba(0,0,0,.45)}
+
+/* ---------- Floating CS Button (di atas music toggle) ---------- */
+.cs-float-btn{
+  position:fixed;
+  right:18px;
+  bottom:calc(88px + 60px + env(safe-area-inset-bottom,0px));
+  width:48px;height:48px;border-radius:50%;
+  border:1px solid rgba(37,211,102,.4);
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:18px;z-index:100;
+  box-shadow:0 10px 28px rgba(37,211,102,.4);
+  transition:transform .25s,box-shadow .25s;
+}
+.cs-float-btn:hover{transform:scale(1.08)}
+.cs-float-btn .cs-float-pulse{
+  position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid rgba(37,211,102,.5);
+  animation:csPulse 2s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes csPulse{
+  0%{transform:scale(1);opacity:.8}
+  100%{transform:scale(1.5);opacity:0}
+}
 
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:.35s ease;overflow-y:auto}
 .popup-overlay.show{opacity:1;visibility:visible}
@@ -657,6 +727,9 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .hero-join-wrapper{grid-template-columns:1fr 1fr;gap:8px}
   .hero-join-wrapper #heroJoinButton{grid-column:1 / -1;}
   .hero-btn{padding:11px 14px;font-size:12px;min-height:44px;}
+  .quick-access-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .quick-access-card{padding:20px 10px;min-height:100px;font-size:12px}
+  .quick-access-card i{font-size:24px}
   .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
   .stat-card{padding:12px 14px;border-radius:14px}
   .stat-card .stat-icon{width:38px;height:38px;font-size:14px;border-radius:10px}
@@ -696,8 +769,8 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .social-footer .social-title{font-size:10.5px;letter-spacing:1.5px}
   .social-footer .social-buttons{gap:8px}
   .social-footer .social-btn{padding:10px 16px;font-size:12px;min-height:42px;flex:1 1 auto;justify-content:center}
-  .social-footer .cs-admin-btn{font-size:12px;padding:12px;min-height:46px;margin-top:12px}
   .music-toggle{right:14px;bottom:calc(82px + env(safe-area-inset-bottom, 0px));width:44px;height:44px;font-size:15px}
+  .cs-float-btn{right:14px;bottom:calc(82px + 52px + env(safe-area-inset-bottom,0px));width:44px;height:44px;font-size:16px}
   .notif-overlay{padding:14px}
   .notif-card{padding:24px 20px 20px;border-radius:22px}
   .notif-icon-wrap{width:64px;height:64px;margin-bottom:14px}
@@ -761,6 +834,8 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .calendar-weekdays div{font-size:8.5px}
   .sidebar-item i{font-size:16px}
   .sidebar-item span{font-size:7.5px}
+  .quick-access-card{padding:16px 8px;min-height:90px;font-size:11px}
+  .quick-access-card i{font-size:22px}
   .popup-ads{padding:18px 14px 16px;border-radius:18px;gap:10px}
   .popup-title{font-size:14px}
   .popup-subtitle{font-size:11.5px}
@@ -775,6 +850,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .rank-name{font-size:11.5px}
   .rank-count{font-size:9.5px;padding:3px 8px}
   .music-toggle{width:40px;height:40px;font-size:14px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom, 0px))}
+  .cs-float-btn{width:40px;height:40px;font-size:14px;right:12px;bottom:calc(78px + 46px + env(safe-area-inset-bottom,0px))}
 }
 
 @media(max-width:320px){
@@ -818,6 +894,7 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .notif-icon-wrap{width:58px;height:58px;margin-bottom:12px}
   .notif-icon{width:46px;height:46px;font-size:18px}
   .music-toggle{bottom:14px;right:14px;width:40px;height:40px;font-size:14px}
+  .cs-float-btn{bottom:58px;right:14px;width:40px;height:40px;font-size:14px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -829,10 +906,16 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 ::-webkit-scrollbar-thumb:hover{background:rgba(239,68,68,.4)}
 
 @keyframes giveawayRingSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ================================================================
+   GUEST / MEMBER STATE
+   ================================================================ */
+body.is-guest #memberBerandaContent{display:none!important}
+body:not(.is-guest) #guestBerandaContent{display:none!important}
 </style>
 </head>
 
-<body>
+<body class="is-guest">
 <div class="app">
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -848,11 +931,11 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
     <nav class="sidebar-menu" id="sidebarMenu">
       <div class="sidebar-section-title">MENU</div>
       <button class="sidebar-item active" data-view="beranda" type="button" id="menuBeranda"><i class="fas fa-home"></i><span>Beranda</span></button>
-      <button class="sidebar-item" data-view="absen" type="button"><i class="fas fa-calendar-check"></i><span>Absen</span></button>
-      <button class="sidebar-item" data-view="nickname" type="button"><i class="fas fa-id-badge"></i><span>Klaim Nick</span></button>
-      <button class="sidebar-item tracking-menu" data-view="tracking" type="button" id="menuTracking"><i class="fas fa-truck-fast"></i><span>Cek Paket</span></button>
-      <button class="sidebar-item" data-view="ranking" type="button"><i class="fas fa-trophy"></i><span>Ranking</span></button>
       <button class="sidebar-item" data-view="katalog" type="button" id="menuKatalog"><i class="fas fa-store"></i><span>TFC Store</span></button>
+      <button class="sidebar-item" data-view="ranking" type="button"><i class="fas fa-trophy"></i><span>Ranking</span></button>
+      <button class="sidebar-item guest-hide" data-view="absen" type="button"><i class="fas fa-calendar-check"></i><span>Absen</span></button>
+      <button class="sidebar-item guest-hide" data-view="nickname" type="button"><i class="fas fa-id-badge"></i><span>Klaim Nick</span></button>
+      <button class="sidebar-item tracking-menu" data-view="tracking" type="button" id="menuTracking"><i class="fas fa-truck-fast"></i><span>Cek Paket</span></button>
       <button class="sidebar-item giveaway-menu" data-view="giveaway" type="button" id="menuGiveaway"><i class="fas fa-gift"></i><span>Giveaway</span></button>
       <button class="sidebar-item cs-admin" data-view="csadmin" type="button" id="menuCsAdmin" style="display:none;"><i class="fas fa-headset"></i><span>CS</span></button>
     </nav>
@@ -881,120 +964,119 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 
       <!-- BERANDA -->
       <section class="view-section active" id="viewBeranda">
-        <div class="hero-wrapper">
-          <div class="hero-banner">
-            <div class="hero-track" id="heroTrack">
-              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDl8mvs8eVBVp7_rx0H4P1aYR2votvhq-nekjKHKVWyVHjajs0viRJCgg1lEGPI53nrZIUw4YBuYeZXI8VjVJgkA8wjeI-MhFSyxXYrd26v0-BvXl0RSeqzUZMMrlGCNbdhKPn1RMGbP-xNxHPiGPAaKsFBIJv2BQvoRea1wMlLBQOyEXhQ9xH5wcmAysR/s1846/340.png');">
-                <div class="hero-content">
-                  <div class="hero-date">HARI INI</div>
-                  <div class="hero-title">WELCOME TO <span>THE FAMILY COMMUNITY</span></div>
-                  <div class="hero-desc">Satu keluarga, berbeda cerita, tetap satu tujuan.</div>
+        <!-- GUEST CONTENT -->
+        <div id="guestBerandaContent">
+          <div class="hero-wrapper">
+            <div class="hero-banner">
+              <div class="hero-track" id="heroTrack">
+                <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDl8mvs8eVBVp7_rx0H4P1aYR2votvhq-nekjKHKVWyVHjajs0viRJCgg1lEGPI53nrZIUw4YBuYeZXI8VjVJgkA8wjeI-MhFSyxXYrd26v0-BvXl0RSeqzUZMMrlGCNbdhKPn1RMGbP-xNxHPiGPAaKsFBIJv2BQvoRea1wMlLBQOyEXhQ9xH5wcmAysR/s1846/340.png');">
+                  <div class="hero-content">
+                    <div class="hero-date">HARI INI</div>
+                    <div class="hero-title">WELCOME TO <span>THE FAMILY COMMUNITY</span></div>
+                    <div class="hero-desc">Satu keluarga, berbeda cerita, tetap satu tujuan.</div>
+                  </div>
+                </div>
+                <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigtRYbGOj3h60OUbhYvVc8uJyGrpd2igbDhwMQj1aSLIfWqB3Ysp-2zdE-p0_gOSQuJUgXLrijsb0L4mzQpyenuwrf9d7OS-ZLQBq_M-bD9Vz3MKdMacyKHCi48_24DmV8O1YsjS7eXlykQER7xOYf-XQtrWZ6rs_1S103U3oFq75BcHjQgp8fumuIcXyP/s1846/339.png');">
+                  <div class="hero-content">
+                    <div class="hero-date">KOMUNITAS</div>
+                    <div class="hero-title"><span>CONNECT</span> • GROW • TOGETHER</div>
+                    <div class="hero-desc">Bangun kebersamaan bersama anggota TFC.</div>
+                  </div>
+                </div>
+                <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMsxRJL2Vc6PofnjFtSCyrN1KjuZYDqPYGErz2dT_zEOn_2dJUrjxkhX_dxALv_s8jrkkV_ezK-8miyKqB-1xmUgNJmEjqK3ji4LBfmQIBVmapSEJTZg8uPkj05B1S3SFsbQ5RF8McKeNyQGOHvDSCktpaSOUhA9TOlNh59M2E-ZukCa62lBS1yybePOmg/s1671/338.png');">
+                  <div class="hero-content">
+                    <div class="hero-date">JOIN US</div>
+                    <div class="hero-title">JOIN <span>TFC</span> TODAY</div>
+                    <div class="hero-desc">Gunakan ID Game yang terdaftar untuk membuat akun.</div>
+                  </div>
                 </div>
               </div>
-              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigtRYbGOj3h60OUbhYvVc8uJyGrpd2igbDhwMQj1aSLIfWqB3Ysp-2zdE-p0_gOSQuJUgXLrijsb0L4mzQpyenuwrf9d7OS-ZLQBq_M-bD9Vz3MKdMacyKHCi48_24DmV8O1YsjS7eXlykQER7xOYf-XQtrWZ6rs_1S103U3oFq75BcHjQgp8fumuIcXyP/s1846/339.png');">
-                <div class="hero-content">
-                  <div class="hero-date">KOMUNITAS</div>
-                  <div class="hero-title"><span>CONNECT</span> • GROW • TOGETHER</div>
-                  <div class="hero-desc">Bangun kebersamaan bersama anggota TFC.</div>
-                </div>
-              </div>
-              <div class="hero-slide" style="background-image:url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMsxRJL2Vc6PofnjFtSCyrN1KjuZYDqPYGErz2dT_zEOn_2dJUrjxkhX_dxALv_s8jrkkV_ezK-8miyKqB-1xmUgNJmEjqK3ji4LBfmQIBVmapSEJTZg8uPkj05B1S3SFsbQ5RF8McKeNyQGOHvDSCktpaSOUhA9TOlNh59M2E-ZukCa62lBS1yybePOmg/s1671/338.png');">
-                <div class="hero-content">
-                  <div class="hero-date">JOIN US</div>
-                  <div class="hero-title">JOIN <span>TFC</span> TODAY</div>
-                  <div class="hero-desc">Gunakan ID Game yang terdaftar untuk membuat akun.</div>
-                </div>
+              <div class="hero-dots" id="heroDots">
+                <button class="hero-dot active" data-slide="0" type="button"></button>
+                <button class="hero-dot" data-slide="1" type="button"></button>
+                <button class="hero-dot" data-slide="2" type="button"></button>
               </div>
             </div>
-            <div class="hero-dots" id="heroDots">
-              <button class="hero-dot active" data-slide="0" type="button"></button>
-              <button class="hero-dot" data-slide="1" type="button"></button>
-              <button class="hero-dot" data-slide="2" type="button"></button>
+            <div class="hero-join-wrapper">
+              <button class="hero-btn" id="heroJoinButton" type="button"><i class="fas fa-user-plus"></i> Gabung Sekarang</button>
+              <a class="hero-btn hero-btn-apk" id="apkDownloadBtn" href="https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu" target="_blank" rel="noopener">
+                <i class="fas fa-download"></i> Download APK
+              </a>
+              <button class="hero-btn hero-btn-install" id="pwaInstallBtn" type="button">
+                <i class="fas fa-mobile-alt"></i> <span id="pwaInstallText">Install ke HP</span>
+              </button>
             </div>
           </div>
 
-          <!-- Tombol Gabung + Download APK + Install PWA (selalu tampil & rata) -->
-          <div class="hero-join-wrapper">
-            <button class="hero-btn" id="heroJoinButton" type="button"><i class="fas fa-user-plus"></i> Gabung Sekarang</button>
-            <a class="hero-btn hero-btn-apk" id="apkDownloadBtn" href="https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu" target="_blank" rel="noopener">
-              <i class="fas fa-download"></i> Download APK
-            </a>
-            <button class="hero-btn hero-btn-install" id="pwaInstallBtn" type="button">
-              <i class="fas fa-mobile-alt"></i> Install ke HP
+          <div id="joinFormSection" style="display:none;margin-bottom:24px;">
+            <div class="section-header">
+              <div class="icon-box"><i class="fas fa-users"></i></div>
+              <div class="text"><h3>Pendaftaran Anggota TFC</h3><p>Isi data dengan benar untuk bergabung</p></div>
+            </div>
+            <div class="join-form-container">
+              <p>Isi data dengan benar. Setelah submit, kirim foto selfie + lokasi via WhatsApp Co Leader/Admin.</p>
+              <div class="message error" id="membershipError"></div>
+              <div class="message success" id="membershipSuccess"></div>
+              <div class="input-box"><i class="fas fa-gamepad"></i><input id="mIdGame" type="text" placeholder="ID Game"></div>
+              <div class="input-box"><i class="fas fa-id-badge"></i><input id="mNickname" type="text" placeholder="Nickname"></div>
+              <div class="input-box"><i class="fas fa-server"></i><input id="mServer" type="text" placeholder="Server"></div>
+              <div class="input-box"><i class="fas fa-chart-line"></i><input id="mLevel" type="text" placeholder="Level Akun"></div>
+              <div class="input-box"><i class="fas fa-user"></i><input id="mUsername" type="text" placeholder="Username"></div>
+              <div class="input-box"><i class="fas fa-location-dot"></i><input id="mAlamat" type="text" placeholder="Alamat"></div>
+              <div class="input-box"><i class="fas fa-calendar"></i><input id="mUmur" type="number" min="1" placeholder="Umur"></div>
+              <div class="input-box"><i class="fab fa-whatsapp"></i><input id="mWhatsapp" type="text" placeholder="No. WhatsApp"></div>
+              <div class="input-box"><i class="fas fa-envelope"></i><input id="mEmail" type="email" placeholder="Email"></div>
+              <div class="input-box"><i class="fas fa-share-nodes"></i><input id="mSosmed" type="text" placeholder="Akun Sosmed"></div>
+              <div class="input-box"><i class="fas fa-comment"></i><input id="mAlasan" type="text" placeholder="Alasan pendaftaran"></div>
+              <button class="btn btn-red" id="submitMembershipButton" type="button"><i class="fas fa-paper-plane"></i> KIRIM PENDAFTARAN</button>
+              <div id="afterMembership" style="display:none;">
+                <div style="margin-top:14px;padding:14px;border-radius:12px;background:rgba(239,68,68,.06);color:#aab3c2;font-size:11.5px;line-height:1.6;text-align:center;">
+                  <strong style="color:#fff;">Pendaftaran berhasil dikirim.</strong><br>Kirim foto selfie + lokasi via WhatsApp:
+                </div>
+                <div class="grid-2-col" style="margin-top:12px;">
+                  <button class="btn btn-dark" id="sendSelfieCoLeader" type="button"><i class="fab fa-whatsapp"></i> CO LEADER</button>
+                  <button class="btn btn-dark" id="sendSelfieAdmin" type="button"><i class="fab fa-whatsapp"></i> ADMIN</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-footer">
+            <div class="social-title">IKUTI KAMI DI</div>
+            <div class="social-buttons">
+              <button class="social-btn" id="tiktokButton" type="button"><i class="fab fa-tiktok"></i> TikTok</button>
+              <button class="social-btn" id="discordButton" type="button"><i class="fab fa-discord"></i> Discord</button>
+              <button class="social-btn" id="facebookButton" type="button"><i class="fab fa-facebook"></i> Facebook</button>
+              <button class="social-btn" id="instagramButton" type="button"><i class="fab fa-instagram"></i> Instagram</button>
+              <button class="social-btn" id="youtubeButton" type="button"><i class="fab fa-youtube"></i> YouTube</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MEMBER CONTENT (Quick Access saja) -->
+        <div id="memberBerandaContent" style="display:none;">
+          <div class="section-header">
+            <div class="icon-box"><i class="fas fa-bolt"></i></div>
+            <div class="text"><h3>Menu Anggota</h3><p>Fitur khusus anggota TFC</p></div>
+          </div>
+          <div class="quick-access-grid">
+            <button class="quick-access-card" data-view="absen" type="button">
+              <i class="fas fa-calendar-check"></i>
+              <span>Absen</span>
+            </button>
+            <button class="quick-access-card" data-view="nickname" type="button">
+              <i class="fas fa-id-badge"></i>
+              <span>Klaim Nick</span>
+            </button>
+            <button class="quick-access-card" data-view="tracking" type="button">
+              <i class="fas fa-truck-fast"></i>
+              <span>Cek Paket</span>
+            </button>
+            <button class="quick-access-card" data-view="giveaway" type="button" id="qaGiveaway">
+              <i class="fas fa-gift"></i>
+              <span>Giveaway</span>
             </button>
           </div>
-        </div>
-
-        <!-- STATS CARD — Hanya tampil untuk anggota login -->
-        <div class="stats-grid" id="statsGrid" style="display:none;">
-          <div class="stat-card">
-            <div class="stat-icon gold">
-              <img id="statPointIcon" alt="Point TFC" style="width:20px;height:20px;object-fit:contain;">
-            </div>
-            <div class="stat-info">
-              <div class="stat-label">Point TFC</div>
-              <div class="stat-value gold" id="statPointTFC">0</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon red"><i class="fas fa-calendar-check"></i></div>
-            <div class="stat-info">
-              <div class="stat-label">Total Absen</div>
-              <div class="stat-value" id="statTotalAbsen">0</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon blue"><i class="fas fa-trophy"></i></div>
-            <div class="stat-info">
-              <div class="stat-label">Peringkat</div>
-              <div class="stat-value" id="statRanking">#-</div>
-            </div>
-          </div>
-        </div>
-
-        <div id="joinFormSection" style="display:none;margin-bottom:24px;">
-          <div class="section-header">
-            <div class="icon-box"><i class="fas fa-users"></i></div>
-            <div class="text"><h3>Pendaftaran Anggota TFC</h3><p>Isi data dengan benar untuk bergabung</p></div>
-          </div>
-          <div class="join-form-container">
-            <p>Isi data dengan benar. Setelah submit, kirim foto selfie + lokasi via WhatsApp Co Leader/Admin.</p>
-            <div class="message error" id="membershipError"></div>
-            <div class="message success" id="membershipSuccess"></div>
-            <div class="input-box"><i class="fas fa-gamepad"></i><input id="mIdGame" type="text" placeholder="ID Game"></div>
-            <div class="input-box"><i class="fas fa-id-badge"></i><input id="mNickname" type="text" placeholder="Nickname"></div>
-            <div class="input-box"><i class="fas fa-server"></i><input id="mServer" type="text" placeholder="Server"></div>
-            <div class="input-box"><i class="fas fa-chart-line"></i><input id="mLevel" type="text" placeholder="Level Akun"></div>
-            <div class="input-box"><i class="fas fa-user"></i><input id="mUsername" type="text" placeholder="Username"></div>
-            <div class="input-box"><i class="fas fa-location-dot"></i><input id="mAlamat" type="text" placeholder="Alamat"></div>
-            <div class="input-box"><i class="fas fa-calendar"></i><input id="mUmur" type="number" min="1" placeholder="Umur"></div>
-            <div class="input-box"><i class="fab fa-whatsapp"></i><input id="mWhatsapp" type="text" placeholder="No. WhatsApp"></div>
-            <div class="input-box"><i class="fas fa-envelope"></i><input id="mEmail" type="email" placeholder="Email"></div>
-            <div class="input-box"><i class="fas fa-share-nodes"></i><input id="mSosmed" type="text" placeholder="Akun Sosmed"></div>
-            <div class="input-box"><i class="fas fa-comment"></i><input id="mAlasan" type="text" placeholder="Alasan pendaftaran"></div>
-            <button class="btn btn-red" id="submitMembershipButton" type="button"><i class="fas fa-paper-plane"></i> KIRIM PENDAFTARAN</button>
-            <div id="afterMembership" style="display:none;">
-              <div style="margin-top:14px;padding:14px;border-radius:12px;background:rgba(239,68,68,.06);color:#aab3c2;font-size:11.5px;line-height:1.6;text-align:center;">
-                <strong style="color:#fff;">Pendaftaran berhasil dikirim.</strong><br>Kirim foto selfie + lokasi via WhatsApp:
-              </div>
-              <div class="grid-2-col" style="margin-top:12px;">
-                <button class="btn btn-dark" id="sendSelfieCoLeader" type="button"><i class="fab fa-whatsapp"></i> CO LEADER</button>
-                <button class="btn btn-dark" id="sendSelfieAdmin" type="button"><i class="fab fa-whatsapp"></i> ADMIN</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="social-footer">
-          <div class="social-title">IKUTI KAMI DI</div>
-          <div class="social-buttons">
-            <button class="social-btn" id="tiktokButton" type="button"><i class="fab fa-tiktok"></i> TikTok</button>
-            <button class="social-btn" id="discordButton" type="button"><i class="fab fa-discord"></i> Discord</button>
-            <button class="social-btn" id="facebookButton" type="button"><i class="fab fa-facebook"></i> Facebook</button>
-            <button class="social-btn" id="instagramButton" type="button"><i class="fab fa-instagram"></i> Instagram</button>
-            <button class="social-btn" id="youtubeButton" type="button"><i class="fab fa-youtube"></i> YouTube</button>
-          </div>
-          <button class="cs-admin-btn" id="csServiceBtn" type="button"><i class="fas fa-headset"></i> CUSTOMER SERVICE</button>
         </div>
       </section>
 
@@ -1010,13 +1092,11 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
             <span id="attendanceStatusText">Memuat...</span>
             <span id="attendanceCountdown" style="font-family:Orbitron;font-size:11px;color:#fbbf24;margin-left:auto;"></span>
           </div>
-
           <div class="point-legend">
             <div class="pl-item"><div class="pl-min">30 Menit</div><div class="pl-pt">+10 Poin</div></div>
             <div class="pl-item"><div class="pl-min">45 Menit</div><div class="pl-pt">+15 Poin</div></div>
             <div class="pl-item"><div class="pl-min">60 Menit</div><div class="pl-pt">+20 Poin</div></div>
           </div>
-
           <div class="calendar-nav">
             <button class="cal-nav-btn" id="calPrevBtn" type="button"><i class="fas fa-chevron-left"></i></button>
             <div class="calendar-title" id="calendarTitle">-</div>
@@ -1033,7 +1113,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
           <div class="calendar-summary" id="calendarSummary">Memuat data...</div>
           <button class="btn btn-red" id="absenNowBtn" type="button" style="margin-top:16px;"><i class="fas fa-fingerprint"></i> ABSEN SEKARANG</button>
         </div>
-
         <div class="reward-claim-banner" id="rewardClaimBanner">
           <div class="banner-icon"><i class="fas fa-gift"></i></div>
           <div class="banner-title">🎉 POIN ANDA CUKUP</div>
@@ -1455,6 +1534,10 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 <audio id="tfcMusic" loop preload="auto" playsinline style="display:none;">
   <source src="https://cdn.jsdelivr.net/gh/gangz1221/sambutan-tfc@main/KATA%20SAMBUTAN%20TFC.mp3" type="audio/mpeg">
 </audio>
+<button id="csFloatBtn" type="button" class="cs-float-btn" aria-label="Customer Service">
+  <i class="fas fa-headset"></i>
+  <span class="cs-float-pulse"></span>
+</button>
 <button id="musicToggle" type="button" aria-label="Toggle Music" class="music-toggle muted"><i class="fas fa-volume-mute" id="musicIcon"></i></button>
 
 <script>
@@ -1463,7 +1546,8 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 
 /* ============================================================
    THE FAMILY COMMUNITY — FRONTEND V1.2.0 FINAL
-   3 tombol hero rata, APK dinamis, PWA tidak di-hide
+   Beranda anggota = Quick Access saja (tanpa hero/social)
+   Sidebar = Beranda, TFC Store, Ranking (semua device)
    ============================================================ */
 
 let currentUser = null;
@@ -1530,25 +1614,20 @@ function fixDriveUrl(url) {
   if (m && m[1]) return 'https://lh3.googleusercontent.com/d/' + m[1];
   return url;
 }
-function formatPoint(n) {
-  const num = Number(n) || 0;
-  return num.toLocaleString('id-ID');
-}
+function formatPoint(n) { const num = Number(n) || 0; return num.toLocaleString('id-ID'); }
 function pointIconHtml(sizePx) {
   const s = sizePx || 16;
   return '<img src="' + escapeHtml(POINT_ICON_URL) + '" alt="Point TFC" style="width:' + s + 'px;height:' + s + 'px;object-fit:contain;display:inline-block;vertical-align:middle;">';
 }
 function sanitizeNotifHtml(html) {
   const allowed = /^(strong|b|i|em|br|span|small|code|u|div|p)$/i;
-  const tmp = document.createElement('div');
-  tmp.innerHTML = String(html);
+  const tmp = document.createElement('div'); tmp.innerHTML = String(html);
   (function walk(node) {
     Array.prototype.slice.call(node.childNodes).forEach(function (child) {
       if (child.nodeType === 1) {
         if (!allowed.test(child.tagName)) { node.replaceChild(document.createTextNode(child.textContent || ''), child); return; }
         Array.prototype.slice.call(child.attributes).forEach(function (attr) {
-          const n = attr.name.toLowerCase();
-          const v = String(attr.value || '');
+          const n = attr.name.toLowerCase(); const v = String(attr.value || '');
           if (n.indexOf('on') === 0 || n === 'style' || n === 'srcset' || ((n === 'href' || n === 'src') && /^\s*javascript:/i.test(v))) child.removeAttribute(attr.name);
         });
         walk(child);
@@ -1558,26 +1637,51 @@ function sanitizeNotifHtml(html) {
   return tmp.innerHTML;
 }
 
-/* ---------- DETEKSI APK / WEBVIEW ---------- */
-function isRunningInApp() {
+/* ---------- DEVICE DETECTION ---------- */
+function getDeviceType() {
   const ua = navigator.userAgent || '';
-  if (/TFCApp/i.test(ua)) return true;
-  if (/\bwv\b/.test(ua)) return true;
-  if (/Android/.test(ua) && !/Chrome\/[.0-9]* Mobile/.test(ua)) return true;
-  if (/iPhone|iPad|iPod/.test(ua) && !/Safari/.test(ua)) return true;
+  if (/Android/i.test(ua)) return 'android';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+  if (/Windows|Macintosh|Linux/i.test(ua) && !/Android|iPhone|iPad/i.test(ua)) return 'desktop';
+  return 'unknown';
+}
+function isPWAInstalled() {
+  if (window.matchMedia('(display-mode: standalone)').matches) return true;
+  if (window.navigator.standalone === true) return true;
+  if (document.referrer.startsWith('android-app://')) return true;
   return false;
 }
-/* Di WebView/APK: tombol tetap tampil — hanya PWA di-disable dengan label jelas */
-function adjustInstallButtonsInApp() {
-  if (!isRunningInApp()) return;
+function updateInstallButtonLabel() {
   const pwaBtn = document.getElementById('pwaInstallBtn');
-  if (pwaBtn) {
+  if (!pwaBtn) return;
+  const device = getDeviceType(); const installed = isPWAInstalled();
+  if (installed) {
     pwaBtn.disabled = true;
-    pwaBtn.innerHTML = '<i class="fas fa-check"></i> Sudah Terinstall';
-    pwaBtn.style.opacity = '.55';
-    pwaBtn.style.cursor = 'not-allowed';
+    pwaBtn.innerHTML = '<i class="fas fa-check"></i> <span id="pwaInstallText">Terinstall</span>';
+    pwaBtn.style.opacity = '.55'; pwaBtn.style.cursor = 'not-allowed';
+    return;
   }
-  // Tombol APK tetap tampil (user mungkin mau re-download / update)
+  let icon = 'fa-mobile-alt', label = 'Install ke HP';
+  if (device === 'desktop') { icon = 'fa-desktop'; label = 'Install di PC'; }
+  else if (device === 'ios') { icon = 'fa-mobile-screen-button'; label = 'Install di iPhone'; }
+  pwaBtn.innerHTML = '<i class="fas ' + icon + '"></i> <span id="pwaInstallText">' + label + '</span>';
+  pwaBtn.disabled = false; pwaBtn.style.opacity = '1'; pwaBtn.style.cursor = '';
+}
+function updateApkButtonVisibility() {
+  const apkBtn = document.getElementById('apkDownloadBtn'); if (!apkBtn) return;
+  apkBtn.style.display = (getDeviceType() === 'android') ? '' : 'none';
+  adjustHeroGrid();
+}
+function adjustHeroGrid() {
+  const wrapper = document.querySelector('.hero-join-wrapper'); if (!wrapper) return;
+  const apkBtn = document.getElementById('apkDownloadBtn');
+  const apkVisible = apkBtn && apkBtn.style.display !== 'none';
+  wrapper.style.gridTemplateColumns = apkVisible ? 'repeat(3,1fr)' : 'repeat(2,1fr)';
+  if (window.innerWidth <= 640) {
+    wrapper.style.gridTemplateColumns = 'repeat(2,1fr)';
+    const joinBtn = document.getElementById('heroJoinButton');
+    if (joinBtn) joinBtn.style.gridColumn = '1 / -1';
+  }
 }
 
 /* ---------- STRICT NICKNAME COPY ---------- */
@@ -1951,57 +2055,21 @@ function applyPointIcons() {
   });
 }
 
-/* ---------- STATS CARDS (Beranda) ---------- */
-function updateStatsCards() {
-  const grid = document.getElementById('statsGrid');
-  if (!grid) return;
-  if (!currentUser) { grid.style.display = 'none'; return; }
-  grid.style.display = 'grid';
-  const pointEl = document.getElementById('statPointTFC');
-  if (pointEl) pointEl.textContent = formatPoint(currentUser.point || 0);
-  const absEl = document.getElementById('statTotalAbsen');
-  if (absEl) absEl.textContent = '...';
-  const rankEl = document.getElementById('statRanking');
-  if (rankEl) rankEl.textContent = '...';
-  if (!serverAvailable()) return;
-  google.script.run
-    .withSuccessHandler(function(r) { if (absEl) absEl.textContent = (r && r.success) ? (r.total || 0) : 0; })
-    .withFailureHandler(function() { if (absEl) absEl.textContent = '0'; })
-    .getMemberAttendanceCount(currentUser.idGame);
-  google.script.run
-    .withSuccessHandler(function(r) {
-      if (r && r.success && r.ranking) {
-        let pos = '-';
-        for (let i = 0; i < r.ranking.length; i++) if (String(r.ranking[i].idGame) === String(currentUser.idGame)) { pos = '#' + (i + 1); break; }
-        if (rankEl) rankEl.textContent = pos;
-      } else if (rankEl) rankEl.textContent = '-';
-    })
-    .withFailureHandler(function() { if (rankEl) rankEl.textContent = '-'; })
-    .getAttendanceRanking();
-}
-
 /* ---------- STATE ---------- */
 function setGuestState() {
   currentUser = null; cachedPhotoOptions = null; cachedRewardData = null; cachedRankingData = null; currentTrackingData = null;
   hasClaimedReward = false; claimedRewardData = null;
   if (attendanceInterval) { clearInterval(attendanceInterval); attendanceInterval = null; }
-  const mc = document.getElementById('menuCsAdmin'); if (mc) mc.style.display = 'none';
-  const mg = document.getElementById('menuGiveaway'); if (mg) mg.classList.remove('show');
-  const mb = document.getElementById('menuBeranda'); if (mb) mb.style.display = 'flex';
-  const mt = document.getElementById('menuTracking'); if (mt) mt.classList.remove('show');
+  document.body.classList.add('is-guest');
   const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
   if (lt) lt.style.display = 'inline-block'; if (ph) ph.classList.remove('show'); if (lo) lo.classList.remove('show');
   const tt = document.getElementById('topbarTitle'); if (tt) tt.innerHTML = 'Halo, <span id="welcomeNickname">Pengunjung</span>';
-  const fs = document.getElementById('joinFormSection'); if (fs) fs.style.display = 'none';
-  const sg = document.getElementById('statsGrid'); if (sg) sg.style.display = 'none';
   updateCsSender(); switchView('beranda'); updateAttendanceStatus();
   attendanceInterval = setInterval(updateAttendanceStatus, 1000);
 }
 function setLoggedInState(user) {
   currentUser = user; hasClaimedReward = false; claimedRewardData = null; currentTrackingData = null;
-  const mb = document.getElementById('menuBeranda'); if (mb) mb.style.display = 'none';
-  const mc = document.getElementById('menuCsAdmin'); if (mc) mc.style.display = 'flex';
-  const mg = document.getElementById('menuGiveaway'); if (mg) { if (String(user.role || '').toUpperCase() === 'LEADER') mg.classList.add('show'); else mg.classList.remove('show'); }
+  document.body.classList.remove('is-guest');
   const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
   if (lt) lt.style.display = 'none'; if (ph) ph.classList.add('show'); if (lo) lo.classList.add('show');
   document.getElementById('headerAvatar').src = getAvatarSrc(user);
@@ -2010,7 +2078,6 @@ function setLoggedInState(user) {
   const tt = document.getElementById('topbarTitle'); if (tt) tt.innerHTML = 'Halo, <span id="welcomeNickname">' + escapeHtml(user.nickname) + '</span>';
   updateCsSender();
   loadRanking(); loadStockKaos(); checkRewardClaimStatus(); preloadRewardData(); loadKatalogReward();
-  updateStatsCards();
   if (attendanceInterval) clearInterval(attendanceInterval);
   updateAttendanceStatus(); attendanceInterval = setInterval(updateAttendanceStatus, 1000);
   switchView('absen'); autoSubmitAttendance();
@@ -2026,6 +2093,7 @@ function updateTrackingMenuVisibility() {
 
 /* ---------- VIEW ---------- */
 function switchView(v) {
+  if (!currentUser && ['absen','nickname','tracking','giveaway'].indexOf(v) > -1) v = 'beranda';
   document.querySelectorAll('.view-section').forEach(function(s) { s.classList.remove('active'); });
   const map = { beranda:'viewBeranda', absen:'viewAbsen', nickname:'viewNickname', tracking:'viewTracking', ranking:'viewRanking', giveaway:'viewGiveaway', katalog:'viewKatalog' };
   const tid = map[v]; if (tid) { const t = document.getElementById(tid); if (t) t.classList.add('active'); }
@@ -2036,7 +2104,6 @@ function switchView(v) {
   if (v === 'nickname' && currentUser) resetNicknameView();
   if (v === 'giveaway') { resetGiveaway(); loadGiveawayParticipants(); }
   if (v === 'katalog') loadKatalogReward();
-  if (v === 'beranda' && currentUser) updateStatsCards();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 document.querySelectorAll('[data-close]').forEach(function(b) { b.addEventListener('click', function() { closeModal(document.getElementById(b.getAttribute('data-close'))); }); });
@@ -2044,51 +2111,35 @@ document.querySelectorAll('.modal-overlay').forEach(function(o) { o.addEventList
 
 /* ---------- PWA INSTALL ---------- */
 window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (isRunningInApp()) return;
-  const pwaBtn = document.getElementById('pwaInstallBtn');
-  if (pwaBtn) {
-    pwaBtn.disabled = false;
-    pwaBtn.innerHTML = '<i class="fas fa-mobile-alt"></i> Install ke HP';
-    pwaBtn.style.opacity = '1';
-    pwaBtn.style.cursor = '';
-  }
+  e.preventDefault(); deferredPrompt = e;
+  updateInstallButtonLabel();
 });
 (function initPwaBtn() {
   const pwaBtn = document.getElementById('pwaInstallBtn');
   if (!pwaBtn) return;
   pwaBtn.addEventListener('click', function() {
     if (pwaBtn.disabled) return;
+    const device = getDeviceType();
+    if (device === 'ios') {
+      showNotif({ type:'info', title:'CARA INSTALL DI iPHONE', message:'Buka di <strong>Safari</strong>, tap ikon <strong>Share</strong> (kotak panah atas), lalu pilih <strong>Add to Home Screen</strong>.', autoMode: true, countdown: 6 });
+      return;
+    }
     if (!deferredPrompt) {
-      showNotif({
-        type: 'info',
-        title: 'CARA INSTALL DI iPHONE',
-        message: 'Buka di <strong>Safari</strong>, tap ikon <strong>Share</strong>, lalu pilih <strong>Add to Home Screen</strong>.',
-        autoMode: true,
-        countdown: 5
-      });
+      const msg = device === 'desktop'
+        ? 'Browser Anda belum mendukung PWA install otomatis.<br><br>Gunakan <strong>Chrome</strong> atau <strong>Edge</strong>, lalu klik ikon <strong>install</strong> di address bar.'
+        : 'Buka via <strong>Chrome</strong> dan tunggu beberapa detik, lalu klik tombol Install lagi.';
+      showNotif({ type:'info', title:'CARA INSTALL', message: msg, autoMode:true, countdown:5 });
       return;
     }
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(function(choice) {
-      if (choice && choice.outcome === 'accepted') {
-        pwaBtn.innerHTML = '<i class="fas fa-check"></i> Terinstall';
-        pwaBtn.disabled = true;
-        pwaBtn.style.opacity = '.55';
-      }
+      if (choice && choice.outcome === 'accepted') updateInstallButtonLabel();
       deferredPrompt = null;
     }).catch(function() { deferredPrompt = null; });
   });
 })();
-window.addEventListener('appinstalled', function() {
-  const pwaBtn = document.getElementById('pwaInstallBtn');
-  if (pwaBtn) {
-    pwaBtn.innerHTML = '<i class="fas fa-check"></i> Terinstall';
-    pwaBtn.disabled = true;
-    pwaBtn.style.opacity = '.55';
-  }
-});
+window.addEventListener('appinstalled', function() { updateInstallButtonLabel(); });
+window.addEventListener('resize', function() { adjustHeroGrid(); });
 
 /* ---------- LOGIN ---------- */
 document.getElementById('loginTriggerButton').addEventListener('click', function() {
@@ -2112,10 +2163,20 @@ document.getElementById('heroJoinButton').addEventListener('click', function() {
 document.querySelectorAll('.sidebar-item').forEach(function(item) {
   item.addEventListener('click', function() {
     const v = item.getAttribute('data-view'); if (!v) return;
-    if (v === 'csadmin') { openCsService(); return; }
-    if (v === 'giveaway') { if (!currentUser) { requireLogin('Giveaway'); return; } if (String(currentUser.role || '').toUpperCase() !== 'LEADER') { showNotif({ type:'error', title:'AKSES DITOLAK', message:'Fitur Giveaway hanya untuk LEADER.', autoMode:true, countdown:2 }); return; } switchView('giveaway'); return; }
     if (v === 'beranda' || v === 'ranking' || v === 'katalog') { switchView(v); return; }
     if (!requireLogin()) return;
+    switchView(v);
+  });
+});
+document.querySelectorAll('.quick-access-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    const v = card.getAttribute('data-view');
+    if (!v) return;
+    if (!currentUser) { requireLogin(); return; }
+    if (v === 'giveaway' && String(currentUser.role || '').toUpperCase() !== 'LEADER') {
+      showNotif({ type:'error', title:'AKSES DITOLAK', message:'Fitur Giveaway hanya untuk LEADER.', autoMode:true, countdown:2 });
+      return;
+    }
     switchView(v);
   });
 });
@@ -2228,8 +2289,8 @@ function openWhatsapp(num, name) {
 });
 
 /* ---------- CS listeners ---------- */
-document.getElementById('csServiceBtn').addEventListener('click', openCsService);
-document.getElementById('menuCsAdmin').addEventListener('click', function(e) { e.preventDefault(); openCsService(); });
+const csFloatBtn = document.getElementById('csFloatBtn');
+if (csFloatBtn) csFloatBtn.addEventListener('click', openCsService);
 document.getElementById('csServiceClose').addEventListener('click', function() { closeModal(document.getElementById('csServiceModal')); });
 document.getElementById('csServiceModal').addEventListener('click', function(e) { if (e.target === document.getElementById('csServiceModal')) closeModal(document.getElementById('csServiceModal')); });
 document.getElementById('csSendCoLeader').addEventListener('click', function() { sendCsMessage('coleader'); });
@@ -2462,10 +2523,10 @@ function autoSubmitAttendance() {
         showNotif({ type:'success', title:'ABSEN BERHASIL!', message:'Terima kasih sudah stay di Room TFC!<br><br>Durasi Main: <strong>' + (r.durasi || 30) + ' Menit</strong><br>Point Didapat: <strong style="color:#fbbf24;">+' + (r.pointDidapat || 10) + ' Poin TFC</strong>', detail: { tanggal: r.tanggal || '-', jam: r.jam || '-', total: 'Total Point: ' + formatPoint(r.totalPoint || 0) + ' Poin' }, autoMode:true, countdown:4 });
         if (currentUser) { currentUser.point = r.totalPoint || (Number(currentUser.point) + (r.pointDidapat || 10)); saveSession(currentUser); }
         cachedRewardData = null; cachedRankingData = null;
-        loadAttendanceCalendar(currentCalYear, currentCalMonth); loadRanking(); preloadRewardData(); refreshRewardDataSilent(); updateRewardClaimBanner(); loadKatalogReward(); updateStatsCards();
+        loadAttendanceCalendar(currentCalYear, currentCalMonth); loadRanking(); preloadRewardData(); refreshRewardDataSilent(); updateRewardClaimBanner(); loadKatalogReward();
       } else if (r && r.isBolos) {
         showNotif({ type:'error', title:'⏰ WAKTU HABIS (BOLOS)', message: r.message || 'Anda melewati batas jam 23:59 WIB.<br>Absen tercatat sebagai <strong>BOLOS</strong>.', detail: { tanggal: r.tanggal || '-', jam: r.jam || '-', total: 'BOLOS' }, autoMode:true, countdown:5 });
-        loadAttendanceCalendar(currentCalYear, currentCalMonth); loadRanking(); updateStatsCards();
+        loadAttendanceCalendar(currentCalYear, currentCalMonth); loadRanking();
       } else {
         showNotif({ type:'error', title:'ABSEN GAGAL', message: r && r.message ? escapeHtml(r.message) : 'Gagal.', autoMode:true, countdown:4 });
       }
@@ -2740,7 +2801,7 @@ function submitTukar(item) {
       launchCoinRain('burst');
       showNotif({ type:'success', title:'✅ PENUKARAN BERHASIL', message:'Hadiah: <strong>' + escapeHtml(item.nama) + '</strong><br>Sisa Poin: <strong style="color:#fbbf24;">' + formatPoint(r.pointSisa || 0) + ' Poin</strong>' + (isDigital ? '<br><br>Leader akan trade hadiah ke ID Game Anda.' : '<br><br>Cek status di menu <strong>Cek Paket</strong>.'), autoMode:true, countdown:4 });
       closeModal(document.getElementById('katalogModal'));
-      loadKatalogReward(); checkRewardClaimStatus(); refreshRewardDataSilent(); updateStatsCards();
+      loadKatalogReward(); checkRewardClaimStatus(); refreshRewardDataSilent();
       if (!isDigital) { updateTrackingMenuVisibility(); setTimeout(function() { switchView('tracking'); loadTrackingView(); }, 800); }
     })
     .withFailureHandler(function(e) { if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-check"></i> KIRIM'; } showMessage(msg, '❌ Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'), 'error'); })
@@ -2912,20 +2973,22 @@ function restoreSession() {
   google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.user) { saveSession(r.user); setLoggedInState(r.user); } else { clearSession(); setGuestState(); } }).withFailureHandler(function() { clearSession(); setGuestState(); }).getProfile(s.idGame);
 }
 function loadConfig() {
-  if (!serverAvailable()) return;
+  if (!serverAvailable()) { updateInstallButtonLabel(); updateApkButtonVisibility(); return; }
   google.script.run.withSuccessHandler(function(c) {
-    if (!c) return;
+    if (!c) { updateInstallButtonLabel(); updateApkButtonVisibility(); return; }
     if (c.logoUrl) { const hl = document.getElementById('headerLogo'), ll = document.getElementById('loginLogo'); if (hl) hl.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="TFC">'; if (ll) ll.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="TFC">'; }
     window.tfcWhatsapp = { coLeader: c.coLeaderWa || '', admin: c.adminWa || '', leaderEmail: c.leaderEmail || LEADER_EMAIL_DEFAULT };
-    // ✅ Link APK dinamis — bisa diubah dari Google Apps Script (getAppConfig().apkUrl)
     const apkBtn = document.getElementById('apkDownloadBtn');
     if (apkBtn) apkBtn.href = c.apkUrl || APK_URL_DEFAULT;
-  }).withFailureHandler(function() {}).getAppConfig();
+    updateInstallButtonLabel();
+    updateApkButtonVisibility();
+  }).withFailureHandler(function() { updateInstallButtonLabel(); updateApkButtonVisibility(); }).getAppConfig();
 }
 
 function startApp() {
   applyPointIcons();
-  adjustInstallButtonsInApp();
+  updateInstallButtonLabel();
+  updateApkButtonVisibility();
   loadConfig(); restoreSession(); startHeroSlider(); initNickParticles(); watchOverlays();
   setTimeout(function() { if (!currentUser && !isAnyOverlayOpen()) { popupAlreadyShown = true; loadAndShowPopup(); } else if (isAnyOverlayOpen()) { popupPendingShow = true; } }, 2000);
 }
