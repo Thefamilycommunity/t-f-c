@@ -87,7 +87,7 @@ img{max-width:100%;height:auto;display:block}
 }
 html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-user-select:text!important;user-select:text!important}
 
-.btn,button,.social-btn,.login-trigger-btn,.popup-claim-btn,.hero-btn,.notif-btn,.banner-btn,.refresh-btn,.copy-resi-btn,.modal-close,.drawer-close,.topbar-logout,.popup-close,.cal-nav-btn{min-width:0;word-break:break-word;overflow-wrap:anywhere;white-space:normal;line-height:1.25;}
+.btn,button,.social-btn,.login-trigger-btn,.popup-claim-btn,.hero-btn,.notif-btn,.banner-btn,.refresh-btn,.copy-resi-btn,.modal-close,.drawer-close,.topbar-logout,.popup-close,.cal-nav-btn,.member-tab{min-width:0;word-break:break-word;overflow-wrap:anywhere;white-space:normal;line-height:1.25;}
 .hero-title,.section-header .text h3,.notif-title,.popup-title,.modal-header h3,.drawer-title,.rank-name,.calendar-title,.topbar-title{word-break:break-word;overflow-wrap:anywhere;}
 
 .popup-overlay{z-index:99990}.drawer-overlay{z-index:99998}.login-drawer{z-index:99999}.modal-overlay{z-index:100000}.notif-overlay{z-index:100001}
@@ -115,15 +115,11 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .sidebar-item:hover i{color:#ef4444}
 .sidebar-item.active{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.05));color:#fff;border:1px solid rgba(239,68,68,.25);box-shadow:0 4px 16px rgba(220,38,38,.15)}
 .sidebar-item.active i{color:#ef4444}
-
-/* HAPUS menu login dari sidebar (dipindah ke Beranda Quick Access) */
 .sidebar-item[data-view="absen"],
 .sidebar-item[data-view="nickname"],
 .sidebar-item[data-view="tracking"],
 .sidebar-item[data-view="giveaway"],
 .sidebar-item[data-view="csadmin"]{display:none!important}
-
-/* Urutan menu DESKTOP */
 @media(min-width:601px){
   .sidebar-item[data-view="beranda"]{order:1}
   .sidebar-item[data-view="katalog"]{order:2}
@@ -175,8 +171,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 @media(max-width:640px){.hero-join-wrapper{grid-template-columns:1fr 1fr;}.hero-join-wrapper #heroJoinButton{grid-column:1 / -1;}}
 .hero-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:999px;background:transparent;color:#ef4444;border:1.5px solid #ef4444;font-weight:700;font-size:13px;transition:.25s;min-height:46px;text-decoration:none;width:100%;}
 .hero-btn:hover{background:#ef4444;color:#fff;transform:translateY(-2px);box-shadow:0 10px 28px rgba(220,38,38,.35)}
-
-/* Tombol install/APK dinamis */
 .hero-btn-install{background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(96,165,250,.05));border-color:rgba(96,165,250,.4);color:#60a5fa}
 .hero-btn-install:hover:not(:disabled){background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-color:#3b82f6;color:#fff;box-shadow:0 10px 28px rgba(59,130,246,.35)}
 .hero-btn-install.installed{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(34,197,94,.03));border-color:rgba(34,197,94,.3);color:#4ade80;cursor:not-allowed;opacity:.75}
@@ -184,17 +178,42 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .hero-btn-install.update:hover{background:linear-gradient(135deg,#fbbf24,#d97706);border-color:#fbbf24;color:#1a1a1a;box-shadow:0 10px 28px rgba(251,191,36,.4)}
 @keyframes pulseUpdate{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.4)}50%{box-shadow:0 0 0 8px rgba(251,191,36,0)}}
 
-/* ---------- Quick Access (Beranda Anggota) ---------- */
+/* ================================================================
+   MEMBER BERANDA — TAB BAR + PANEL INLINE
+   ================================================================ */
 #memberBerandaContent{padding:8px 0}
-.quick-access-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:0}
-@media(min-width:700px){.quick-access-grid{grid-template-columns:repeat(4,1fr)}}
-.quick-access-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px 14px;border-radius:18px;background:linear-gradient(165deg,rgba(26,26,26,.98),rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);color:#fff;font-weight:700;font-size:13px;transition:.25s;min-height:120px;cursor:pointer;}
-.quick-access-card:hover{border-color:rgba(239,68,68,.35);transform:translateY(-3px);box-shadow:0 12px 32px rgba(220,38,38,.2)}
-.quick-access-card i{font-size:28px;color:#ef4444}
-.quick-access-card[data-view="nickname"] i{color:#60a5fa}
-.quick-access-card[data-view="tracking"] i{color:#60a5fa}
-.quick-access-card[data-view="giveaway"] i{color:#fbbf24}
-.quick-access-card[data-view="giveaway"]{display:none}
+.member-tab-bar{display:flex;gap:4px;padding:6px;background:linear-gradient(165deg, rgba(26,26,26,.98), rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);border-radius:16px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+.member-tab-bar::-webkit-scrollbar{display:none}
+.member-tab{flex:1 1 0;min-width:80px;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 10px;border-radius:12px;background:transparent;border:none;color:#8b93a3;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);white-space:nowrap;position:relative;}
+.member-tab i{font-size:14px;transition:color .22s}
+.member-tab:hover{background:rgba(255,255,255,.04);color:#fff}
+.member-tab:hover i{color:#ef4444}
+.member-tab.active{background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(239,68,68,.06));color:#fff;box-shadow:0 4px 16px rgba(220,38,38,.2);}
+.member-tab.active i{color:#ef4444}
+.member-tab.active::after{content:'';position:absolute;bottom:-1px;left:20%;right:20%;height:2px;background:#ef4444;border-radius:2px;}
+.member-tab[data-member-tab="giveaway"]{display:none}
+.member-tab[data-member-tab="giveaway"].show{display:flex}
+
+.member-panel{display:none;padding:18px;background:linear-gradient(165deg, rgba(26,26,26,.98), rgba(20,20,20,.98), rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+.member-panel.active{display:block;animation:fadeInUp .3s cubic-bezier(.4,0,.2,1)}
+.member-panel[data-member-panel="absen"] .point-legend{margin-top:0}
+
+/* ---------- Quick Access (fallback style, tidak dipakai lagi) ---------- */
+#memberBerandaContent .quick-access-grid{display:none!important}
+
+/* ---------- Stats cards ---------- */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px;margin-bottom:24px}
+.stat-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:linear-gradient(165deg, rgba(26,26,26,.95), rgba(15,15,15,.95));border:1px solid rgba(255,255,255,.07);transition:.25s}
+.stat-card:hover{border-color:rgba(239,68,68,.3);transform:translateY(-2px)}
+.stat-card .stat-icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
+.stat-card .stat-icon.red{background:rgba(239,68,68,.12);color:#ef4444}
+.stat-card .stat-icon.gold{background:rgba(251,191,36,.12);color:#fbbf24}
+.stat-card .stat-icon.blue{background:rgba(96,165,250,.12);color:#60a5fa}
+.stat-card .stat-icon img{width:20px;height:20px;object-fit:contain}
+.stat-card .stat-info{min-width:0;flex:1}
+.stat-card .stat-label{font-size:10.5px;color:#8b93a3;text-transform:uppercase;letter-spacing:.6px;font-weight:700}
+.stat-card .stat-value{font-family:'Orbitron';font-size:18px;font-weight:900;color:#fff;margin-top:2px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat-card .stat-value.gold{color:#fbbf24}
 
 /* ---------- Section header ---------- */
 .section-header{display:flex;align-items:center;gap:12px;margin:24px 0 14px}
@@ -285,7 +304,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .music-toggle:hover{transform:scale(1.08)}
 .music-toggle.muted{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);color:#9ca8bb;box-shadow:0 8px 20px rgba(0,0,0,.45)}
 
-/* ---------- Floating CS Button (di atas music toggle) ---------- */
 .cs-float-btn{position:fixed;right:18px;bottom:calc(88px + 60px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border-radius:50%;border:1px solid rgba(37,211,102,.4);background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:100;box-shadow:0 10px 28px rgba(37,211,102,.4);transition:transform .25s,box-shadow .25s;}
 .cs-float-btn:hover{transform:scale(1.08)}
 .cs-float-btn .cs-float-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,.5);animation:csPulse 2s ease-out infinite;pointer-events:none}
@@ -460,6 +478,44 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .tracking-empty i{font-size:42px;color:#4b5563;margin-bottom:12px}
 .tracking-empty .empty-text{font-size:12.5px;color:#8b93a3;line-height:1.6}
 
+.nick-modern-card{position:relative;overflow:hidden;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.07)}
+.nick-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:320px;height:320px;background:radial-gradient(circle,rgba(239,68,68,.15),transparent 70%);pointer-events:none;z-index:0}
+.nick-aurora{position:absolute;inset:-50%;background:conic-gradient(from 0deg at 50% 50%,rgba(239,68,68,.08),rgba(251,191,36,.06),rgba(96,165,250,.08),rgba(34,197,94,.06),rgba(239,68,68,.08));animation:auroraSpin 18s linear infinite;filter:blur(60px);opacity:.6;pointer-events:none;z-index:0}
+@keyframes auroraSpin{to{transform:rotate(360deg)}}
+.nick-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.nick-particles span{position:absolute;width:3px;height:3px;border-radius:50%;animation:particleFloat linear infinite}
+@keyframes particleFloat{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-120px) scale(.3);opacity:0}}
+.nick-label-modern{position:relative;z-index:1;text-align:center;font-size:11px;color:#8b93a3;letter-spacing:2.5px;font-weight:800;margin-bottom:16px;text-transform:uppercase}
+.nick-label-modern i{color:#fbbf24;margin-right:6px}
+.nick-display-modern{position:relative;z-index:1;padding:28px 20px;border-radius:18px;background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.02));border:2px dashed rgba(96,165,250,.4);margin-bottom:16px;text-align:center;overflow:hidden;transition:.35s}
+.nick-display-modern.unlocked{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.03));border-color:rgba(34,197,94,.5);box-shadow:0 0 40px rgba(34,197,94,.18)}
+.nick-display-modern.locked{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.02));border-color:rgba(239,68,68,.4)}
+.nick-shine{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:nickShineMove 3s infinite;pointer-events:none}
+@keyframes nickShineMove{0%{left:-100%}50%,100%{left:200%}}
+.nick-scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.6),transparent);animation:scanMove 3s ease-in-out infinite;pointer-events:none;z-index:2}
+@keyframes scanMove{0%,100%{top:0;opacity:0}50%{top:100%;opacity:1}}
+.nick-display-modern .nickname-value{font-family:'Orbitron';font-size:clamp(18px,5vw,26px);font-weight:900;color:#60a5fa;line-height:1.3;margin:0;letter-spacing:.5px;position:relative;z-index:1}
+.nick-display-modern.unlocked .nickname-value{color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,.6),0 0 22px rgba(74,222,128,.35)}
+.nick-display-modern.locked .nickname-value{color:#f87171;font-size:clamp(15px,4vw,19px)}
+.nick-hint{position:relative;z-index:1;font-size:10px;color:#6b7280;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;font-weight:700}
+.nick-info-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);margin-bottom:12px;transition:.2s}
+.nick-info-modern:hover{background:rgba(96,165,250,.1);transform:translateY(-1px)}
+.nick-info-icon{width:28px;height:28px;border-radius:50%;background:rgba(96,165,250,.15);color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.nick-info-text{flex:1;font-size:11.5px;color:#93c5fd;line-height:1.55}
+.nick-warn-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.25);margin-bottom:16px}
+.nick-warn-icon{width:28px;height:28px;border-radius:50%;background:rgba(251,191,36,.15);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.nick-warn-text{flex:1;font-size:10.5px;color:#fbbf24;line-height:1.6}
+.nick-warn-text strong{color:#fff}
+.verify-status-modern{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:11.5px;color:#9ca8bb;margin-bottom:14px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);line-height:1.4}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,.8);animation:dotPulse 1.6s ease-in-out infinite;flex-shrink:0}
+@keyframes dotPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}}
+.verify-status-modern.verified .status-dot{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.8)}
+.verify-status-modern.failed .status-dot{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.8)}
+.nick-btn-modern{position:relative;z-index:1;overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1)}
+.nick-btn-modern:disabled{opacity:.55;cursor:not-allowed}
+.nick-btn-modern .btn-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.25),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
+.nick-btn-modern:hover .btn-glow{opacity:1}
+
 .cs-chat-header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:14px 14px 0 0;background:#1f2c34;border:1px solid rgba(37,211,102,.15);border-bottom:none}
 .cs-chat-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:#fff}
 .cs-chat-title{font-size:11.5px;color:#25d366;font-weight:800;letter-spacing:.4px;flex:1;min-width:0}
@@ -510,44 +566,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 .cs-contact-btn.admin{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1);color:#f87171}
 #csServiceModal .modal{display:flex;flex-direction:column;max-height:92vh;padding:0;overflow:hidden;background:#0b141a}
 #csServiceModal .cs-scroll-body{flex:1;overflow-y:auto}
-
-.nick-modern-card{position:relative;overflow:hidden;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.07)}
-.nick-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:320px;height:320px;background:radial-gradient(circle,rgba(239,68,68,.15),transparent 70%);pointer-events:none;z-index:0}
-.nick-aurora{position:absolute;inset:-50%;background:conic-gradient(from 0deg at 50% 50%,rgba(239,68,68,.08),rgba(251,191,36,.06),rgba(96,165,250,.08),rgba(34,197,94,.06),rgba(239,68,68,.08));animation:auroraSpin 18s linear infinite;filter:blur(60px);opacity:.6;pointer-events:none;z-index:0}
-@keyframes auroraSpin{to{transform:rotate(360deg)}}
-.nick-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.nick-particles span{position:absolute;width:3px;height:3px;border-radius:50%;animation:particleFloat linear infinite}
-@keyframes particleFloat{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-120px) scale(.3);opacity:0}}
-.nick-label-modern{position:relative;z-index:1;text-align:center;font-size:11px;color:#8b93a3;letter-spacing:2.5px;font-weight:800;margin-bottom:16px;text-transform:uppercase}
-.nick-label-modern i{color:#fbbf24;margin-right:6px}
-.nick-display-modern{position:relative;z-index:1;padding:28px 20px;border-radius:18px;background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.02));border:2px dashed rgba(96,165,250,.4);margin-bottom:16px;text-align:center;overflow:hidden;transition:.35s}
-.nick-display-modern.unlocked{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.03));border-color:rgba(34,197,94,.5);box-shadow:0 0 40px rgba(34,197,94,.18)}
-.nick-display-modern.locked{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.02));border-color:rgba(239,68,68,.4)}
-.nick-shine{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:nickShineMove 3s infinite;pointer-events:none}
-@keyframes nickShineMove{0%{left:-100%}50%,100%{left:200%}}
-.nick-scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.6),transparent);animation:scanMove 3s ease-in-out infinite;pointer-events:none;z-index:2}
-@keyframes scanMove{0%,100%{top:0;opacity:0}50%{top:100%;opacity:1}}
-.nick-display-modern .nickname-value{font-family:'Orbitron';font-size:clamp(18px,5vw,26px);font-weight:900;color:#60a5fa;line-height:1.3;margin:0;letter-spacing:.5px;position:relative;z-index:1}
-.nick-display-modern.unlocked .nickname-value{color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,.6),0 0 22px rgba(74,222,128,.35)}
-.nick-display-modern.locked .nickname-value{color:#f87171;font-size:clamp(15px,4vw,19px)}
-.nick-hint{position:relative;z-index:1;font-size:10px;color:#6b7280;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;font-weight:700}
-.nick-info-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);margin-bottom:12px;transition:.2s}
-.nick-info-modern:hover{background:rgba(96,165,250,.1);transform:translateY(-1px)}
-.nick-info-icon{width:28px;height:28px;border-radius:50%;background:rgba(96,165,250,.15);color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.nick-info-text{flex:1;font-size:11.5px;color:#93c5fd;line-height:1.55}
-.nick-warn-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.25);margin-bottom:16px}
-.nick-warn-icon{width:28px;height:28px;border-radius:50%;background:rgba(251,191,36,.15);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.nick-warn-text{flex:1;font-size:10.5px;color:#fbbf24;line-height:1.6}
-.nick-warn-text strong{color:#fff}
-.verify-status-modern{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:11.5px;color:#9ca8bb;margin-bottom:14px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);line-height:1.4}
-.status-dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,.8);animation:dotPulse 1.6s ease-in-out infinite;flex-shrink:0}
-@keyframes dotPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}}
-.verify-status-modern.verified .status-dot{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.8)}
-.verify-status-modern.failed .status-dot{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.8)}
-.nick-btn-modern{position:relative;z-index:1;overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1)}
-.nick-btn-modern:disabled{opacity:.55;cursor:not-allowed}
-.nick-btn-modern .btn-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.25),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
-.nick-btn-modern:hover .btn-glow{opacity:1}
 
 .avatar-frame{position:relative;display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;padding:4px;background:#0a0a0a;isolation:isolate}
 .avatar-frame::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg, transparent 0%, transparent 70%, #60a5fa 85%, #fff 100%);animation:rotateRing 3s linear infinite;z-index:-2}
@@ -625,7 +643,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .sidebar-item i{font-size:17px;width:auto;line-height:1;height:auto;border-radius:0}
   .sidebar-item span{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:600}
   .sidebar-item.active{background:rgba(239,68,68,.14);border:none;box-shadow:none}
-  /* Urutan menu HP: Store → Beranda → Ranking */
   .sidebar-item[data-view="katalog"]{order:1}
   .sidebar-item[data-view="beranda"]{order:2}
   .sidebar-item[data-view="ranking"]{order:3}
@@ -647,9 +664,11 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .hero-join-wrapper{grid-template-columns:1fr 1fr;gap:8px}
   .hero-join-wrapper #heroJoinButton{grid-column:1 / -1;}
   .hero-btn{padding:11px 14px;font-size:12px;min-height:44px;}
-  .quick-access-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .quick-access-card{padding:20px 10px;min-height:100px;font-size:12px}
-  .quick-access-card i{font-size:24px}
+  .member-tab-bar{padding:5px;gap:3px;border-radius:14px;margin-bottom:14px}
+  .member-tab{padding:10px 8px;font-size:10px;gap:4px;min-width:70px}
+  .member-tab i{font-size:13px}
+  .member-tab span{font-size:9.5px}
+  .member-panel{padding:16px;border-radius:16px}
   .section-header{margin:18px 0 12px;gap:10px}
   .section-header .icon-box{width:34px;height:34px;font-size:13px;border-radius:10px}
   .section-header .text h3{font-size:12px}
@@ -738,6 +757,10 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .hero-title{font-size:15px}
   .hero-desc{font-size:10px}
   .hero-btn{font-size:11.5px;min-height:42px;padding:10px 12px}
+  .member-tab{padding:9px 6px;font-size:9px;min-width:64px}
+  .member-tab i{font-size:12px}
+  .member-tab span{font-size:8.5px}
+  .member-panel{padding:14px;border-radius:14px}
   .section-header .icon-box{width:32px;height:32px;font-size:12.5px;border-radius:9px}
   .section-header .text h3{font-size:11.5px}
   .section-header .text p{font-size:9.5px}
@@ -748,8 +771,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .calendar-weekdays div{font-size:8.5px}
   .sidebar-item i{font-size:16px}
   .sidebar-item span{font-size:7.5px}
-  .quick-access-card{padding:16px 8px;min-height:90px;font-size:11px}
-  .quick-access-card i{font-size:22px}
   .popup-ads{padding:18px 14px 16px;border-radius:18px;gap:10px}
   .popup-title{font-size:14px}
   .popup-subtitle{font-size:11.5px}
@@ -782,6 +803,9 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .popup-subtitle{font-size:10.5px}
   .popup-code{font-size:14px}
   .notif-title{font-size:13px}
+  .member-tab{padding:8px 5px;font-size:8px;min-width:58px}
+  .member-tab i{font-size:11px}
+  .member-tab span{font-size:8px}
 }
 @media(orientation:landscape) and (max-height:500px){
   .sidebar{position:fixed;top:0;left:0;bottom:0;right:auto;width:60px;height:100vh;max-height:none;flex-direction:column;padding:8px 5px;border-right:1px solid rgba(255,255,255,.06);border-top:none;overflow-y:auto}
@@ -807,6 +831,8 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .notif-icon{width:46px;height:46px;font-size:18px}
   .music-toggle{bottom:14px;right:14px;width:40px;height:40px;font-size:14px}
   .cs-float-btn{bottom:58px;right:14px;width:40px;height:40px;font-size:14px}
+  .member-tab-bar{padding:4px;gap:2px;margin-bottom:10px}
+  .member-tab{padding:8px 6px;font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -816,7 +842,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 ::-webkit-scrollbar-thumb:hover{background:rgba(239,68,68,.4)}
 @keyframes giveawayRingSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 
-/* Guest/member state */
 body.is-guest #memberBerandaContent{display:none!important}
 body:not(.is-guest) #guestBerandaContent{display:none!important}
 </style>
@@ -953,67 +978,166 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
           </div>
         </div>
 
-        <!-- MEMBER CONTENT (Quick Access saja) -->
+        <!-- MEMBER CONTENT (Tab Bar + Panel Inline) -->
         <div id="memberBerandaContent" style="display:none;">
-          <div class="quick-access-grid">
-            <button class="quick-access-card" data-view="absen" type="button">
+
+          <!-- MENU BAR HORIZONTAL -->
+          <div class="member-tab-bar">
+            <button class="member-tab active" data-member-tab="absen" type="button">
               <i class="fas fa-calendar-check"></i>
               <span>Absen</span>
             </button>
-            <button class="quick-access-card" data-view="nickname" type="button">
+            <button class="member-tab" data-member-tab="nickname" type="button">
               <i class="fas fa-id-badge"></i>
               <span>Klaim Nick</span>
             </button>
-            <button class="quick-access-card" data-view="tracking" type="button">
+            <button class="member-tab" data-member-tab="tracking" type="button">
               <i class="fas fa-truck-fast"></i>
               <span>Cek Paket</span>
             </button>
-            <button class="quick-access-card" data-view="giveaway" type="button" id="qaGiveaway">
+            <button class="member-tab" data-member-tab="giveaway" type="button" id="memberTabGiveaway">
               <i class="fas fa-gift"></i>
               <span>Giveaway</span>
             </button>
           </div>
-        </div>
-      </section>
 
-      <!-- ABSEN -->
-      <section class="view-section" id="viewAbsen">
-        <div class="section-header">
-          <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
-          <div class="text"><h3>Absen Anggota</h3><p>Catat kehadiran harian dan lihat riwayat</p></div>
-        </div>
-        <div class="ranking" style="padding:20px;">
-          <div id="attendanceStatus" style="margin-bottom:14px;display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:13px;font-size:11px;font-weight:600;background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.18);">
-            <i class="fas fa-clock"></i>
-            <span id="attendanceStatusText">Memuat...</span>
-            <span id="attendanceCountdown" style="font-family:Orbitron;font-size:11px;color:#fbbf24;margin-left:auto;"></span>
+          <!-- PANEL: ABSEN (default aktif) -->
+          <div class="member-panel active" data-member-panel="absen">
+            <div id="attendanceStatus" style="margin-bottom:14px;display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:13px;font-size:11px;font-weight:600;background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.18);">
+              <i class="fas fa-clock"></i>
+              <span id="attendanceStatusText">Memuat...</span>
+              <span id="attendanceCountdown" style="font-family:Orbitron;font-size:11px;color:#fbbf24;margin-left:auto;"></span>
+            </div>
+
+            <div class="point-legend">
+              <div class="pl-item"><div class="pl-min">30 Menit</div><div class="pl-pt">+10 Poin</div></div>
+              <div class="pl-item"><div class="pl-min">45 Menit</div><div class="pl-pt">+15 Poin</div></div>
+              <div class="pl-item"><div class="pl-min">60 Menit</div><div class="pl-pt">+20 Poin</div></div>
+            </div>
+
+            <div class="calendar-nav">
+              <button class="cal-nav-btn" id="calPrevBtn" type="button"><i class="fas fa-chevron-left"></i></button>
+              <div class="calendar-title" id="calendarTitle">-</div>
+              <button class="cal-nav-btn" id="calNextBtn" type="button"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-weekdays"><div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend">
+              <span><i class="fas fa-check-circle" style="color:#4ade80;"></i> Hadir</span>
+              <span><i class="fas fa-times-circle" style="color:#f87171;"></i> Bolos</span>
+              <span><i class="fas fa-minus-circle" style="color:#8b93a3;"></i> Belum</span>
+              <span><i class="fas fa-clock" style="color:#fbbf24;"></i> Hari Ini</span>
+            </div>
+            <div class="calendar-summary" id="calendarSummary">Memuat data...</div>
+            <button class="btn btn-red" id="absenNowBtn" type="button" style="margin-top:16px;"><i class="fas fa-fingerprint"></i> ABSEN SEKARANG</button>
+
+            <div class="reward-claim-banner" id="rewardClaimBanner">
+              <div class="banner-icon"><i class="fas fa-gift"></i></div>
+              <div class="banner-title">🎉 POIN ANDA CUKUP</div>
+              <div class="banner-desc">Tukarkan poin Anda di TFC Store.</div>
+              <button class="banner-btn" id="openRewardFormBtn" type="button"><i class="fas fa-store"></i> BUKA TFC STORE</button>
+            </div>
           </div>
-          <div class="point-legend">
-            <div class="pl-item"><div class="pl-min">30 Menit</div><div class="pl-pt">+10 Poin</div></div>
-            <div class="pl-item"><div class="pl-min">45 Menit</div><div class="pl-pt">+15 Poin</div></div>
-            <div class="pl-item"><div class="pl-min">60 Menit</div><div class="pl-pt">+20 Poin</div></div>
+
+          <!-- PANEL: KLAIM NICK -->
+          <div class="member-panel" data-member-panel="nickname">
+            <div class="nick-modern-card" style="padding:22px;border-radius:20px;">
+              <div class="nick-glow"></div>
+              <div class="nick-aurora"></div>
+              <div class="nick-particles" id="nickParticles"></div>
+              <div class="message" id="nicknameMessage"></div>
+              <div class="nick-label-modern"><i class="fas fa-magic"></i> NICKNAME ANDA</div>
+              <div class="nick-display-modern" id="nickDisplayBox">
+                <div class="nick-shine"></div>
+                <div class="nick-scanline"></div>
+                <div class="nickname-value" id="nicknameValue">•••••••••</div>
+                <div class="nick-hint" id="nickHint"><i class="fas fa-shield"></i> VERIFIKASI DULU UNTUK MEMBUKA</div>
+              </div>
+              <div class="nick-info-modern" id="nicknameInfoBox">
+                <div class="nick-info-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="nick-info-text" id="nicknameInfoText">Nickname diambil otomatis dari data TFC Anda</div>
+              </div>
+              <div class="nick-warn-modern">
+                <div class="nick-warn-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="nick-warn-text">
+                  <strong>⚠️ PERINGATAN</strong>
+                  <div style="margin-top:6px;">
+                    • Nickname otomatis dari data TFC<br>
+                    • Salin hanya <strong>1x</strong> saja<br>
+                    • Font di luar kebijakan = <span style="color:#f87171;">BUKAN anggota TFC</span><br>
+                    • Hanya tombol <strong>SALIN NICKNAME</strong> yang bisa copy
+                  </div>
+                </div>
+              </div>
+              <div class="verify-status-modern" id="verifyStatus"><span class="status-dot"></span> Klik tombol di bawah untuk memverifikasi</div>
+              <button class="btn btn-red nick-btn-modern" id="verifyNicknameButton" type="button">
+                <i class="fas fa-shield"></i> VERIFIKASI NICKNAME <span class="btn-glow"></span>
+              </button>
+              <button class="btn btn-dark nick-btn-modern" id="copyNicknameButton" disabled style="margin-top:10px;" type="button">
+                <i class="fas fa-copy"></i> SALIN NICKNAME <span class="btn-glow"></span>
+              </button>
+            </div>
           </div>
-          <div class="calendar-nav">
-            <button class="cal-nav-btn" id="calPrevBtn" type="button"><i class="fas fa-chevron-left"></i></button>
-            <div class="calendar-title" id="calendarTitle">-</div>
-            <button class="cal-nav-btn" id="calNextBtn" type="button"><i class="fas fa-chevron-right"></i></button>
+
+          <!-- PANEL: CEK PAKET -->
+          <div class="member-panel" data-member-panel="tracking">
+            <div class="reward-info" id="trackingRewardInfo" style="padding:14px;border-radius:13px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);color:#aab3c2;font-size:11.5px;line-height:1.6;text-align:center;margin-bottom:14px;">Memuat data pengiriman...</div>
+            <div id="trackingContainer" style="display:none;"></div>
+            <div class="tracking-empty" id="trackingEmptyState" style="display:none;">
+              <i class="fas fa-box-open"></i>
+              <div class="empty-text">Belum ada data pengiriman.<br>Klaim reward di <strong style="color:#fff;">TFC Store</strong>.</div>
+            </div>
           </div>
-          <div class="calendar-weekdays"><div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div></div>
-          <div class="calendar-grid" id="calendarGrid"></div>
-          <div class="calendar-legend">
-            <span><i class="fas fa-check-circle" style="color:#4ade80;"></i> Hadir</span>
-            <span><i class="fas fa-times-circle" style="color:#f87171;"></i> Bolos</span>
-            <span><i class="fas fa-minus-circle" style="color:#8b93a3;"></i> Belum</span>
-            <span><i class="fas fa-clock" style="color:#fbbf24;"></i> Hari Ini</span>
+
+          <!-- PANEL: GIVEAWAY -->
+          <div class="member-panel" data-member-panel="giveaway">
+            <div id="giveawaySetup">
+              <div style="padding:18px;border-radius:15px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);margin-bottom:16px;">
+                <div class="input-box" style="margin-bottom:12px;"><i class="fas fa-tag"></i><input type="text" id="giveawayName" placeholder="Nama Giveaway" value="Giveaway TFC"></div>
+                <div class="input-box" style="margin-bottom:0;"><i class="fas fa-users"></i><input type="number" id="giveawayWinners" placeholder="Jumlah Pemenang" value="1" min="1" max="50"></div>
+              </div>
+              <div style="padding:12px 14px;border-radius:12px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);font-size:11.5px;color:#93c5fd;text-align:center;margin-bottom:14px;">
+                <i class="fas fa-users"></i> Total Peserta: <strong id="giveawayTotalParticipants" style="color:#fff;font-family:Orbitron;font-size:14px;">0</strong> orang
+              </div>
+              <div class="message" id="giveawayMessage"></div>
+              <button class="btn btn-red" id="startGiveawayBtn" type="button" style="background:linear-gradient(135deg,#fbbf24,#d97706);color:#1a1a1a;"><i class="fas fa-dice"></i> MULAI UNDIAN</button>
+              <div id="giveawayParticipantsWrapper" style="margin-top:18px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                  <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
+                  <div style="font-size:11px;color:#fbbf24;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;"><i class="fas fa-list"></i> Daftar Peserta</div>
+                  <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:70px 1fr 1.2fr;gap:8px;padding:11px 12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:12px 12px 0 0;font-size:10px;font-weight:800;color:#fbbf24;letter-spacing:1px;text-transform:uppercase;">
+                  <div><i class="fas fa-server"></i> Server</div>
+                  <div><i class="fas fa-gamepad"></i> ID Game</div>
+                  <div><i class="fas fa-share-nodes"></i> Akun Sosmed</div>
+                </div>
+                <div id="giveawayParticipantsTable" style="max-height:320px;overflow-y:auto;border:1px solid rgba(255,255,255,.06);border-top:none;border-radius:0 0 12px 12px;background:rgba(255,255,255,.02);">
+                  <div style="padding:20px;text-align:center;color:#8b93a3;font-size:11px;"><i class="fas fa-spinner fa-spin"></i> Memuat peserta...</div>
+                </div>
+                <div style="margin-top:12px;padding:12px 14px;background:rgba(96,165,250,.06);border:1px dashed rgba(96,165,250,.2);border-radius:10px;text-align:center;font-size:11.5px;color:#93c5fd;">
+                  <i class="fas fa-users"></i> Total: <strong id="giveawayTotalBottom" style="color:#fff;font-family:Orbitron;">0</strong> orang
+                </div>
+              </div>
+            </div>
+            <div id="giveawayCountdown" style="display:none;text-align:center;padding:34px 16px;">
+              <div style="font-family:Orbitron;font-size:13px;color:#8b93a3;letter-spacing:3px;margin-bottom:20px;">🎲 MENGACAK PESERTA...</div>
+              <div style="position:relative;display:inline-block;">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;border-radius:50%;border:3px solid transparent;border-top-color:#ef4444;border-right-color:#fbbf24;animation:giveawayRingSpin 1s linear infinite;"></div>
+                <div id="giveawayCountdownNumber" style="position:relative;z-index:2;font-family:Orbitron;font-size:80px;font-weight:900;color:#ef4444;line-height:1;display:inline-block;">10</div>
+              </div>
+            </div>
+            <div id="giveawayResult" style="display:none;">
+              <div style="text-align:center;margin-bottom:20px;">
+                <div style="font-size:42px;color:#fbbf24;margin-bottom:10px;"><i class="fas fa-trophy"></i></div>
+                <div style="font-family:Orbitron;font-size:16px;font-weight:800;color:#fbbf24;" id="giveawayResultTitle">PEMENANG GIVEAWAY</div>
+                <div style="font-size:11.5px;color:#8b93a3;margin-top:6px;" id="giveawayResultSubtitle">Selamat kepada para pemenang!</div>
+              </div>
+              <div id="giveawayWinnersList"></div>
+              <button class="btn btn-dark" id="resetGiveawayBtn" type="button" style="margin-top:16px;"><i class="fas fa-redo"></i> UNDIAN ULANG</button>
+            </div>
           </div>
-          <div class="calendar-summary" id="calendarSummary">Memuat data...</div>
-          <button class="btn btn-red" id="absenNowBtn" type="button" style="margin-top:16px;"><i class="fas fa-fingerprint"></i> ABSEN SEKARANG</button>
-        </div>
-        <div class="reward-claim-banner" id="rewardClaimBanner">
-          <div class="banner-icon"><i class="fas fa-gift"></i></div>
-          <div class="banner-title">🎉 POIN ANDA CUKUP</div>
-          <div class="banner-desc">Tukarkan poin Anda di TFC Store.</div>
-          <button class="banner-btn" id="openRewardFormBtn" type="button"><i class="fas fa-store"></i> BUKA TFC STORE</button>
+
         </div>
       </section>
 
@@ -1052,66 +1176,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
         </div>
       </section>
 
-      <!-- TRACKING -->
-      <section class="view-section" id="viewTracking">
-        <div class="section-header">
-          <div class="icon-box"><i class="fas fa-truck-fast"></i></div>
-          <div class="text"><h3>Cek Status Paket</h3><p>Lacak pengiriman reward</p></div>
-        </div>
-        <div class="ranking" style="padding:20px;">
-          <div class="reward-info" id="trackingRewardInfo" style="padding:14px;border-radius:13px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.12);color:#aab3c2;font-size:11.5px;line-height:1.6;text-align:center;margin-bottom:14px;">Memuat data pengiriman...</div>
-          <div id="trackingContainer" style="display:none;"></div>
-          <div class="tracking-empty" id="trackingEmptyState" style="display:none;">
-            <i class="fas fa-box-open"></i>
-            <div class="empty-text">Belum ada data pengiriman.<br>Klaim reward di <strong style="color:#fff;">TFC Store</strong>.</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- NICKNAME -->
-      <section class="view-section" id="viewNickname">
-        <div class="section-header">
-          <div class="icon-box"><i class="fas fa-id-badge"></i></div>
-          <div class="text"><h3>Klaim Nickname</h3><p>Verifikasi untuk membuka nickname Anda</p></div>
-        </div>
-        <div class="ranking nick-modern-card" style="padding:22px;">
-          <div class="nick-glow"></div>
-          <div class="nick-aurora"></div>
-          <div class="nick-particles" id="nickParticles"></div>
-          <div class="message" id="nicknameMessage"></div>
-          <div class="nick-label-modern"><i class="fas fa-magic"></i> NICKNAME ANDA</div>
-          <div class="nick-display-modern" id="nickDisplayBox">
-            <div class="nick-shine"></div>
-            <div class="nick-scanline"></div>
-            <div class="nickname-value" id="nicknameValue">•••••••••</div>
-            <div class="nick-hint" id="nickHint"><i class="fas fa-shield"></i> VERIFIKASI DULU UNTUK MEMBUKA</div>
-          </div>
-          <div class="nick-info-modern" id="nicknameInfoBox">
-            <div class="nick-info-icon"><i class="fas fa-info-circle"></i></div>
-            <div class="nick-info-text" id="nicknameInfoText">Nickname diambil otomatis dari data TFC Anda</div>
-          </div>
-          <div class="nick-warn-modern">
-            <div class="nick-warn-icon"><i class="fas fa-exclamation-triangle"></i></div>
-            <div class="nick-warn-text">
-              <strong>⚠️ PERINGATAN</strong>
-              <div style="margin-top:6px;">
-                • Nickname otomatis dari data TFC<br>
-                • Salin hanya <strong>1x</strong> saja<br>
-                • Font di luar kebijakan = <span style="color:#f87171;">BUKAN anggota TFC</span><br>
-                • Hanya tombol <strong>SALIN NICKNAME</strong> yang bisa copy
-              </div>
-            </div>
-          </div>
-          <div class="verify-status-modern" id="verifyStatus"><span class="status-dot"></span> Klik tombol di bawah untuk memverifikasi</div>
-          <button class="btn btn-red nick-btn-modern" id="verifyNicknameButton" type="button">
-            <i class="fas fa-shield"></i> VERIFIKASI NICKNAME <span class="btn-glow"></span>
-          </button>
-          <button class="btn btn-dark nick-btn-modern" id="copyNicknameButton" disabled style="margin-top:10px;" type="button">
-            <i class="fas fa-copy"></i> SALIN NICKNAME <span class="btn-glow"></span>
-          </button>
-        </div>
-      </section>
-
       <!-- RANKING -->
       <section class="view-section" id="viewRanking">
         <div class="section-header">
@@ -1121,61 +1185,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
         <div class="ranking">
           <div id="rankingContainer">
             <div class="rank-row"><div class="rank-number">-</div><div class="rank-name">Memuat data...</div></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- GIVEAWAY -->
-      <section class="view-section" id="viewGiveaway">
-        <div class="section-header">
-          <div class="icon-box" style="background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.2);color:#fbbf24;"><i class="fas fa-gift"></i></div>
-          <div class="text"><h3>Giveaway TFC</h3><p>Undian peserta beruntung</p></div>
-        </div>
-        <div class="ranking" style="padding:20px;">
-          <div id="giveawaySetup">
-            <div style="padding:18px;border-radius:15px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);margin-bottom:16px;">
-              <div class="input-box" style="margin-bottom:12px;"><i class="fas fa-tag"></i><input type="text" id="giveawayName" placeholder="Nama Giveaway" value="Giveaway TFC"></div>
-              <div class="input-box" style="margin-bottom:0;"><i class="fas fa-users"></i><input type="number" id="giveawayWinners" placeholder="Jumlah Pemenang" value="1" min="1" max="50"></div>
-            </div>
-            <div style="padding:12px 14px;border-radius:12px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);font-size:11.5px;color:#93c5fd;text-align:center;margin-bottom:14px;">
-              <i class="fas fa-users"></i> Total Peserta: <strong id="giveawayTotalParticipants" style="color:#fff;font-family:Orbitron;font-size:14px;">0</strong> orang
-            </div>
-            <div class="message" id="giveawayMessage"></div>
-            <button class="btn btn-red" id="startGiveawayBtn" type="button" style="background:linear-gradient(135deg,#fbbf24,#d97706);color:#1a1a1a;"><i class="fas fa-dice"></i> MULAI UNDIAN</button>
-            <div id="giveawayParticipantsWrapper" style="margin-top:18px;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-                <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
-                <div style="font-size:11px;color:#fbbf24;letter-spacing:1.2px;text-transform:uppercase;font-weight:800;"><i class="fas fa-list"></i> Daftar Peserta</div>
-                <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
-              </div>
-              <div style="display:grid;grid-template-columns:70px 1fr 1.2fr;gap:8px;padding:11px 12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:12px 12px 0 0;font-size:10px;font-weight:800;color:#fbbf24;letter-spacing:1px;text-transform:uppercase;">
-                <div><i class="fas fa-server"></i> Server</div>
-                <div><i class="fas fa-gamepad"></i> ID Game</div>
-                <div><i class="fas fa-share-nodes"></i> Akun Sosmed</div>
-              </div>
-              <div id="giveawayParticipantsTable" style="max-height:320px;overflow-y:auto;border:1px solid rgba(255,255,255,.06);border-top:none;border-radius:0 0 12px 12px;background:rgba(255,255,255,.02);">
-                <div style="padding:20px;text-align:center;color:#8b93a3;font-size:11px;"><i class="fas fa-spinner fa-spin"></i> Memuat peserta...</div>
-              </div>
-              <div style="margin-top:12px;padding:12px 14px;background:rgba(96,165,250,.06);border:1px dashed rgba(96,165,250,.2);border-radius:10px;text-align:center;font-size:11.5px;color:#93c5fd;">
-                <i class="fas fa-users"></i> Total: <strong id="giveawayTotalBottom" style="color:#fff;font-family:Orbitron;">0</strong> orang
-              </div>
-            </div>
-          </div>
-          <div id="giveawayCountdown" style="display:none;text-align:center;padding:34px 16px;">
-            <div style="font-family:Orbitron;font-size:13px;color:#8b93a3;letter-spacing:3px;margin-bottom:20px;">🎲 MENGACAK PESERTA...</div>
-            <div style="position:relative;display:inline-block;">
-              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;border-radius:50%;border:3px solid transparent;border-top-color:#ef4444;border-right-color:#fbbf24;animation:giveawayRingSpin 1s linear infinite;"></div>
-              <div id="giveawayCountdownNumber" style="position:relative;z-index:2;font-family:Orbitron;font-size:80px;font-weight:900;color:#ef4444;line-height:1;display:inline-block;">10</div>
-            </div>
-          </div>
-          <div id="giveawayResult" style="display:none;">
-            <div style="text-align:center;margin-bottom:20px;">
-              <div style="font-size:42px;color:#fbbf24;margin-bottom:10px;"><i class="fas fa-trophy"></i></div>
-              <div style="font-family:Orbitron;font-size:16px;font-weight:800;color:#fbbf24;" id="giveawayResultTitle">PEMENANG GIVEAWAY</div>
-              <div style="font-size:11.5px;color:#8b93a3;margin-top:6px;" id="giveawayResultSubtitle">Selamat kepada para pemenang!</div>
-            </div>
-            <div id="giveawayWinnersList"></div>
-            <button class="btn btn-dark" id="resetGiveawayBtn" type="button" style="margin-top:16px;"><i class="fas fa-redo"></i> UNDIAN ULANG</button>
           </div>
         </div>
       </section>
@@ -1442,10 +1451,10 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
 
 /* ============================================================
    THE FAMILY COMMUNITY — FRONTEND V1.2.0 FINAL
-   - Beranda anggota: Quick Access saja (tanpa hero/social/stats)
-   - Sidebar: Beranda, TFC Store, Ranking (semua device)
+   - Beranda anggota: Tab bar horizontal + panel inline
+   - Popup ads hanya untuk pengunjung
    - Install adaptif: Android=APK, PC=PWA, iOS=PWA
-   - Auto-update APK via versi (Opsi A: blokir semua fitur login)
+   - Auto-update APK via versi
    ============================================================ */
 
 let currentUser = null;
@@ -1479,7 +1488,6 @@ let katalogFilterValue = 'all';
 let katalogSearchValue = '';
 let pendingRewardItem = null;
 
-/* ===== APK & PWA state ===== */
 let deferredPrompt = null;
 let serverApkUrl = 'https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu';
 let serverApkVersion = '1.2.0';
@@ -1577,13 +1585,11 @@ function compareVersions(v1, v2) {
   return 0;
 }
 
-/* ---------- UPDATE TOMBOL INSTALL/APK ---------- */
 function updateInstallButton() {
   const btn = document.getElementById('installActionBtn');
   const btnText = document.getElementById('installBtnText');
   const btnIcon = document.getElementById('installBtnIcon');
   if (!btn || !btnText) return;
-
   const device = getDeviceType();
   btn.classList.remove('installed', 'update');
   btn.style.cursor = '';
@@ -1591,7 +1597,6 @@ function updateInstallButton() {
   btn.removeAttribute('disabled');
   btn.onclick = null;
 
-  // CASE 1: Di dalam APK Android
   if (isRunningInApk()) {
     const apkInfo = parseApkVersionFromUA();
     currentApkVersion = apkInfo ? apkInfo.version : null;
@@ -1615,7 +1620,6 @@ function updateInstallButton() {
     return;
   }
 
-  // CASE 2: PWA sudah install (PC/iOS)
   if (isPWAStandalone() || isPWAInstalledFlag) {
     btn.classList.add('installed');
     btn.disabled = true;
@@ -1624,7 +1628,6 @@ function updateInstallButton() {
     return;
   }
 
-  // CASE 3: Android di browser
   if (device === 'android') {
     btnText.textContent = 'Download APK';
     if (btnIcon) btnIcon.className = 'fas fa-download';
@@ -1632,7 +1635,6 @@ function updateInstallButton() {
     return;
   }
 
-  // CASE 4: PC
   if (device === 'desktop') {
     btnText.textContent = 'Install di PC';
     if (btnIcon) btnIcon.className = 'fas fa-desktop';
@@ -1640,7 +1642,6 @@ function updateInstallButton() {
     return;
   }
 
-  // CASE 5: iOS
   if (device === 'ios') {
     btnText.textContent = 'Install di iPhone';
     if (btnIcon) btnIcon.className = 'fas fa-mobile-screen-button';
@@ -1648,7 +1649,6 @@ function updateInstallButton() {
     return;
   }
 
-  // Fallback
   btnText.textContent = 'Download APK';
   if (btnIcon) btnIcon.className = 'fas fa-download';
   btn.onclick = function () { window.open(serverApkUrl, '_blank'); };
@@ -1656,20 +1656,13 @@ function updateInstallButton() {
 
 function handlePwaInstall() {
   if (!deferredPrompt) {
-    showNotif({
-      type: 'info', title: 'CARA INSTALL DI PC',
-      message: 'Browser Anda belum mendukung install otomatis.<br><br>' +
-        '<strong>Chrome / Edge:</strong><br>1. Klik ikon <strong>install</strong> (⊕) di address bar<br>2. Atau menu <strong>⋮ → Install TFC</strong><br><br>' +
-        '<strong>Firefox:</strong> belum mendukung PWA install.<br>Gunakan Chrome/Edge untuk install.',
-      autoMode: false, showCancel: false, okText: 'Mengerti'
-    });
+    showNotif({ type: 'info', title: 'CARA INSTALL DI PC', message: 'Browser Anda belum mendukung install otomatis.<br><br><strong>Chrome / Edge:</strong><br>1. Klik ikon <strong>install</strong> (⊕) di address bar<br>2. Atau menu <strong>⋮ → Install TFC</strong><br><br><strong>Firefox:</strong> belum mendukung PWA install.<br>Gunakan Chrome/Edge untuk install.', autoMode: false, showCancel: false, okText: 'Mengerti' });
     return;
   }
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then(function (choice) {
     if (choice && choice.outcome === 'accepted') {
-      isPWAInstalledFlag = true;
-      updateInstallButton();
+      isPWAInstalledFlag = true; updateInstallButton();
       showNotif({ type: 'success', title: '✅ INSTALL BERHASIL', message: 'TFC sudah terinstall di PC Anda.<br>Cek di Desktop atau Start Menu.', autoMode: true, countdown: 3 });
     }
     deferredPrompt = null;
@@ -1682,70 +1675,27 @@ function handleIosInstall() {
     showNotif({ type: 'warning', title: 'GUNAKAN SAFARI', message: 'Install di iPhone <strong>HANYA BISA</strong> lewat <strong>Safari</strong>.<br><br>Buka halaman ini di Safari, lalu ikuti langkah install.', autoMode: false, showCancel: false, okText: 'Mengerti' });
     return;
   }
-  showNotif({
-    type: 'info', title: '📱 CARA INSTALL DI iPHONE',
-    message: 'Ikuti langkah berikut:<br><br>' +
-      '1. Tap ikon <strong>Share</strong> <i class="fas fa-arrow-up-from-bracket" style="color:#60a5fa;"></i> di bawah Safari<br>' +
-      '2. Scroll dan pilih <strong>Add to Home Screen</strong><br>' +
-      '3. Tap <strong>Add</strong><br><br>' +
-      '✅ TFC akan muncul di Home Screen iPhone Anda.',
-    autoMode: false, showCancel: false, okText: 'Siap, Sudah Paham'
-  });
+  showNotif({ type: 'info', title: '📱 CARA INSTALL DI iPHONE', message: 'Ikuti langkah berikut:<br><br>1. Tap ikon <strong>Share</strong> <i class="fas fa-arrow-up-from-bracket" style="color:#60a5fa;"></i> di bawah Safari<br>2. Scroll dan pilih <strong>Add to Home Screen</strong><br>3. Tap <strong>Add</strong><br><br>✅ TFC akan muncul di Home Screen iPhone Anda.', autoMode: false, showCancel: false, okText: 'Siap, Sudah Paham' });
 }
 
 function showForceUpdateNotif() {
-  showNotif({
-    type: 'warning', title: '🔄 UPDATE TERSEDIA',
-    message: 'Versi APK Anda: <strong style="color:#f87171;">v' + escapeHtml(currentApkVersion || '?') + '</strong><br>' +
-      'Versi terbaru: <strong style="color:#4ade80;">v' + escapeHtml(serverApkVersion) + '</strong><br><br>' +
-      'Silakan update APK untuk menikmati fitur terbaru.<br>' +
-      '<strong style="color:#fbbf24;">Sebagian fitur mungkin tidak berjalan di versi lama.</strong>',
-    autoMode: false, showCancel: true, okText: '🔄 Update Sekarang', cancelText: 'Nanti',
-    onConfirm: function (ok) { if (ok) window.open(serverApkUrl, '_blank'); }
-  });
+  showNotif({ type: 'warning', title: '🔄 UPDATE TERSEDIA', message: 'Versi APK Anda: <strong style="color:#f87171;">v' + escapeHtml(currentApkVersion || '?') + '</strong><br>Versi terbaru: <strong style="color:#4ade80;">v' + escapeHtml(serverApkVersion) + '</strong><br><br>Silakan update APK untuk menikmati fitur terbaru.<br><strong style="color:#fbbf24;">Sebagian fitur mungkin tidak berjalan di versi lama.</strong>', autoMode: false, showCancel: true, okText: '🔄 Update Sekarang', cancelText: 'Nanti', onConfirm: function (ok) { if (ok) window.open(serverApkUrl, '_blank'); } });
 }
 
 function blockFeatureIfOutdated(featureName) {
   if (!forceUpdateRequired) return false;
-  showNotif({
-    type: 'error', title: '⚠️ WAJIB UPDATE',
-    message: 'Fitur <strong>' + escapeHtml(featureName) + '</strong> memerlukan versi APK terbaru.<br><br>' +
-      'Versi Anda: <strong style="color:#f87171;">v' + escapeHtml(currentApkVersion || '?') + '</strong><br>' +
-      'Versi terbaru: <strong style="color:#4ade80;">v' + escapeHtml(serverApkVersion) + '</strong>',
-    autoMode: false, showCancel: true, okText: '🔄 Update Sekarang', cancelText: 'Batal',
-    onConfirm: function (ok) { if (ok) window.open(serverApkUrl, '_blank'); }
-  });
+  showNotif({ type: 'error', title: '⚠️ WAJIB UPDATE', message: 'Fitur <strong>' + escapeHtml(featureName) + '</strong> memerlukan versi APK terbaru.<br><br>Versi Anda: <strong style="color:#f87171;">v' + escapeHtml(currentApkVersion || '?') + '</strong><br>Versi terbaru: <strong style="color:#4ade80;">v' + escapeHtml(serverApkVersion) + '</strong>', autoMode: false, showCancel: true, okText: '🔄 Update Sekarang', cancelText: 'Batal', onConfirm: function (ok) { if (ok) window.open(serverApkUrl, '_blank'); } });
   return true;
 }
 
 /* ---------- STRICT NICKNAME COPY ---------- */
 (function blockNicknameCopyStrict() {
-  const protectedSelector = [
-    '#headerNickname','#detailNickname','#detailUsername','#welcomeNickname',
-    '#nicknameValue','#registerNickname','#pubNickname',
-    '.rank-name','.rank-row .rank-name',
-    '.notif-message strong','.giveaway-participant-row .col-akun','.giveaway-participant-row .col-id',
-    '.popup-code','.nick-display-modern .nickname-value'
-  ].join(',');
+  const protectedSelector = ['#headerNickname','#detailNickname','#detailUsername','#welcomeNickname','#nicknameValue','#registerNickname','#pubNickname','.rank-name','.rank-row .rank-name','.notif-message strong','.giveaway-participant-row .col-akun','.giveaway-participant-row .col-id','.popup-code','.nick-display-modern .nickname-value'].join(',');
   function isProtected(el) { return !!(el && el.closest && el.closest(protectedSelector)); }
-  function warn() {
-    showNotif({ type:'warning', title:'COPY DIBLOKIR', message:'Nickname hanya bisa disalin lewat tombol <strong>SALIN NICKNAME</strong> di halaman <strong>Klaim Nick</strong> setelah verifikasi.', autoMode:true, countdown:3 });
-  }
+  function warn() { showNotif({ type:'warning', title:'COPY DIBLOKIR', message:'Nickname hanya bisa disalin lewat tombol <strong>SALIN NICKNAME</strong> di halaman <strong>Klaim Nick</strong> setelah verifikasi.', autoMode:true, countdown:3 }); }
   document.addEventListener('contextmenu', function(e) { if (isProtected(e.target)) { e.preventDefault(); warn(); return false; } }, true);
-  document.addEventListener('copy', function(e) {
-    if (window.__TFC_ALLOW_COPY) return;
-    const sel = window.getSelection(); if (!sel || !sel.rangeCount) return;
-    const a = sel.anchorNode; if (!a) return;
-    const el = a.nodeType === 1 ? a : a.parentElement;
-    if (isProtected(el)) { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData('text/plain',''); warn(); }
-  }, true);
-  document.addEventListener('cut', function(e) {
-    if (window.__TFC_ALLOW_COPY) return;
-    const sel = window.getSelection(); if (!sel || !sel.rangeCount) return;
-    const a = sel.anchorNode; if (!a) return;
-    const el = a.nodeType === 1 ? a : a.parentElement;
-    if (isProtected(el)) { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData('text/plain',''); }
-  }, true);
+  document.addEventListener('copy', function(e) { if (window.__TFC_ALLOW_COPY) return; const sel = window.getSelection(); if (!sel || !sel.rangeCount) return; const a = sel.anchorNode; if (!a) return; const el = a.nodeType === 1 ? a : a.parentElement; if (isProtected(el)) { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData('text/plain',''); warn(); } }, true);
+  document.addEventListener('cut', function(e) { if (window.__TFC_ALLOW_COPY) return; const sel = window.getSelection(); if (!sel || !sel.rangeCount) return; const a = sel.anchorNode; if (!a) return; const el = a.nodeType === 1 ? a : a.parentElement; if (isProtected(el)) { e.preventDefault(); if (e.clipboardData) e.clipboardData.setData('text/plain',''); } }, true);
   document.addEventListener('dragstart', function(e) { if (isProtected(e.target)) e.preventDefault(); }, true);
   document.addEventListener('selectstart', function(e) { if (isProtected(e.target) && !window.__TFC_ALLOW_COPY) { e.preventDefault(); return false; } }, true);
   document.addEventListener('dblclick', function(e) { if (isProtected(e.target) && !window.__TFC_ALLOW_COPY) { e.preventDefault(); return false; } }, true);
@@ -1767,22 +1717,9 @@ function playMusicFromClick() {
   const VOLUME = 0.7, KEY = 'TFC_MUSIC_MUTED';
   let userMuted = false; try { userMuted = localStorage.getItem(KEY) === 'true'; } catch (e) {}
   music.volume = VOLUME;
-  function updateUI(playing) {
-    if (!toggle || !icon) return;
-    if (playing && !userMuted) { toggle.classList.remove('muted'); icon.className = 'fas fa-volume-up'; }
-    else { toggle.classList.add('muted'); icon.className = 'fas fa-volume-mute'; }
-  }
-  function tryPlay() {
-    if (userMuted) { updateUI(false); return Promise.resolve(false); }
-    if (!music.paused) { updateUI(true); return Promise.resolve(true); }
-    const p = music.play();
-    if (p && typeof p.then === 'function') return p.then(function() { updateUI(true); return true; }).catch(function() { updateUI(false); return false; });
-    return Promise.resolve(true);
-  }
-  function toggleMusic() {
-    if (music.paused) { userMuted = false; try { localStorage.setItem(KEY, 'false'); } catch (e) {} tryPlay(); }
-    else { music.pause(); userMuted = true; try { localStorage.setItem(KEY, 'true'); } catch (e) {} updateUI(false); }
-  }
+  function updateUI(playing) { if (!toggle || !icon) return; if (playing && !userMuted) { toggle.classList.remove('muted'); icon.className = 'fas fa-volume-up'; } else { toggle.classList.add('muted'); icon.className = 'fas fa-volume-mute'; } }
+  function tryPlay() { if (userMuted) { updateUI(false); return Promise.resolve(false); } if (!music.paused) { updateUI(true); return Promise.resolve(true); } const p = music.play(); if (p && typeof p.then === 'function') return p.then(function() { updateUI(true); return true; }).catch(function() { updateUI(false); return false; }); return Promise.resolve(true); }
+  function toggleMusic() { if (music.paused) { userMuted = false; try { localStorage.setItem(KEY, 'false'); } catch (e) {} tryPlay(); } else { music.pause(); userMuted = true; try { localStorage.setItem(KEY, 'true'); } catch (e) {} updateUI(false); } }
   toggle.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); toggleMusic(); });
   updateUI(false); tryPlay();
   function unlockMusic() { if (userMuted) { removeUnlockListeners(); return; } tryPlay().then(function(ok) { if (ok) removeUnlockListeners(); }); }
@@ -1962,7 +1899,9 @@ function showMemberPopup(info) {
 }
 function closeCombinedPopup() { const o = document.getElementById('popupAds'); if (o) o.classList.remove('show'); }
 function loadAndShowPopup() {
-  if (currentUser) return; if (isAnyOverlayOpen()) { popupPendingShow = true; return; }
+  if (currentUser) return;
+  if (getSession()) return;
+  if (isAnyOverlayOpen()) { popupPendingShow = true; return; }
   if (!serverAvailable()) { safeShowPopup(function() { showGuestPopup({ title:'SELAMAT DATANG DI TFC', message:'Halo Sobat! 👋', type:'info' }); }); return; }
   google.script.run
     .withSuccessHandler(function(res) { let data = null; if (res && res.success && res.enabled && res.data) data = res.data; if (!data) data = { title:'SELAMAT DATANG DI TFC', message:'Halo Sobat! 👋', type:'info' }; safeShowPopup(function() { showGuestPopup(data); }); })
@@ -2096,6 +2035,22 @@ function applyPointIcons() {
   });
 }
 
+/* ---------- MEMBER TAB SWITCHING ---------- */
+function switchMemberTab(tabName) {
+  document.querySelectorAll('.member-tab').forEach(function(t) { t.classList.toggle('active', t.getAttribute('data-member-tab') === tabName); });
+  document.querySelectorAll('.member-panel').forEach(function(p) { p.classList.toggle('active', p.getAttribute('data-member-panel') === tabName); });
+  if (tabName === 'absen' && currentUser) {
+    currentCalYear = new Date().getFullYear(); currentCalMonth = new Date().getMonth();
+    loadAttendanceCalendar(currentCalYear, currentCalMonth);
+    updateAbsenNowButton();
+    refreshRewardDataSilent();
+    updateRewardClaimBanner();
+  }
+  if (tabName === 'nickname' && currentUser) resetNicknameView();
+  if (tabName === 'tracking' && currentUser) loadTrackingView();
+  if (tabName === 'giveaway') { resetGiveaway(); loadGiveawayParticipants(); }
+}
+
 /* ---------- STATE ---------- */
 function setGuestState() {
   currentUser = null; cachedPhotoOptions = null; cachedRewardData = null; cachedRankingData = null; currentTrackingData = null;
@@ -2114,13 +2069,19 @@ function setGuestState() {
 }
 function setLoggedInState(user) {
   currentUser = user; hasClaimedReward = false; claimedRewardData = null; currentTrackingData = null;
+  popupPendingShow = false;
+  popupAlreadyShown = true;
+  closeCombinedPopup();
   document.body.classList.remove('is-guest');
   const guestC = document.getElementById('guestBerandaContent');
   const memberC = document.getElementById('memberBerandaContent');
   if (guestC) guestC.style.display = 'none';
   if (memberC) memberC.style.display = 'block';
-  const qaGw = document.getElementById('qaGiveaway');
-  if (qaGw) qaGw.style.display = (String(user.role || '').toUpperCase() === 'LEADER') ? 'flex' : 'none';
+  const memberTabGw = document.getElementById('memberTabGiveaway');
+  if (memberTabGw) {
+    if (String(user.role || '').toUpperCase() === 'LEADER') memberTabGw.classList.add('show');
+    else memberTabGw.classList.remove('show');
+  }
   const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
   if (lt) lt.style.display = 'none'; if (ph) ph.classList.add('show'); if (lo) lo.classList.add('show');
   document.getElementById('headerAvatar').src = getAvatarSrc(user);
@@ -2131,6 +2092,7 @@ function setLoggedInState(user) {
   loadRanking(); loadStockKaos(); checkRewardClaimStatus(); preloadRewardData(); loadKatalogReward();
   if (attendanceInterval) clearInterval(attendanceInterval);
   updateAttendanceStatus(); attendanceInterval = setInterval(updateAttendanceStatus, 1000);
+  switchMemberTab('absen');
   switchView('beranda');
   setTimeout(function() { autoSubmitAttendance(); }, 500);
   setTimeout(function() {
@@ -2143,13 +2105,22 @@ function updateTrackingMenuVisibility() {}
 /* ---------- VIEW ---------- */
 function switchView(v) {
   if (!currentUser && ['absen','nickname','tracking','giveaway'].indexOf(v) > -1) v = 'beranda';
-  if (currentUser && forceUpdateRequired && ['absen','nickname','tracking','giveaway','katalog'].indexOf(v) > -1) {
-    const names = { absen:'Absen', nickname:'Klaim Nick', tracking:'Cek Paket', giveaway:'Giveaway', katalog:'TFC Store' };
-    blockFeatureIfOutdated(names[v] || v);
-    v = 'beranda';
+  if (currentUser && ['absen','nickname','tracking','giveaway'].indexOf(v) > -1) {
+    if (forceUpdateRequired) {
+      const names = { absen:'Absen', nickname:'Klaim Nick', tracking:'Cek Paket', giveaway:'Giveaway' };
+      blockFeatureIfOutdated(names[v] || v);
+      return;
+    }
+    switchView('beranda');
+    switchMemberTab(v);
+    return;
+  }
+  if (currentUser && forceUpdateRequired && v === 'katalog') {
+    blockFeatureIfOutdated('TFC Store');
+    return;
   }
   document.querySelectorAll('.view-section').forEach(function(s) { s.classList.remove('active'); });
-  const map = { beranda:'viewBeranda', absen:'viewAbsen', nickname:'viewNickname', tracking:'viewTracking', ranking:'viewRanking', giveaway:'viewGiveaway', katalog:'viewKatalog' };
+  const map = { beranda:'viewBeranda', katalog:'viewKatalog', ranking:'viewRanking' };
   const tid = map[v]; if (tid) { const t = document.getElementById(tid); if (t) t.classList.add('active'); }
   if (v === 'beranda') {
     const guestC = document.getElementById('guestBerandaContent');
@@ -2158,16 +2129,30 @@ function switchView(v) {
     else { if (guestC) guestC.style.display = 'block'; if (memberC) memberC.style.display = 'none'; }
   }
   document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); if (i.getAttribute('data-view') === v) i.classList.add('active'); });
-  if (v === 'absen' && currentUser) { currentCalYear = new Date().getFullYear(); currentCalMonth = new Date().getMonth(); loadAttendanceCalendar(currentCalYear, currentCalMonth); updateAbsenNowButton(); refreshRewardDataSilent(); updateRewardClaimBanner(); }
-  if (v === 'tracking' && currentUser) loadTrackingView();
   if (v === 'ranking') loadRanking();
-  if (v === 'nickname' && currentUser) resetNicknameView();
-  if (v === 'giveaway') { resetGiveaway(); loadGiveawayParticipants(); }
   if (v === 'katalog') loadKatalogReward();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 document.querySelectorAll('[data-close]').forEach(function(b) { b.addEventListener('click', function() { closeModal(document.getElementById(b.getAttribute('data-close'))); }); });
 document.querySelectorAll('.modal-overlay').forEach(function(o) { o.addEventListener('click', function(e) { if (e.target === o) closeModal(o); }); });
+
+/* ---------- MEMBER TAB LISTENERS ---------- */
+document.querySelectorAll('.member-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    const tabName = tab.getAttribute('data-member-tab');
+    if (!currentUser) return;
+    if (tabName === 'giveaway' && String(currentUser.role || '').toUpperCase() !== 'LEADER') {
+      showNotif({ type:'error', title:'AKSES DITOLAK', message:'Fitur Giveaway hanya untuk LEADER.', autoMode:true, countdown:2 });
+      return;
+    }
+    if (forceUpdateRequired && ['absen','nickname','tracking','giveaway'].indexOf(tabName) > -1) {
+      const names = { absen:'Absen', nickname:'Klaim Nick', tracking:'Cek Paket', giveaway:'Giveaway' };
+      blockFeatureIfOutdated(names[tabName] || tabName);
+      return;
+    }
+    switchMemberTab(tabName);
+  });
+});
 
 /* ---------- PWA EVENTS ---------- */
 window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferredPrompt = e; updateInstallButton(); });
@@ -2199,19 +2184,6 @@ document.querySelectorAll('.sidebar-item').forEach(function(item) {
     if (v === 'beranda' || v === 'ranking') { switchView(v); return; }
     if (v === 'katalog') { if (blockFeatureIfOutdated('TFC Store')) return; switchView(v); return; }
     if (!requireLogin()) return;
-    switchView(v);
-  });
-});
-document.querySelectorAll('.quick-access-card').forEach(function(card) {
-  card.addEventListener('click', function() {
-    const v = card.getAttribute('data-view');
-    if (!v) return;
-    if (!currentUser) { requireLogin(); return; }
-    if (blockFeatureIfOutdated('Quick Access')) return;
-    if (v === 'giveaway' && String(currentUser.role || '').toUpperCase() !== 'LEADER') {
-      showNotif({ type:'error', title:'AKSES DITOLAK', message:'Fitur Giveaway hanya untuk LEADER.', autoMode:true, countdown:2 });
-      return;
-    }
     switchView(v);
   });
 });
@@ -2696,7 +2668,7 @@ function openPublicProfile(m) {
 /* ---------- REWARD STATE ---------- */
 function checkRewardClaimStatus() {
   if (!currentUser || !serverAvailable()) return;
-  google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.found && r.data) { currentTrackingData = r.data; hasClaimedReward = true; claimedRewardData = r.data; } else { currentTrackingData = null; hasClaimedReward = false; claimedRewardData = null; } updateTrackingMenuVisibility(); updateRewardClaimBanner(); }).withFailureHandler(function() {}).getRewardClaimStatus(currentUser.idGame);
+  google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.found && r.data) { currentTrackingData = r.data; hasClaimedReward = true; claimedRewardData = r.data; } else { currentTrackingData = null; hasClaimedReward = false; claimedRewardData = null; } updateRewardClaimBanner(); }).withFailureHandler(function() {}).getRewardClaimStatus(currentUser.idGame);
 }
 function loadStockKaos() {
   if (!serverAvailable()) return;
@@ -2704,12 +2676,12 @@ function loadStockKaos() {
 }
 function preloadRewardData() {
   if (!currentUser || !serverAvailable()) return;
-  google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.found && r.data) { currentTrackingData = r.data; hasClaimedReward = true; claimedRewardData = r.data; } else { currentTrackingData = null; hasClaimedReward = false; claimedRewardData = null; } updateTrackingMenuVisibility(); updateRewardClaimBanner(); }).withFailureHandler(function() {}).getRewardClaimStatus(currentUser.idGame);
+  google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.found && r.data) { currentTrackingData = r.data; hasClaimedReward = true; claimedRewardData = r.data; } else { currentTrackingData = null; hasClaimedReward = false; claimedRewardData = null; } updateRewardClaimBanner(); }).withFailureHandler(function() {}).getRewardClaimStatus(currentUser.idGame);
   google.script.run.withSuccessHandler(function(r) { if (r && r.success) { cachedRewardData = { streakAsli: r.streakAsli || 0, streakEfektif: r.streakEfektif || 0, autoReset: r.autoReset || false, totalAbsen: r.totalAbsen || 0, requiredDays: r.requiredDays || 15, eligible: r.eligible || false, alreadyClaimed: r.alreadyClaimed || false, success: true }; updateRewardClaimBanner(); } }).withFailureHandler(function() {}).getRewardEligibility(currentUser.idGame);
 }
 function refreshRewardDataSilent() {
   if (!currentUser || !serverAvailable()) return;
-  google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.found && r.data) { currentTrackingData = r.data; hasClaimedReward = true; claimedRewardData = r.data; updateTrackingMenuVisibility(); } }).withFailureHandler(function() {}).getRewardClaimStatus(currentUser.idGame);
+  google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.found && r.data) { currentTrackingData = r.data; hasClaimedReward = true; claimedRewardData = r.data; } }).withFailureHandler(function() {}).getRewardClaimStatus(currentUser.idGame);
   google.script.run.withSuccessHandler(function(r) { if (!r || !r.success) return; cachedRewardData = { streakAsli: r.streakAsli || 0, streakEfektif: r.streakEfektif || 0, autoReset: r.autoReset || false, totalAbsen: r.totalAbsen || 0, requiredDays: r.requiredDays || 15, eligible: r.eligible || false, alreadyClaimed: r.alreadyClaimed || false, success: true }; updateRewardClaimBanner(); }).withFailureHandler(function() {}).getRewardEligibility(currentUser.idGame);
 }
 
@@ -2841,7 +2813,7 @@ function submitTukar(item) {
       showNotif({ type:'success', title:'✅ PENUKARAN BERHASIL', message:'Hadiah: <strong>' + escapeHtml(item.nama) + '</strong><br>Sisa Poin: <strong style="color:#fbbf24;">' + formatPoint(r.pointSisa || 0) + ' Poin</strong>' + (isDigital ? '<br><br>Leader akan trade hadiah ke ID Game Anda.' : '<br><br>Cek status di menu <strong>Cek Paket</strong>.'), autoMode:true, countdown:4 });
       closeModal(document.getElementById('katalogModal'));
       loadKatalogReward(); checkRewardClaimStatus(); refreshRewardDataSilent();
-      if (!isDigital) { updateTrackingMenuVisibility(); setTimeout(function() { switchView('tracking'); loadTrackingView(); }, 800); }
+      if (!isDigital) { setTimeout(function() { switchMemberTab('tracking'); switchView('beranda'); }, 800); }
     })
     .withFailureHandler(function(e) { if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-check"></i> KIRIM'; } showMessage(msg, '❌ Koneksi gagal: ' + (e && e.message ? e.message : 'Unknown'), 'error'); })
     .submitRewardClaim({ idGame: currentUser.idGame, username: currentUser.username, nickname: currentUser.nickname, whatsapp: currentUser.whatsapp || '', alamat: alamat, rewardId: item.id });
@@ -3029,7 +3001,13 @@ function startApp() {
   applyPointIcons();
   updateInstallButton();
   loadConfig(); restoreSession(); startHeroSlider(); initNickParticles(); watchOverlays();
-  setTimeout(function() { if (!currentUser && !isAnyOverlayOpen()) { popupAlreadyShown = true; loadAndShowPopup(); } else if (isAnyOverlayOpen()) { popupPendingShow = true; } }, 2000);
+  setTimeout(function() {
+    if (getSession()) return;
+    if (currentUser) return;
+    if (isAnyOverlayOpen()) { popupPendingShow = true; return; }
+    popupAlreadyShown = true;
+    loadAndShowPopup();
+  }, 2000);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startApp); else startApp();
 
