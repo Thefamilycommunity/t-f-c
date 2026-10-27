@@ -87,12 +87,8 @@ img{max-width:100%;height:auto;display:block}
 }
 html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-user-select:text!important;user-select:text!important}
 
-.btn,button,.social-btn,.login-trigger-btn,.popup-claim-btn,.hero-btn,.notif-btn,.banner-btn,.refresh-btn,.copy-resi-btn,.modal-close,.drawer-close,.topbar-logout,.popup-close,.cal-nav-btn{
-  min-width:0;word-break:break-word;overflow-wrap:anywhere;white-space:normal;line-height:1.25;
-}
-.hero-title,.section-header .text h3,.notif-title,.popup-title,.modal-header h3,.drawer-title,.rank-name,.calendar-title,.topbar-title{
-  word-break:break-word;overflow-wrap:anywhere;
-}
+.btn,button,.social-btn,.login-trigger-btn,.popup-claim-btn,.hero-btn,.notif-btn,.banner-btn,.refresh-btn,.copy-resi-btn,.modal-close,.drawer-close,.topbar-logout,.popup-close,.cal-nav-btn{min-width:0;word-break:break-word;overflow-wrap:anywhere;white-space:normal;line-height:1.25;}
+.hero-title,.section-header .text h3,.notif-title,.popup-title,.modal-header h3,.drawer-title,.rank-name,.calendar-title,.topbar-title{word-break:break-word;overflow-wrap:anywhere;}
 
 .popup-overlay{z-index:99990}.drawer-overlay{z-index:99998}.login-drawer{z-index:99999}.modal-overlay{z-index:100000}.notif-overlay{z-index:100001}
 #fireworksCanvas{z-index:99997}#coinRainCanvas{z-index:100005}
@@ -100,14 +96,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .app{width:100%;min-height:100vh;display:flex;background:transparent}
 
 /* ---------- Sidebar ---------- */
-.sidebar{
-  width:260px;
-  background:linear-gradient(180deg, rgba(15,15,15,.98) 0%, rgba(10,10,10,.98) 100%);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-right:1px solid rgba(255,255,255,.06);
-  padding:22px 16px;display:flex;flex-direction:column;gap:8px;
-  position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;
-}
+.sidebar{width:260px;background:linear-gradient(180deg, rgba(15,15,15,.98) 0%, rgba(10,10,10,.98) 100%);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid rgba(255,255,255,.06);padding:22px 16px;display:flex;flex-direction:column;gap:8px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;}
 .sidebar::-webkit-scrollbar{width:4px}
 .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px}
 .sidebar-brand{display:flex;align-items:center;gap:12px;padding:10px 10px 22px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
@@ -126,21 +115,15 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .sidebar-item:hover i{color:#ef4444}
 .sidebar-item.active{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.05));color:#fff;border:1px solid rgba(239,68,68,.25);box-shadow:0 4px 16px rgba(220,38,38,.15)}
 .sidebar-item.active i{color:#ef4444}
-.sidebar-item.cs-admin{color:#ef4444}.sidebar-item.cs-admin i{color:#ef4444}
-.sidebar-item.tracking-menu,.sidebar-item.giveaway-menu{display:none}
-.sidebar-item.tracking-menu.show,.sidebar-item.giveaway-menu.show{display:flex}
-.sidebar-item.giveaway-menu i{color:#fbbf24}
 
-/* ---------- HAPUS menu login dari sidebar (dipindah ke Beranda Quick Access) ---------- */
+/* HAPUS menu login dari sidebar (dipindah ke Beranda Quick Access) */
 .sidebar-item[data-view="absen"],
 .sidebar-item[data-view="nickname"],
 .sidebar-item[data-view="tracking"],
 .sidebar-item[data-view="giveaway"],
-.sidebar-item[data-view="csadmin"]{
-  display:none!important;
-}
+.sidebar-item[data-view="csadmin"]{display:none!important}
 
-/* ---------- Urutan menu DESKTOP ---------- */
+/* Urutan menu DESKTOP */
 @media(min-width:601px){
   .sidebar-item[data-view="beranda"]{order:1}
   .sidebar-item[data-view="katalog"]{order:2}
@@ -187,75 +170,31 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .hero-dot{width:8px;height:8px;border:0;border-radius:99px;background:rgba(255,255,255,.3);padding:0;transition:.3s}
 .hero-dot.active{width:28px;background:#ef4444}
 
-/* ---------- Hero Action Buttons ---------- */
-.hero-join-wrapper{
-  margin-top:16px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  width:100%;
-}
-.hero-btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:12px 18px;border-radius:999px;background:transparent;
-  color:#ef4444;border:1.5px solid #ef4444;font-weight:700;font-size:13px;
-  transition:.25s;min-height:46px;text-decoration:none;width:100%;
-}
+/* ---------- Hero Action Buttons (2 tombol) ---------- */
+.hero-join-wrapper{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;}
+@media(max-width:640px){.hero-join-wrapper{grid-template-columns:1fr 1fr;}.hero-join-wrapper #heroJoinButton{grid-column:1 / -1;}}
+.hero-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:999px;background:transparent;color:#ef4444;border:1.5px solid #ef4444;font-weight:700;font-size:13px;transition:.25s;min-height:46px;text-decoration:none;width:100%;}
 .hero-btn:hover{background:#ef4444;color:#fff;transform:translateY(-2px);box-shadow:0 10px 28px rgba(220,38,38,.35)}
+
+/* Tombol install/APK dinamis */
 .hero-btn-install{background:linear-gradient(135deg,rgba(96,165,250,.15),rgba(96,165,250,.05));border-color:rgba(96,165,250,.4);color:#60a5fa}
-.hero-btn-install:hover{background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-color:#3b82f6;color:#fff;box-shadow:0 10px 28px rgba(59,130,246,.35)}
-.hero-btn-install:disabled{cursor:not-allowed;opacity:.55;transform:none;box-shadow:none}
-.hero-btn-apk{background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.05));border-color:rgba(34,197,94,.4);color:#4ade80}
-.hero-btn-apk:hover{background:linear-gradient(135deg,#22c55e,#15803d);border-color:#22c55e;color:#fff;box-shadow:0 10px 28px rgba(34,197,94,.35)}
-@media(max-width:640px){
-  .hero-join-wrapper{grid-template-columns:1fr 1fr;}
-  .hero-join-wrapper #heroJoinButton{grid-column:1 / -1;}
-}
+.hero-btn-install:hover:not(:disabled){background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-color:#3b82f6;color:#fff;box-shadow:0 10px 28px rgba(59,130,246,.35)}
+.hero-btn-install.installed{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(34,197,94,.03));border-color:rgba(34,197,94,.3);color:#4ade80;cursor:not-allowed;opacity:.75}
+.hero-btn-install.update{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(251,191,36,.05));border-color:rgba(251,191,36,.5);color:#fbbf24;animation:pulseUpdate 2s ease-in-out infinite}
+.hero-btn-install.update:hover{background:linear-gradient(135deg,#fbbf24,#d97706);border-color:#fbbf24;color:#1a1a1a;box-shadow:0 10px 28px rgba(251,191,36,.4)}
+@keyframes pulseUpdate{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.4)}50%{box-shadow:0 0 0 8px rgba(251,191,36,0)}}
 
 /* ---------- Quick Access (Beranda Anggota) ---------- */
 #memberBerandaContent{padding:8px 0}
-.quick-access-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-top:8px;
-}
-@media(min-width:700px){
-  .quick-access-grid{grid-template-columns:repeat(4,1fr);}
-}
-.quick-access-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:10px;padding:24px 14px;border-radius:18px;
-  background:linear-gradient(165deg,rgba(26,26,26,.98),rgba(15,15,15,.98));
-  border:1px solid rgba(255,255,255,.07);
-  color:#fff;font-weight:700;font-size:13px;
-  transition:.25s;min-height:120px;
-  cursor:pointer;
-}
-.quick-access-card:hover{
-  border-color:rgba(239,68,68,.35);
-  transform:translateY(-3px);
-  box-shadow:0 12px 32px rgba(220,38,38,.2);
-}
-.quick-access-card i{font-size:28px;color:#ef4444;}
-.quick-access-card[data-view="nickname"] i{color:#60a5fa;}
-.quick-access-card[data-view="tracking"] i{color:#60a5fa;}
-.quick-access-card[data-view="giveaway"] i{color:#fbbf24;}
+.quick-access-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:0}
+@media(min-width:700px){.quick-access-grid{grid-template-columns:repeat(4,1fr)}}
+.quick-access-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px 14px;border-radius:18px;background:linear-gradient(165deg,rgba(26,26,26,.98),rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);color:#fff;font-weight:700;font-size:13px;transition:.25s;min-height:120px;cursor:pointer;}
+.quick-access-card:hover{border-color:rgba(239,68,68,.35);transform:translateY(-3px);box-shadow:0 12px 32px rgba(220,38,38,.2)}
+.quick-access-card i{font-size:28px;color:#ef4444}
+.quick-access-card[data-view="nickname"] i{color:#60a5fa}
+.quick-access-card[data-view="tracking"] i{color:#60a5fa}
+.quick-access-card[data-view="giveaway"] i{color:#fbbf24}
 .quick-access-card[data-view="giveaway"]{display:none}
-
-/* ---------- Stats cards ---------- */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px;margin-bottom:24px}
-.stat-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:linear-gradient(165deg, rgba(26,26,26,.95), rgba(15,15,15,.95));border:1px solid rgba(255,255,255,.07);transition:.25s}
-.stat-card:hover{border-color:rgba(239,68,68,.3);transform:translateY(-2px)}
-.stat-card .stat-icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
-.stat-card .stat-icon.red{background:rgba(239,68,68,.12);color:#ef4444}
-.stat-card .stat-icon.gold{background:rgba(251,191,36,.12);color:#fbbf24}
-.stat-card .stat-icon.blue{background:rgba(96,165,250,.12);color:#60a5fa}
-.stat-card .stat-icon img{width:20px;height:20px;object-fit:contain}
-.stat-card .stat-info{min-width:0;flex:1}
-.stat-card .stat-label{font-size:10.5px;color:#8b93a3;text-transform:uppercase;letter-spacing:.6px;font-weight:700}
-.stat-card .stat-value{font-family:'Orbitron';font-size:18px;font-weight:900;color:#fff;margin-top:2px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.stat-card .stat-value.gold{color:#fbbf24}
 
 /* ---------- Section header ---------- */
 .section-header{display:flex;align-items:center;gap:12px;margin:24px 0 14px}
@@ -347,29 +286,10 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .music-toggle.muted{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);color:#9ca8bb;box-shadow:0 8px 20px rgba(0,0,0,.45)}
 
 /* ---------- Floating CS Button (di atas music toggle) ---------- */
-.cs-float-btn{
-  position:fixed;
-  right:18px;
-  bottom:calc(88px + 60px + env(safe-area-inset-bottom,0px));
-  width:48px;height:48px;border-radius:50%;
-  border:1px solid rgba(37,211,102,.4);
-  background:linear-gradient(135deg,#25d366,#128c7e);
-  color:#fff;display:flex;align-items:center;justify-content:center;
-  font-size:18px;z-index:100;
-  box-shadow:0 10px 28px rgba(37,211,102,.4);
-  transition:transform .25s,box-shadow .25s;
-}
+.cs-float-btn{position:fixed;right:18px;bottom:calc(88px + 60px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border-radius:50%;border:1px solid rgba(37,211,102,.4);background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:100;box-shadow:0 10px 28px rgba(37,211,102,.4);transition:transform .25s,box-shadow .25s;}
 .cs-float-btn:hover{transform:scale(1.08)}
-.cs-float-btn .cs-float-pulse{
-  position:absolute;inset:-4px;border-radius:50%;
-  border:2px solid rgba(37,211,102,.5);
-  animation:csPulse 2s ease-out infinite;
-  pointer-events:none;
-}
-@keyframes csPulse{
-  0%{transform:scale(1);opacity:.8}
-  100%{transform:scale(1.5);opacity:0}
-}
+.cs-float-btn .cs-float-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,.5);animation:csPulse 2s ease-out infinite;pointer-events:none}
+@keyframes csPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
 
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:.35s ease;overflow-y:auto}
 .popup-overlay.show{opacity:1;visibility:visible}
@@ -392,44 +312,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .popup-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)}
 .popup-divider-label{font-size:9px;color:#6b7280;letter-spacing:3px;font-weight:800;font-family:'Orbitron'}
 body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
-
-.nick-modern-card{position:relative;overflow:hidden;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.07)}
-.nick-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:320px;height:320px;background:radial-gradient(circle,rgba(239,68,68,.15),transparent 70%);pointer-events:none;z-index:0}
-.nick-aurora{position:absolute;inset:-50%;background:conic-gradient(from 0deg at 50% 50%,rgba(239,68,68,.08),rgba(251,191,36,.06),rgba(96,165,250,.08),rgba(34,197,94,.06),rgba(239,68,68,.08));animation:auroraSpin 18s linear infinite;filter:blur(60px);opacity:.6;pointer-events:none;z-index:0}
-@keyframes auroraSpin{to{transform:rotate(360deg)}}
-.nick-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.nick-particles span{position:absolute;width:3px;height:3px;border-radius:50%;animation:particleFloat linear infinite}
-@keyframes particleFloat{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-120px) scale(.3);opacity:0}}
-.nick-label-modern{position:relative;z-index:1;text-align:center;font-size:11px;color:#8b93a3;letter-spacing:2.5px;font-weight:800;margin-bottom:16px;text-transform:uppercase}
-.nick-label-modern i{color:#fbbf24;margin-right:6px}
-.nick-display-modern{position:relative;z-index:1;padding:28px 20px;border-radius:18px;background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.02));border:2px dashed rgba(96,165,250,.4);margin-bottom:16px;text-align:center;overflow:hidden;transition:.35s}
-.nick-display-modern.unlocked{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.03));border-color:rgba(34,197,94,.5);box-shadow:0 0 40px rgba(34,197,94,.18)}
-.nick-display-modern.locked{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.02));border-color:rgba(239,68,68,.4)}
-.nick-shine{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:nickShineMove 3s infinite;pointer-events:none}
-@keyframes nickShineMove{0%{left:-100%}50%,100%{left:200%}}
-.nick-scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.6),transparent);animation:scanMove 3s ease-in-out infinite;pointer-events:none;z-index:2}
-@keyframes scanMove{0%,100%{top:0;opacity:0}50%{top:100%;opacity:1}}
-.nick-display-modern .nickname-value{font-family:'Orbitron';font-size:clamp(18px,5vw,26px);font-weight:900;color:#60a5fa;line-height:1.3;margin:0;letter-spacing:.5px;position:relative;z-index:1}
-.nick-display-modern.unlocked .nickname-value{color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,.6),0 0 22px rgba(74,222,128,.35)}
-.nick-display-modern.locked .nickname-value{color:#f87171;font-size:clamp(15px,4vw,19px)}
-.nick-hint{position:relative;z-index:1;font-size:10px;color:#6b7280;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;font-weight:700}
-.nick-info-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);margin-bottom:12px;transition:.2s}
-.nick-info-modern:hover{background:rgba(96,165,250,.1);transform:translateY(-1px)}
-.nick-info-icon{width:28px;height:28px;border-radius:50%;background:rgba(96,165,250,.15);color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.nick-info-text{flex:1;font-size:11.5px;color:#93c5fd;line-height:1.55}
-.nick-warn-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.25);margin-bottom:16px}
-.nick-warn-icon{width:28px;height:28px;border-radius:50%;background:rgba(251,191,36,.15);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.nick-warn-text{flex:1;font-size:10.5px;color:#fbbf24;line-height:1.6}
-.nick-warn-text strong{color:#fff}
-.verify-status-modern{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:11.5px;color:#9ca8bb;margin-bottom:14px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);line-height:1.4}
-.status-dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,.8);animation:dotPulse 1.6s ease-in-out infinite;flex-shrink:0}
-@keyframes dotPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}}
-.verify-status-modern.verified .status-dot{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.8)}
-.verify-status-modern.failed .status-dot{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.8)}
-.nick-btn-modern{position:relative;z-index:1;overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1)}
-.nick-btn-modern:disabled{opacity:.55;cursor:not-allowed}
-.nick-btn-modern .btn-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.25),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
-.nick-btn-modern:hover .btn-glow{opacity:1}
 
 .notif-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.3s;overflow-y:auto}
 .notif-overlay.show{opacity:1;visibility:visible}
@@ -629,6 +511,44 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 #csServiceModal .modal{display:flex;flex-direction:column;max-height:92vh;padding:0;overflow:hidden;background:#0b141a}
 #csServiceModal .cs-scroll-body{flex:1;overflow-y:auto}
 
+.nick-modern-card{position:relative;overflow:hidden;background:linear-gradient(165deg,#1a1a1a 0%,#141414 50%,#0f0f0f 100%);border:1px solid rgba(255,255,255,.07)}
+.nick-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:320px;height:320px;background:radial-gradient(circle,rgba(239,68,68,.15),transparent 70%);pointer-events:none;z-index:0}
+.nick-aurora{position:absolute;inset:-50%;background:conic-gradient(from 0deg at 50% 50%,rgba(239,68,68,.08),rgba(251,191,36,.06),rgba(96,165,250,.08),rgba(34,197,94,.06),rgba(239,68,68,.08));animation:auroraSpin 18s linear infinite;filter:blur(60px);opacity:.6;pointer-events:none;z-index:0}
+@keyframes auroraSpin{to{transform:rotate(360deg)}}
+.nick-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.nick-particles span{position:absolute;width:3px;height:3px;border-radius:50%;animation:particleFloat linear infinite}
+@keyframes particleFloat{0%{transform:translateY(0) scale(1);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-120px) scale(.3);opacity:0}}
+.nick-label-modern{position:relative;z-index:1;text-align:center;font-size:11px;color:#8b93a3;letter-spacing:2.5px;font-weight:800;margin-bottom:16px;text-transform:uppercase}
+.nick-label-modern i{color:#fbbf24;margin-right:6px}
+.nick-display-modern{position:relative;z-index:1;padding:28px 20px;border-radius:18px;background:linear-gradient(135deg,rgba(96,165,250,.1),rgba(96,165,250,.02));border:2px dashed rgba(96,165,250,.4);margin-bottom:16px;text-align:center;overflow:hidden;transition:.35s}
+.nick-display-modern.unlocked{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.03));border-color:rgba(34,197,94,.5);box-shadow:0 0 40px rgba(34,197,94,.18)}
+.nick-display-modern.locked{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.02));border-color:rgba(239,68,68,.4)}
+.nick-shine{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:nickShineMove 3s infinite;pointer-events:none}
+@keyframes nickShineMove{0%{left:-100%}50%,100%{left:200%}}
+.nick-scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(96,165,250,.6),transparent);animation:scanMove 3s ease-in-out infinite;pointer-events:none;z-index:2}
+@keyframes scanMove{0%,100%{top:0;opacity:0}50%{top:100%;opacity:1}}
+.nick-display-modern .nickname-value{font-family:'Orbitron';font-size:clamp(18px,5vw,26px);font-weight:900;color:#60a5fa;line-height:1.3;margin:0;letter-spacing:.5px;position:relative;z-index:1}
+.nick-display-modern.unlocked .nickname-value{color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,.6),0 0 22px rgba(74,222,128,.35)}
+.nick-display-modern.locked .nickname-value{color:#f87171;font-size:clamp(15px,4vw,19px)}
+.nick-hint{position:relative;z-index:1;font-size:10px;color:#6b7280;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;font-weight:700}
+.nick-info-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);margin-bottom:12px;transition:.2s}
+.nick-info-modern:hover{background:rgba(96,165,250,.1);transform:translateY(-1px)}
+.nick-info-icon{width:28px;height:28px;border-radius:50%;background:rgba(96,165,250,.15);color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.nick-info-text{flex:1;font-size:11.5px;color:#93c5fd;line-height:1.55}
+.nick-warn-modern{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.25);margin-bottom:16px}
+.nick-warn-icon{width:28px;height:28px;border-radius:50%;background:rgba(251,191,36,.15);color:#fbbf24;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.nick-warn-text{flex:1;font-size:10.5px;color:#fbbf24;line-height:1.6}
+.nick-warn-text strong{color:#fff}
+.verify-status-modern{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:11.5px;color:#9ca8bb;margin-bottom:14px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);line-height:1.4}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,.8);animation:dotPulse 1.6s ease-in-out infinite;flex-shrink:0}
+@keyframes dotPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}}
+.verify-status-modern.verified .status-dot{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.8)}
+.verify-status-modern.failed .status-dot{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.8)}
+.nick-btn-modern{position:relative;z-index:1;overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1)}
+.nick-btn-modern:disabled{opacity:.55;cursor:not-allowed}
+.nick-btn-modern .btn-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.25),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
+.nick-btn-modern:hover .btn-glow{opacity:1}
+
 .avatar-frame{position:relative;display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;padding:4px;background:#0a0a0a;isolation:isolate}
 .avatar-frame::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg, transparent 0%, transparent 70%, #60a5fa 85%, #fff 100%);animation:rotateRing 3s linear infinite;z-index:-2}
 .avatar-frame::after{content:'';position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(from 180deg, transparent 0%, transparent 70%, #ef4444 85%, #fff 100%);animation:rotateRingReverse 4s linear infinite;z-index:-1}
@@ -663,14 +583,12 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
 /* ================================================================
    RESPONSIVE
    ================================================================ */
-
 @media(max-width:1024px){
   .sidebar{width:220px;padding:18px 12px}
   .content{padding:22px 22px 48px}
   .hero-banner{height:260px}
   .hero-title{font-size:24px}
 }
-
 @media(min-width:768px) and (max-width:900px){
   .sidebar{width:78px;padding:14px 8px;align-items:center}
   .sidebar-brand{justify-content:center;padding:6px 0 14px}
@@ -683,7 +601,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .hero-banner{height:230px}
   .hero-title{font-size:21px}
 }
-
 @media(min-width:601px) and (max-width:767px){
   .sidebar{width:72px;padding:12px 6px;align-items:center}
   .sidebar-brand{justify-content:center;padding:6px 0 12px}
@@ -698,7 +615,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .hero-title{font-size:20px}
   .modal{max-width:440px;padding:20px;border-radius:20px}
 }
-
 @media(max-width:600px){
   body{background-attachment:scroll}
   .sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;max-height:70px;flex-direction:row;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));border-top:1px solid rgba(255,255,255,.08);border-right:none;z-index:100;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;gap:0;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);background:rgba(10,10,10,.97);scrollbar-width:none}
@@ -709,6 +625,10 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .sidebar-item i{font-size:17px;width:auto;line-height:1;height:auto;border-radius:0}
   .sidebar-item span{display:block;font-size:8px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:600}
   .sidebar-item.active{background:rgba(239,68,68,.14);border:none;box-shadow:none}
+  /* Urutan menu HP: Store → Beranda → Ranking */
+  .sidebar-item[data-view="katalog"]{order:1}
+  .sidebar-item[data-view="beranda"]{order:2}
+  .sidebar-item[data-view="ranking"]{order:3}
   .main-area{padding-bottom:80px;flex-direction:column;width:100%}
   .content{padding:14px 14px 100px;width:100%;overflow-x:hidden}
   .topbar{gap:8px;margin-bottom:18px;padding-bottom:14px}
@@ -730,11 +650,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .quick-access-grid{grid-template-columns:repeat(2,1fr);gap:10px}
   .quick-access-card{padding:20px 10px;min-height:100px;font-size:12px}
   .quick-access-card i{font-size:24px}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
-  .stat-card{padding:12px 14px;border-radius:14px}
-  .stat-card .stat-icon{width:38px;height:38px;font-size:14px;border-radius:10px}
-  .stat-card .stat-icon img{width:18px;height:18px}
-  .stat-card .stat-value{font-size:16px}
   .section-header{margin:18px 0 12px;gap:10px}
   .section-header .icon-box{width:34px;height:34px;font-size:13px;border-radius:10px}
   .section-header .text h3{font-size:12px}
@@ -811,7 +726,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .drawer-subtitle{font-size:12px;margin-bottom:24px}
   .photo-gallery{grid-template-columns:repeat(3,1fr);gap:8px}
 }
-
 @media(max-width:380px){
   .content{padding:12px 10px 96px}
   .main-area{padding-bottom:74px}
@@ -852,7 +766,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .music-toggle{width:40px;height:40px;font-size:14px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom, 0px))}
   .cs-float-btn{width:40px;height:40px;font-size:14px;right:12px;bottom:calc(78px + 46px + env(safe-area-inset-bottom,0px))}
 }
-
 @media(max-width:320px){
   .content{padding:10px 8px 90px}
   .main-area{padding-bottom:70px}
@@ -870,7 +783,6 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .popup-code{font-size:14px}
   .notif-title{font-size:13px}
 }
-
 @media(orientation:landscape) and (max-height:500px){
   .sidebar{position:fixed;top:0;left:0;bottom:0;right:auto;width:60px;height:100vh;max-height:none;flex-direction:column;padding:8px 5px;border-right:1px solid rgba(255,255,255,.06);border-top:none;overflow-y:auto}
   .sidebar-brand,.sidebar-section-title{display:none}
@@ -896,20 +808,15 @@ body.has-overlay .popup-overlay{opacity:0!important;visibility:hidden!important;
   .music-toggle{bottom:14px;right:14px;width:40px;height:40px;font-size:14px}
   .cs-float-btn{bottom:58px;right:14px;width:40px;height:40px;font-size:14px}
 }
-
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
-
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(239,68,68,.4)}
-
 @keyframes giveawayRingSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 
-/* ================================================================
-   GUEST / MEMBER STATE
-   ================================================================ */
+/* Guest/member state */
 body.is-guest #memberBerandaContent{display:none!important}
 body:not(.is-guest) #guestBerandaContent{display:none!important}
 </style>
@@ -933,11 +840,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
       <button class="sidebar-item active" data-view="beranda" type="button" id="menuBeranda"><i class="fas fa-home"></i><span>Beranda</span></button>
       <button class="sidebar-item" data-view="katalog" type="button" id="menuKatalog"><i class="fas fa-store"></i><span>TFC Store</span></button>
       <button class="sidebar-item" data-view="ranking" type="button"><i class="fas fa-trophy"></i><span>Ranking</span></button>
-      <button class="sidebar-item guest-hide" data-view="absen" type="button"><i class="fas fa-calendar-check"></i><span>Absen</span></button>
-      <button class="sidebar-item guest-hide" data-view="nickname" type="button"><i class="fas fa-id-badge"></i><span>Klaim Nick</span></button>
-      <button class="sidebar-item tracking-menu" data-view="tracking" type="button" id="menuTracking"><i class="fas fa-truck-fast"></i><span>Cek Paket</span></button>
-      <button class="sidebar-item giveaway-menu" data-view="giveaway" type="button" id="menuGiveaway"><i class="fas fa-gift"></i><span>Giveaway</span></button>
-      <button class="sidebar-item cs-admin" data-view="csadmin" type="button" id="menuCsAdmin" style="display:none;"><i class="fas fa-headset"></i><span>CS</span></button>
     </nav>
   </aside>
   <div class="main-area">
@@ -999,11 +901,9 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
             </div>
             <div class="hero-join-wrapper">
               <button class="hero-btn" id="heroJoinButton" type="button"><i class="fas fa-user-plus"></i> Gabung Sekarang</button>
-              <a class="hero-btn hero-btn-apk" id="apkDownloadBtn" href="https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu" target="_blank" rel="noopener">
-                <i class="fas fa-download"></i> Download APK
-              </a>
-              <button class="hero-btn hero-btn-install" id="pwaInstallBtn" type="button">
-                <i class="fas fa-mobile-alt"></i> <span id="pwaInstallText">Install ke HP</span>
+              <button class="hero-btn hero-btn-install" id="installActionBtn" type="button">
+                <i class="fas fa-download" id="installBtnIcon"></i>
+                <span id="installBtnText">Download APK</span>
               </button>
             </div>
           </div>
@@ -1055,10 +955,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
 
         <!-- MEMBER CONTENT (Quick Access saja) -->
         <div id="memberBerandaContent" style="display:none;">
-          <div class="section-header">
-            <div class="icon-box"><i class="fas fa-bolt"></i></div>
-            <div class="text"><h3>Menu Anggota</h3><p>Fitur khusus anggota TFC</p></div>
-          </div>
           <div class="quick-access-grid">
             <button class="quick-access-card" data-view="absen" type="button">
               <i class="fas fa-calendar-check"></i>
@@ -1546,8 +1442,10 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
 
 /* ============================================================
    THE FAMILY COMMUNITY — FRONTEND V1.2.0 FINAL
-   Beranda anggota = Quick Access saja (tanpa hero/social)
-   Sidebar = Beranda, TFC Store, Ranking (semua device)
+   - Beranda anggota: Quick Access saja (tanpa hero/social/stats)
+   - Sidebar: Beranda, TFC Store, Ranking (semua device)
+   - Install adaptif: Android=APK, PC=PWA, iOS=PWA
+   - Auto-update APK via versi (Opsi A: blokir semua fitur login)
    ============================================================ */
 
 let currentUser = null;
@@ -1580,7 +1478,16 @@ let katalogItems = [];
 let katalogFilterValue = 'all';
 let katalogSearchValue = '';
 let pendingRewardItem = null;
+
+/* ===== APK & PWA state ===== */
 let deferredPrompt = null;
+let serverApkUrl = 'https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu';
+let serverApkVersion = '1.2.0';
+let serverApkVersionCode = 12;
+let currentApkVersion = null;
+let currentApkVersionCode = null;
+let forceUpdateRequired = false;
+let isPWAInstalledFlag = false;
 
 const SESSION_KEY = 'TFC_V100_SESSION';
 const BROADCAST_SEEN_KEY = 'TFC_BROADCAST_SEEN';
@@ -1590,8 +1497,6 @@ const DZO_URL = 'https://dzo-hub.com/c/DZOFAMILY';
 const DZO_CODE = 'DZOFAMILY';
 const LEADER_EMAIL_DEFAULT = 'docigangz@gmail.com';
 const APK_URL_DEFAULT = 'https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu';
-
-/* ===== IKON POINT TFC ===== */
 const POINT_ICON_URL = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiO96OJIzYXsSjsTrqCgiEMwzxpJ8Yj2Wws6KVYwFocypkyTIp04iUYT1VOtSIRJPGGrCqDyRdwMqwVX3bQMCyoGnytNg7-8Z7RX_WqqHrjiE2kh1zqcEYGHUtm8-ZWLmsHRX7qp-qLpls6gyMZGsAkAYAgl83i3qFoT5ZOMc86ITScI6QAvtSEisXm0XYY/s1254/1000651603.png';
 
 /* ---------- HELPERS ---------- */
@@ -1637,7 +1542,7 @@ function sanitizeNotifHtml(html) {
   return tmp.innerHTML;
 }
 
-/* ---------- DEVICE DETECTION ---------- */
+/* ---------- DEVICE / APK / PWA DETECTION ---------- */
 function getDeviceType() {
   const ua = navigator.userAgent || '';
   if (/Android/i.test(ua)) return 'android';
@@ -1645,43 +1550,172 @@ function getDeviceType() {
   if (/Windows|Macintosh|Linux/i.test(ua) && !/Android|iPhone|iPad/i.test(ua)) return 'desktop';
   return 'unknown';
 }
-function isPWAInstalled() {
+function isRunningInApk() { return /TFCApp\//i.test(navigator.userAgent || ''); }
+function parseApkVersionFromUA() {
+  const ua = navigator.userAgent || '';
+  const match = ua.match(/TFCApp\/([\d.]+)\s*\(vcode=(\d+)\)/);
+  if (match) return { version: match[1], code: parseInt(match[2], 10) };
+  const simpleMatch = ua.match(/TFCApp\/([\d.]+)/);
+  if (simpleMatch) return { version: simpleMatch[1], code: 0 };
+  return null;
+}
+function isPWAStandalone() {
   if (window.matchMedia('(display-mode: standalone)').matches) return true;
   if (window.navigator.standalone === true) return true;
   if (document.referrer.startsWith('android-app://')) return true;
   return false;
 }
-function updateInstallButtonLabel() {
-  const pwaBtn = document.getElementById('pwaInstallBtn');
-  if (!pwaBtn) return;
-  const device = getDeviceType(); const installed = isPWAInstalled();
-  if (installed) {
-    pwaBtn.disabled = true;
-    pwaBtn.innerHTML = '<i class="fas fa-check"></i> <span id="pwaInstallText">Terinstall</span>';
-    pwaBtn.style.opacity = '.55'; pwaBtn.style.cursor = 'not-allowed';
+function compareVersions(v1, v2) {
+  const a = String(v1 || '0').split('.').map(Number);
+  const b = String(v2 || '0').split('.').map(Number);
+  const len = Math.max(a.length, b.length);
+  for (let i = 0; i < len; i++) {
+    const x = a[i] || 0, y = b[i] || 0;
+    if (x > y) return 1;
+    if (x < y) return -1;
+  }
+  return 0;
+}
+
+/* ---------- UPDATE TOMBOL INSTALL/APK ---------- */
+function updateInstallButton() {
+  const btn = document.getElementById('installActionBtn');
+  const btnText = document.getElementById('installBtnText');
+  const btnIcon = document.getElementById('installBtnIcon');
+  if (!btn || !btnText) return;
+
+  const device = getDeviceType();
+  btn.classList.remove('installed', 'update');
+  btn.style.cursor = '';
+  btn.style.opacity = '';
+  btn.removeAttribute('disabled');
+  btn.onclick = null;
+
+  // CASE 1: Di dalam APK Android
+  if (isRunningInApk()) {
+    const apkInfo = parseApkVersionFromUA();
+    currentApkVersion = apkInfo ? apkInfo.version : null;
+    currentApkVersionCode = apkInfo ? apkInfo.code : null;
+    const isOutdated = (currentApkVersionCode && serverApkVersionCode && currentApkVersionCode < serverApkVersionCode)
+                    || (compareVersions(currentApkVersion, serverApkVersion) < 0);
+    if (isOutdated) {
+      forceUpdateRequired = true;
+      btn.classList.add('update');
+      btnText.textContent = 'Update ke v' + serverApkVersion;
+      if (btnIcon) btnIcon.className = 'fas fa-arrow-up';
+      btn.onclick = function () { window.open(serverApkUrl, '_blank'); };
+      setTimeout(showForceUpdateNotif, 1500);
+    } else {
+      forceUpdateRequired = false;
+      btn.classList.add('installed');
+      btn.disabled = true;
+      btnText.textContent = 'Sudah Terinstall';
+      if (btnIcon) btnIcon.className = 'fas fa-check';
+    }
     return;
   }
-  let icon = 'fa-mobile-alt', label = 'Install ke HP';
-  if (device === 'desktop') { icon = 'fa-desktop'; label = 'Install di PC'; }
-  else if (device === 'ios') { icon = 'fa-mobile-screen-button'; label = 'Install di iPhone'; }
-  pwaBtn.innerHTML = '<i class="fas ' + icon + '"></i> <span id="pwaInstallText">' + label + '</span>';
-  pwaBtn.disabled = false; pwaBtn.style.opacity = '1'; pwaBtn.style.cursor = '';
-}
-function updateApkButtonVisibility() {
-  const apkBtn = document.getElementById('apkDownloadBtn'); if (!apkBtn) return;
-  apkBtn.style.display = (getDeviceType() === 'android') ? '' : 'none';
-  adjustHeroGrid();
-}
-function adjustHeroGrid() {
-  const wrapper = document.querySelector('.hero-join-wrapper'); if (!wrapper) return;
-  const apkBtn = document.getElementById('apkDownloadBtn');
-  const apkVisible = apkBtn && apkBtn.style.display !== 'none';
-  wrapper.style.gridTemplateColumns = apkVisible ? 'repeat(3,1fr)' : 'repeat(2,1fr)';
-  if (window.innerWidth <= 640) {
-    wrapper.style.gridTemplateColumns = 'repeat(2,1fr)';
-    const joinBtn = document.getElementById('heroJoinButton');
-    if (joinBtn) joinBtn.style.gridColumn = '1 / -1';
+
+  // CASE 2: PWA sudah install (PC/iOS)
+  if (isPWAStandalone() || isPWAInstalledFlag) {
+    btn.classList.add('installed');
+    btn.disabled = true;
+    btnText.textContent = 'Sudah Terinstall';
+    if (btnIcon) btnIcon.className = 'fas fa-check';
+    return;
   }
+
+  // CASE 3: Android di browser
+  if (device === 'android') {
+    btnText.textContent = 'Download APK';
+    if (btnIcon) btnIcon.className = 'fas fa-download';
+    btn.onclick = function () { window.open(serverApkUrl, '_blank'); };
+    return;
+  }
+
+  // CASE 4: PC
+  if (device === 'desktop') {
+    btnText.textContent = 'Install di PC';
+    if (btnIcon) btnIcon.className = 'fas fa-desktop';
+    btn.onclick = handlePwaInstall;
+    return;
+  }
+
+  // CASE 5: iOS
+  if (device === 'ios') {
+    btnText.textContent = 'Install di iPhone';
+    if (btnIcon) btnIcon.className = 'fas fa-mobile-screen-button';
+    btn.onclick = handleIosInstall;
+    return;
+  }
+
+  // Fallback
+  btnText.textContent = 'Download APK';
+  if (btnIcon) btnIcon.className = 'fas fa-download';
+  btn.onclick = function () { window.open(serverApkUrl, '_blank'); };
+}
+
+function handlePwaInstall() {
+  if (!deferredPrompt) {
+    showNotif({
+      type: 'info', title: 'CARA INSTALL DI PC',
+      message: 'Browser Anda belum mendukung install otomatis.<br><br>' +
+        '<strong>Chrome / Edge:</strong><br>1. Klik ikon <strong>install</strong> (⊕) di address bar<br>2. Atau menu <strong>⋮ → Install TFC</strong><br><br>' +
+        '<strong>Firefox:</strong> belum mendukung PWA install.<br>Gunakan Chrome/Edge untuk install.',
+      autoMode: false, showCancel: false, okText: 'Mengerti'
+    });
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function (choice) {
+    if (choice && choice.outcome === 'accepted') {
+      isPWAInstalledFlag = true;
+      updateInstallButton();
+      showNotif({ type: 'success', title: '✅ INSTALL BERHASIL', message: 'TFC sudah terinstall di PC Anda.<br>Cek di Desktop atau Start Menu.', autoMode: true, countdown: 3 });
+    }
+    deferredPrompt = null;
+  }).catch(function () { deferredPrompt = null; });
+}
+
+function handleIosInstall() {
+  const isSafari = /Safari/.test(navigator.userAgent) && !/CriOS|FxiOS|EdgiOS/.test(navigator.userAgent);
+  if (!isSafari) {
+    showNotif({ type: 'warning', title: 'GUNAKAN SAFARI', message: 'Install di iPhone <strong>HANYA BISA</strong> lewat <strong>Safari</strong>.<br><br>Buka halaman ini di Safari, lalu ikuti langkah install.', autoMode: false, showCancel: false, okText: 'Mengerti' });
+    return;
+  }
+  showNotif({
+    type: 'info', title: '📱 CARA INSTALL DI iPHONE',
+    message: 'Ikuti langkah berikut:<br><br>' +
+      '1. Tap ikon <strong>Share</strong> <i class="fas fa-arrow-up-from-bracket" style="color:#60a5fa;"></i> di bawah Safari<br>' +
+      '2. Scroll dan pilih <strong>Add to Home Screen</strong><br>' +
+      '3. Tap <strong>Add</strong><br><br>' +
+      '✅ TFC akan muncul di Home Screen iPhone Anda.',
+    autoMode: false, showCancel: false, okText: 'Siap, Sudah Paham'
+  });
+}
+
+function showForceUpdateNotif() {
+  showNotif({
+    type: 'warning', title: '🔄 UPDATE TERSEDIA',
+    message: 'Versi APK Anda: <strong style="color:#f87171;">v' + escapeHtml(currentApkVersion || '?') + '</strong><br>' +
+      'Versi terbaru: <strong style="color:#4ade80;">v' + escapeHtml(serverApkVersion) + '</strong><br><br>' +
+      'Silakan update APK untuk menikmati fitur terbaru.<br>' +
+      '<strong style="color:#fbbf24;">Sebagian fitur mungkin tidak berjalan di versi lama.</strong>',
+    autoMode: false, showCancel: true, okText: '🔄 Update Sekarang', cancelText: 'Nanti',
+    onConfirm: function (ok) { if (ok) window.open(serverApkUrl, '_blank'); }
+  });
+}
+
+function blockFeatureIfOutdated(featureName) {
+  if (!forceUpdateRequired) return false;
+  showNotif({
+    type: 'error', title: '⚠️ WAJIB UPDATE',
+    message: 'Fitur <strong>' + escapeHtml(featureName) + '</strong> memerlukan versi APK terbaru.<br><br>' +
+      'Versi Anda: <strong style="color:#f87171;">v' + escapeHtml(currentApkVersion || '?') + '</strong><br>' +
+      'Versi terbaru: <strong style="color:#4ade80;">v' + escapeHtml(serverApkVersion) + '</strong>',
+    autoMode: false, showCancel: true, okText: '🔄 Update Sekarang', cancelText: 'Batal',
+    onConfirm: function (ok) { if (ok) window.open(serverApkUrl, '_blank'); }
+  });
+  return true;
 }
 
 /* ---------- STRICT NICKNAME COPY ---------- */
@@ -1794,7 +1828,13 @@ function isAnyOverlayOpen() {
 function updateOverlayGuard() {
   const has = isAnyOverlayOpen();
   document.body.classList.toggle('has-overlay', has);
-  if (has) { const p = document.getElementById('popupAds'); if (p && p.classList.contains('show')) { p.classList.remove('show'); if (popupAutoCloseTimer) { clearTimeout(popupAutoCloseTimer); popupAutoCloseTimer = null; } } }
+  if (has) {
+    const p = document.getElementById('popupAds');
+    if (p && p.classList.contains('show')) {
+      p.classList.remove('show');
+      if (popupAutoCloseTimer) { clearTimeout(popupAutoCloseTimer); popupAutoCloseTimer = null; }
+    }
+  }
 }
 function safeShowPopup(fn) { if (isAnyOverlayOpen()) { popupPendingShow = true; return; } popupAlreadyShown = true; fn(); }
 function watchOverlays() {
@@ -1875,6 +1915,7 @@ function showNotif(opts) {
     if (a) a.style.display = '';
   }
   notifCallback = opts.onConfirm || null;
+  closeCombinedPopup();
   o.classList.add('show');
 }
 function closeNotif() {
@@ -2061,6 +2102,10 @@ function setGuestState() {
   hasClaimedReward = false; claimedRewardData = null;
   if (attendanceInterval) { clearInterval(attendanceInterval); attendanceInterval = null; }
   document.body.classList.add('is-guest');
+  const guestC = document.getElementById('guestBerandaContent');
+  const memberC = document.getElementById('memberBerandaContent');
+  if (guestC) guestC.style.display = 'block';
+  if (memberC) memberC.style.display = 'none';
   const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
   if (lt) lt.style.display = 'inline-block'; if (ph) ph.classList.remove('show'); if (lo) lo.classList.remove('show');
   const tt = document.getElementById('topbarTitle'); if (tt) tt.innerHTML = 'Halo, <span id="welcomeNickname">Pengunjung</span>';
@@ -2070,6 +2115,12 @@ function setGuestState() {
 function setLoggedInState(user) {
   currentUser = user; hasClaimedReward = false; claimedRewardData = null; currentTrackingData = null;
   document.body.classList.remove('is-guest');
+  const guestC = document.getElementById('guestBerandaContent');
+  const memberC = document.getElementById('memberBerandaContent');
+  if (guestC) guestC.style.display = 'none';
+  if (memberC) memberC.style.display = 'block';
+  const qaGw = document.getElementById('qaGiveaway');
+  if (qaGw) qaGw.style.display = (String(user.role || '').toUpperCase() === 'LEADER') ? 'flex' : 'none';
   const lt = document.getElementById('loginTriggerButton'), ph = document.getElementById('profileHeaderButton'), lo = document.getElementById('logoutButton');
   if (lt) lt.style.display = 'none'; if (ph) ph.classList.add('show'); if (lo) lo.classList.add('show');
   document.getElementById('headerAvatar').src = getAvatarSrc(user);
@@ -2080,23 +2131,32 @@ function setLoggedInState(user) {
   loadRanking(); loadStockKaos(); checkRewardClaimStatus(); preloadRewardData(); loadKatalogReward();
   if (attendanceInterval) clearInterval(attendanceInterval);
   updateAttendanceStatus(); attendanceInterval = setInterval(updateAttendanceStatus, 1000);
-  switchView('absen'); autoSubmitAttendance();
+  switchView('beranda');
+  setTimeout(function() { autoSubmitAttendance(); }, 500);
   setTimeout(function() {
     if (!serverAvailable()) return;
     google.script.run.withSuccessHandler(function(res) { let data = null; if (res && res.success && res.enabled && res.data) data = res.data; if (!data) return; showMemberPopup(data); }).withFailureHandler(function() {}).getPengingatMember();
   }, 800);
 }
-function updateTrackingMenuVisibility() {
-  const m = document.getElementById('menuTracking'); if (!m) return;
-  if (currentUser && hasClaimedReward) m.classList.add('show'); else m.classList.remove('show');
-}
+function updateTrackingMenuVisibility() {}
 
 /* ---------- VIEW ---------- */
 function switchView(v) {
   if (!currentUser && ['absen','nickname','tracking','giveaway'].indexOf(v) > -1) v = 'beranda';
+  if (currentUser && forceUpdateRequired && ['absen','nickname','tracking','giveaway','katalog'].indexOf(v) > -1) {
+    const names = { absen:'Absen', nickname:'Klaim Nick', tracking:'Cek Paket', giveaway:'Giveaway', katalog:'TFC Store' };
+    blockFeatureIfOutdated(names[v] || v);
+    v = 'beranda';
+  }
   document.querySelectorAll('.view-section').forEach(function(s) { s.classList.remove('active'); });
   const map = { beranda:'viewBeranda', absen:'viewAbsen', nickname:'viewNickname', tracking:'viewTracking', ranking:'viewRanking', giveaway:'viewGiveaway', katalog:'viewKatalog' };
   const tid = map[v]; if (tid) { const t = document.getElementById(tid); if (t) t.classList.add('active'); }
+  if (v === 'beranda') {
+    const guestC = document.getElementById('guestBerandaContent');
+    const memberC = document.getElementById('memberBerandaContent');
+    if (currentUser) { if (guestC) guestC.style.display = 'none'; if (memberC) memberC.style.display = 'block'; }
+    else { if (guestC) guestC.style.display = 'block'; if (memberC) memberC.style.display = 'none'; }
+  }
   document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); if (i.getAttribute('data-view') === v) i.classList.add('active'); });
   if (v === 'absen' && currentUser) { currentCalYear = new Date().getFullYear(); currentCalMonth = new Date().getMonth(); loadAttendanceCalendar(currentCalYear, currentCalMonth); updateAbsenNowButton(); refreshRewardDataSilent(); updateRewardClaimBanner(); }
   if (v === 'tracking' && currentUser) loadTrackingView();
@@ -2109,37 +2169,10 @@ function switchView(v) {
 document.querySelectorAll('[data-close]').forEach(function(b) { b.addEventListener('click', function() { closeModal(document.getElementById(b.getAttribute('data-close'))); }); });
 document.querySelectorAll('.modal-overlay').forEach(function(o) { o.addEventListener('click', function(e) { if (e.target === o) closeModal(o); }); });
 
-/* ---------- PWA INSTALL ---------- */
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault(); deferredPrompt = e;
-  updateInstallButtonLabel();
-});
-(function initPwaBtn() {
-  const pwaBtn = document.getElementById('pwaInstallBtn');
-  if (!pwaBtn) return;
-  pwaBtn.addEventListener('click', function() {
-    if (pwaBtn.disabled) return;
-    const device = getDeviceType();
-    if (device === 'ios') {
-      showNotif({ type:'info', title:'CARA INSTALL DI iPHONE', message:'Buka di <strong>Safari</strong>, tap ikon <strong>Share</strong> (kotak panah atas), lalu pilih <strong>Add to Home Screen</strong>.', autoMode: true, countdown: 6 });
-      return;
-    }
-    if (!deferredPrompt) {
-      const msg = device === 'desktop'
-        ? 'Browser Anda belum mendukung PWA install otomatis.<br><br>Gunakan <strong>Chrome</strong> atau <strong>Edge</strong>, lalu klik ikon <strong>install</strong> di address bar.'
-        : 'Buka via <strong>Chrome</strong> dan tunggu beberapa detik, lalu klik tombol Install lagi.';
-      showNotif({ type:'info', title:'CARA INSTALL', message: msg, autoMode:true, countdown:5 });
-      return;
-    }
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(function(choice) {
-      if (choice && choice.outcome === 'accepted') updateInstallButtonLabel();
-      deferredPrompt = null;
-    }).catch(function() { deferredPrompt = null; });
-  });
-})();
-window.addEventListener('appinstalled', function() { updateInstallButtonLabel(); });
-window.addEventListener('resize', function() { adjustHeroGrid(); });
+/* ---------- PWA EVENTS ---------- */
+window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferredPrompt = e; updateInstallButton(); });
+window.addEventListener('appinstalled', function() { isPWAInstalledFlag = true; updateInstallButton(); showNotif({ type:'success', title:'✅ INSTALL BERHASIL', message:'TFC sudah terinstall. Buka dari Home Screen / Desktop.', autoMode:true, countdown:3 }); });
+window.addEventListener('resize', function() { updateInstallButton(); });
 
 /* ---------- LOGIN ---------- */
 document.getElementById('loginTriggerButton').addEventListener('click', function() {
@@ -2163,7 +2196,8 @@ document.getElementById('heroJoinButton').addEventListener('click', function() {
 document.querySelectorAll('.sidebar-item').forEach(function(item) {
   item.addEventListener('click', function() {
     const v = item.getAttribute('data-view'); if (!v) return;
-    if (v === 'beranda' || v === 'ranking' || v === 'katalog') { switchView(v); return; }
+    if (v === 'beranda' || v === 'ranking') { switchView(v); return; }
+    if (v === 'katalog') { if (blockFeatureIfOutdated('TFC Store')) return; switchView(v); return; }
     if (!requireLogin()) return;
     switchView(v);
   });
@@ -2173,6 +2207,7 @@ document.querySelectorAll('.quick-access-card').forEach(function(card) {
     const v = card.getAttribute('data-view');
     if (!v) return;
     if (!currentUser) { requireLogin(); return; }
+    if (blockFeatureIfOutdated('Quick Access')) return;
     if (v === 'giveaway' && String(currentUser.role || '').toUpperCase() !== 'LEADER') {
       showNotif({ type:'error', title:'AKSES DITOLAK', message:'Fitur Giveaway hanya untuk LEADER.', autoMode:true, countdown:2 });
       return;
@@ -2481,6 +2516,7 @@ document.getElementById('calNextBtn').addEventListener('click', function() { cur
 /* ---------- ABSEN ACTION ---------- */
 document.getElementById('absenNowBtn').addEventListener('click', function() {
   if (!currentUser) return;
+  if (blockFeatureIfOutdated('Absen')) return;
   if (!isAttendanceOpen()) { showNotif({ type:'warning', title:'BELUM WAKTUNYA', message:'Jam absen dibuka pukul <strong style="color:#fbbf24;">21:00 WIB</strong>.', autoMode:true, countdown:2 }); return; }
   if (!serverAvailable()) { showNotif({ type:'error', title:'KONEKSI GAGAL', message:'Server tidak terhubung.', autoMode:true, countdown:2 }); return; }
   const btn = this, key = 'TFC_ABSEN_EXPIRE_' + currentUser.idGame, now = Date.now(), expireTime = localStorage.getItem(key);
@@ -2558,6 +2594,7 @@ function resetNicknameView() {
 }
 document.getElementById('verifyNicknameButton').addEventListener('click', function() {
   if (!currentUser || !serverAvailable()) return;
+  if (blockFeatureIfOutdated('Klaim Nick')) return;
   const btn = this, msg = document.getElementById('nicknameMessage'); hideMessage(msg);
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Memverifikasi... <span class="btn-glow"></span>';
   google.script.run
@@ -2601,6 +2638,7 @@ function fallbackCopyExec(text) {
 }
 document.getElementById('copyNicknameButton').addEventListener('click', function() {
   if (!currentUser || !serverAvailable()) return;
+  if (blockFeatureIfOutdated('Klaim Nick')) return;
   const btn = this; if (btn.disabled) return;
   const n = cachedNicknameData && cachedNicknameData.nickname;
   if (!n) { showNotif({ type:'warning', title:'VERIFIKASI DULU', message:'Klik <strong>VERIFIKASI NICKNAME</strong> terlebih dahulu.', autoMode:true, countdown:3 }); return; }
@@ -2736,6 +2774,7 @@ document.getElementById('katalogFilter').addEventListener('change', function(e) 
 
 function openTukarModal(item) {
   if (!currentUser) { requireLogin('TFC Store'); return; }
+  if (blockFeatureIfOutdated('TFC Store')) return;
   pendingRewardItem = item;
   const body = document.getElementById('katalogModalBody'); if (!body) return;
   const isDigital = String(item.tipe || '').toUpperCase() === 'DIGITAL';
@@ -2923,6 +2962,7 @@ function loadGiveawayParticipants(cb) {
 function shuffleArray(a) { const arr = a.slice(); for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
 document.getElementById('startGiveawayBtn').addEventListener('click', function() {
   if (!currentUser || String(currentUser.role || '').toUpperCase() !== 'LEADER') { showNotif({ type:'error', title:'AKSES DITOLAK', message:'Hanya LEADER.', autoMode:true, countdown:2 }); return; }
+  if (blockFeatureIfOutdated('Giveaway')) return;
   const name = document.getElementById('giveawayName').value.trim(), count = parseInt(document.getElementById('giveawayWinners').value, 10) || 1, msg = document.getElementById('giveawayMessage');
   hideMessage(msg);
   if (!name) { showMessage(msg, 'Nama wajib diisi.', 'error'); return; }
@@ -2973,22 +3013,21 @@ function restoreSession() {
   google.script.run.withSuccessHandler(function(r) { if (r && r.success && r.user) { saveSession(r.user); setLoggedInState(r.user); } else { clearSession(); setGuestState(); } }).withFailureHandler(function() { clearSession(); setGuestState(); }).getProfile(s.idGame);
 }
 function loadConfig() {
-  if (!serverAvailable()) { updateInstallButtonLabel(); updateApkButtonVisibility(); return; }
+  if (!serverAvailable()) { updateInstallButton(); return; }
   google.script.run.withSuccessHandler(function(c) {
-    if (!c) { updateInstallButtonLabel(); updateApkButtonVisibility(); return; }
+    if (!c) { updateInstallButton(); return; }
     if (c.logoUrl) { const hl = document.getElementById('headerLogo'), ll = document.getElementById('loginLogo'); if (hl) hl.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="TFC">'; if (ll) ll.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="TFC">'; }
     window.tfcWhatsapp = { coLeader: c.coLeaderWa || '', admin: c.adminWa || '', leaderEmail: c.leaderEmail || LEADER_EMAIL_DEFAULT };
-    const apkBtn = document.getElementById('apkDownloadBtn');
-    if (apkBtn) apkBtn.href = c.apkUrl || APK_URL_DEFAULT;
-    updateInstallButtonLabel();
-    updateApkButtonVisibility();
-  }).withFailureHandler(function() { updateInstallButtonLabel(); updateApkButtonVisibility(); }).getAppConfig();
+    serverApkUrl = c.apkUrl || APK_URL_DEFAULT;
+    serverApkVersion = c.apkVersion || '1.2.0';
+    serverApkVersionCode = c.apkVersionCode || 12;
+    updateInstallButton();
+  }).withFailureHandler(function() { updateInstallButton(); }).getAppConfig();
 }
 
 function startApp() {
   applyPointIcons();
-  updateInstallButtonLabel();
-  updateApkButtonVisibility();
+  updateInstallButton();
   loadConfig(); restoreSession(); startHeroSlider(); initNickParticles(); watchOverlays();
   setTimeout(function() { if (!currentUser && !isAnyOverlayOpen()) { popupAlreadyShown = true; loadAndShowPopup(); } else if (isAnyOverlayOpen()) { popupPendingShow = true; } }, 2000);
 }
