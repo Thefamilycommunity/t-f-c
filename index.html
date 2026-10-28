@@ -60,9 +60,6 @@ window.google.script.run = (function () {
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ================================================================
-   THE FAMILY COMMUNITY — UI MODERN V1.2.0
-   ================================================================ */
 *{margin:0;padding:0;box-sizing:border-box;min-width:0}
 html,body{width:100%;max-width:100vw;min-height:100%;overflow-x:hidden}
 body{
@@ -81,7 +78,7 @@ html{scroll-behavior:smooth}
 ::selection{background:rgba(239,68,68,.35);color:#fff}
 img{max-width:100%;height:auto;display:block}
 
-#headerNickname,#detailNickname,#detailUsername,#welcomeNickname,#nicknameValue,#registerNickname,#pubNickname,.rank-name,.rank-row .rank-name,.nick-display-modern .nickname-value,.giveaway-participant-row .col-akun,.giveaway-participant-row .col-id,.popup-code,.notif-message strong{
+#headerNickname,#detailNickname,#detailUsername,#welcomeNickname,#nicknameValue,#registerNickname,#pubNickname,.rank-name,.rank-row .rank-name,.nick-display-modern .nickname-value,.giveaway-participant-row .col-akun,.giveaway-participant-row .col-id,.popup-code,.notif-message strong,#csSenderInfo,#csSenderInfoText{
   -webkit-user-select:none!important;-moz-user-select:none!important;user-select:none!important;
   -webkit-touch-callout:none!important;word-break:break-word;overflow-wrap:anywhere;
 }
@@ -95,7 +92,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 
 .app{width:100%;min-height:100vh;display:flex;background:transparent}
 
-/* ---------- Sidebar ---------- */
 .sidebar{width:260px;background:linear-gradient(180deg, rgba(15,15,15,.98) 0%, rgba(10,10,10,.98) 100%);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid rgba(255,255,255,.06);padding:22px 16px;display:flex;flex-direction:column;gap:8px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;}
 .sidebar::-webkit-scrollbar{width:4px}
 .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px}
@@ -115,11 +111,7 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .sidebar-item:hover i{color:#ef4444}
 .sidebar-item.active{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.05));color:#fff;border:1px solid rgba(239,68,68,.25);box-shadow:0 4px 16px rgba(220,38,38,.15)}
 .sidebar-item.active i{color:#ef4444}
-.sidebar-item[data-view="absen"],
-.sidebar-item[data-view="nickname"],
-.sidebar-item[data-view="tracking"],
-.sidebar-item[data-view="giveaway"],
-.sidebar-item[data-view="csadmin"]{display:none!important}
+.sidebar-item[data-view="absen"],.sidebar-item[data-view="nickname"],.sidebar-item[data-view="tracking"],.sidebar-item[data-view="giveaway"],.sidebar-item[data-view="csadmin"]{display:none!important}
 @media(min-width:601px){
   .sidebar-item[data-view="beranda"]{order:1}
   .sidebar-item[data-view="katalog"]{order:2}
@@ -151,7 +143,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .view-section.active{display:block;animation:fadeInUp .4s cubic-bezier(.4,0,.2,1)}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-/* ---------- Hero ---------- */
 .hero-wrapper{margin-bottom:24px}
 .hero-banner{position:relative;border-radius:24px;overflow:hidden;background:#141414;border:1px solid rgba(255,255,255,.08);height:300px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .hero-track{display:flex;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,0,.2,1)}
@@ -177,9 +168,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .hero-btn-install.update:hover{background:linear-gradient(135deg,#fbbf24,#d97706);border-color:#fbbf24;color:#1a1a1a;box-shadow:0 10px 28px rgba(251,191,36,.4)}
 @keyframes pulseUpdate{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.4)}50%{box-shadow:0 0 0 8px rgba(251,191,36,0)}}
 
-/* ================================================================
-   MEMBER BERANDA — TAB BAR + PANEL INLINE
-   ================================================================ */
 #memberBerandaContent{padding:8px 0}
 .member-tab-bar{display:flex;gap:4px;padding:6px;background:linear-gradient(165deg, rgba(26,26,26,.98), rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);border-radius:16px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;box-shadow:0 8px 24px rgba(0,0,0,.25);}
 .member-tab-bar::-webkit-scrollbar{display:none}
@@ -197,28 +185,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .member-panel.active{display:block;animation:fadeInUp .3s cubic-bezier(.4,0,.2,1)}
 .member-panel[data-member-panel="absen"] .point-legend{margin-top:0}
 
-/* ---------- Stats cards ---------- */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:12px;margin-bottom:24px}
-.stat-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:linear-gradient(165deg, rgba(26,26,26,.95), rgba(15,15,15,.95));border:1px solid rgba(255,255,255,.07);transition:.25s}
-.stat-card:hover{border-color:rgba(239,68,68,.3);transform:translateY(-2px)}
-.stat-card .stat-icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
-.stat-card .stat-icon.red{background:rgba(239,68,68,.12);color:#ef4444}
-.stat-card .stat-icon.gold{background:rgba(251,191,36,.12);color:#fbbf24}
-.stat-card .stat-icon.blue{background:rgba(96,165,250,.12);color:#60a5fa}
-.stat-card .stat-icon img{width:20px;height:20px;object-fit:contain}
-.stat-card .stat-info{min-width:0;flex:1}
-.stat-card .stat-label{font-size:10.5px;color:#8b93a3;text-transform:uppercase;letter-spacing:.6px;font-weight:700}
-.stat-card .stat-value{font-family:'Orbitron';font-size:18px;font-weight:900;color:#fff;margin-top:2px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.stat-card .stat-value.gold{color:#fbbf24}
-
-/* ---------- Section header ---------- */
-.section-header{display:flex;align-items:center;gap:12px;margin:24px 0 14px}
-.section-header:first-of-type{margin-top:0}
-.section-header .icon-box{width:40px;height:40px;border-radius:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.section-header .text{flex:1;min-width:0}
-.section-header .text h3{font-family:'Orbitron';font-size:14.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
-.section-header .text p{font-size:11.5px;color:#7a869a;margin-top:3px;line-height:1.4}
-
 .join-form-container,.ranking{padding:22px;border-radius:20px;background:linear-gradient(165deg, rgba(26,26,26,.98), rgba(20,20,20,.98), rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .join-form-container>p{color:#8895a8;font-size:12px;line-height:1.6;margin-bottom:14px}
 
@@ -233,6 +199,13 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .rank-row.top-3 .rank-number{background:linear-gradient(135deg,#d97706,#92400e);color:#fff}
 .rank-name{flex:1;font-size:13.5px;font-weight:600;color:#e5e7eb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .rank-count{color:#8b93a3;font-size:11px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.05);flex-shrink:0;font-weight:600}
+
+.section-header{display:flex;align-items:center;gap:12px;margin:24px 0 14px}
+.section-header:first-of-type{margin-top:0}
+.section-header .icon-box{width:40px;height:40px;border-radius:12px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.section-header .text{flex:1;min-width:0}
+.section-header .text h3{font-family:'Orbitron';font-size:14.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
+.section-header .text p{font-size:11.5px;color:#7a869a;margin-top:3px;line-height:1.4}
 
 .social-footer{margin-top:28px;padding:22px;border-radius:20px;background:linear-gradient(165deg, rgba(26,26,26,.98), rgba(20,20,20,.98), rgba(15,15,15,.98));border:1px solid rgba(255,255,255,.07);text-align:center}
 .social-footer .social-title{color:#69758a;font-size:11px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase;font-weight:700}
@@ -305,7 +278,6 @@ html.tfc-copy-allowed #nicknameValue{-webkit-user-select:text!important;-moz-use
 .cs-float-btn .cs-float-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,.5);animation:csPulse 2s ease-out infinite;pointer-events:none}
 @keyframes csPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
 
-/* POPUP OVERLAY — fix: benar-benar hilang saat close */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:16px;transition:.35s ease;overflow-y:auto;z-index:99990}
 .popup-overlay:not(.show),
 body.has-overlay .popup-overlay{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
@@ -514,9 +486,6 @@ body.has-overlay .popup-overlay{display:none!important;opacity:0!important;visib
 .nick-btn-modern .btn-glow{position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.25),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
 .nick-btn-modern:hover .btn-glow{opacity:1}
 
-/* ================================================================
-   GIVEAWAY TIMER — ring smooth (fix bug)
-   ================================================================ */
 .giveaway-ring-wrap{position:relative;width:160px;height:160px;display:inline-block}
 .giveaway-ring-spin{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;border-top-color:#ef4444;border-right-color:#fbbf24;animation:giveawayRingSpin 1s linear infinite;pointer-events:none}
 .giveaway-ring-spin-reverse{animation:giveawayRingSpinReverse 1.6s linear infinite;border-top-color:transparent;border-right-color:transparent;border-bottom-color:#fbbf24;border-left-color:#ef4444;opacity:.45}
@@ -565,13 +534,24 @@ body.has-overlay .popup-overlay{display:none!important;opacity:0!important;visib
 .cs-wa-footer .cs-footer-label{font-size:9.5px;color:#8696a0;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;margin-bottom:8px;text-align:center}
 .cs-contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .cs-contact-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 6px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#cbd5e1;font-weight:700;font-size:10px;min-height:60px;min-width:0;overflow:hidden;transition:.2s}
-.cs-contact-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.08)}
+.cs-contact-btn:hover{transform:translateY(-2px)}
 .cs-contact-btn i{font-size:16px;margin-bottom:2px}
 .cs-contact-btn span{font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .cs-contact-btn small{font-size:8px;opacity:.7}
-.cs-contact-btn.leader{border-color:rgba(234,67,53,.4);background:rgba(234,67,53,.1);color:#f87171}
-.cs-contact-btn.coleader{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.1);color:#4ade80}
-.cs-contact-btn.admin{border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1);color:#f87171}
+
+/* Leader MERAH, Co Leader & Admin HIJAU */
+.cs-contact-btn.leader{border-color:rgba(234,67,53,.5);background:linear-gradient(135deg,rgba(234,67,53,.15),rgba(234,67,53,.05));color:#f87171}
+.cs-contact-btn.leader:hover{background:linear-gradient(135deg,rgba(234,67,53,.25),rgba(234,67,53,.1));border-color:rgba(234,67,53,.8);color:#fff}
+.cs-contact-btn.coleader{border-color:rgba(34,197,94,.5);background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.05));color:#4ade80}
+.cs-contact-btn.coleader:hover{background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(34,197,94,.1));border-color:rgba(34,197,94,.8);color:#fff}
+.cs-contact-btn.admin{border-color:rgba(34,197,94,.5);background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.05));color:#4ade80}
+.cs-contact-btn.admin:hover{background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(34,197,94,.1));border-color:rgba(34,197,94,.8);color:#fff}
+
+#csGuestWaWrapper{transition:all .3s ease}
+#csGuestWa:focus{border-color:#25d366;box-shadow:0 0 0 3px rgba(37,211,102,.1)}
+#csGuestWa.error{border-color:#f87171;box-shadow:0 0 0 3px rgba(248,113,113,.15)}
+#csGuestWaWrapper.hide{display:none!important}
+
 #csServiceModal .modal{display:flex;flex-direction:column;max-height:92vh;padding:0;overflow:hidden;background:#0b141a}
 #csServiceModal .cs-scroll-body{flex:1;overflow-y:auto}
 
@@ -606,12 +586,10 @@ body.has-overlay .popup-overlay{display:none!important;opacity:0!important;visib
 .photo-preview-box .preview-label{font-size:9.5px;color:#8b93a3;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px;font-weight:700}
 .photo-preview-box .preview-name{font-size:13px;color:#fff;font-weight:700}
 
-/* ================================================================
-   RESPONSIVE
-   ================================================================ */
 @media(max-width:1024px){.sidebar{width:220px;padding:18px 12px}.content{padding:22px 22px 48px}.hero-banner{height:260px}.hero-title{font-size:24px}}
 @media(min-width:768px) and (max-width:900px){.sidebar{width:78px;padding:14px 8px;align-items:center}.sidebar-brand{justify-content:center;padding:6px 0 14px}.sidebar-brand .brand-text{display:none}.sidebar-item{justify-content:center;padding:13px 8px;border-radius:14px}.sidebar-item span{display:none}.sidebar-item i{font-size:18px;width:auto}.sidebar-section-title{display:none}.content{padding:20px 20px 44px}.hero-banner{height:230px}.hero-title{font-size:21px}}
 @media(min-width:601px) and (max-width:767px){.sidebar{width:72px;padding:12px 6px;align-items:center}.sidebar-brand{justify-content:center;padding:6px 0 12px}.sidebar-brand .brand-text{display:none}.sidebar-item{justify-content:center;padding:12px 6px;border-radius:12px}.sidebar-item span{display:none}.sidebar-item i{font-size:17px;width:auto}.sidebar-section-title{display:none}.content{padding:18px 18px 44px}.hero-banner{height:210px;border-radius:18px}.hero-slide{padding:22px 20px}.hero-title{font-size:20px}.modal{max-width:440px;padding:20px;border-radius:20px}}
+
 @media(max-width:600px){
   body{background-attachment:scroll}
   .sidebar{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;max-height:70px;flex-direction:row;justify-content:space-around;align-items:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom, 0px));border-top:1px solid rgba(255,255,255,.08);border-right:none;z-index:100;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;gap:0;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);background:rgba(10,10,10,.97);scrollbar-width:none}
@@ -939,9 +917,8 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
           </div>
         </div>
 
-        <!-- MEMBER CONTENT (Tab Bar + Panel Inline) -->
+        <!-- MEMBER CONTENT -->
         <div id="memberBerandaContent" style="display:none;">
-
           <div class="member-tab-bar">
             <button class="member-tab active" data-member-tab="absen" type="button"><i class="fas fa-calendar-check"></i><span>Absen</span></button>
             <button class="member-tab" data-member-tab="nickname" type="button"><i class="fas fa-id-badge"></i><span>Klaim Nick</span></button>
@@ -1264,6 +1241,20 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
         </div>
         <div id="csChatMessages"></div>
       </div>
+
+      <div id="csGuestWaWrapper" style="padding:12px;background:#0b141a;border-left:1px solid rgba(37,211,102,.15);border-right:1px solid rgba(37,211,102,.15);">
+        <div style="font-size:10.5px;color:#25d366;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase;">
+          <i class="fab fa-whatsapp"></i> Nomor WhatsApp Anda <span style="color:#f87171;">*WAJIB</span>
+        </div>
+        <div style="position:relative;">
+          <i class="fab fa-whatsapp" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#25d366;font-size:14px;pointer-events:none;"></i>
+          <input type="tel" id="csGuestWa" placeholder="Contoh: 628123456789" inputmode="numeric" style="width:100%;padding:11px 14px 11px 40px;border-radius:22px;border:1px solid rgba(37,211,102,.3);background:#2a3942;color:#e9edef;font-size:13px;outline:none;">
+        </div>
+        <div style="font-size:10px;color:#8696a0;margin-top:6px;line-height:1.5;">
+          <i class="fas fa-info-circle"></i> Leader akan balas via WA nomor ini. Format: <strong>62xxx</strong> (tanpa + atau 0 di depan)
+        </div>
+      </div>
+
       <div class="cs-quick-reply-wrap"><div class="cs-quick-reply-title"><i class="fas fa-bolt"></i> Balasan Cepat</div><div class="cs-quick-reply" id="csQuickTopics"></div></div>
     </div>
     <div class="cs-input-bar">
@@ -1428,6 +1419,24 @@ function sanitizeNotifHtml(html) {
   return tmp.innerHTML;
 }
 
+/* ---------- VALIDASI WA PENGUNJUNG ---------- */
+function getGuestWhatsapp() {
+  if (currentUser) return '';
+  const input = document.getElementById('csGuestWa');
+  if (!input) return '';
+  return input.value.trim().replace(/\D/g, '');
+}
+function validateGuestWhatsapp() {
+  if (currentUser) return { valid: true, wa: '' };
+  const input = document.getElementById('csGuestWa');
+  if (!input) return { valid: true, wa: '' };
+  const wa = input.value.trim().replace(/\D/g, '');
+  if (!wa) { input.classList.add('error'); return { valid: false, message: 'Nomor WhatsApp wajib diisi untuk pengunjung.' }; }
+  if (wa.length < 10 || wa.length > 15) { input.classList.add('error'); return { valid: false, message: 'Nomor WA harus 10-15 digit (contoh: 628123456789).' }; }
+  input.classList.remove('error');
+  return { valid: true, wa: wa };
+}
+
 function getDeviceType() {
   const ua = navigator.userAgent || '';
   if (/Android/i.test(ua)) return 'android';
@@ -1566,7 +1575,7 @@ function blockFeatureIfOutdated(featureName) {
 }
 
 (function blockNicknameCopyStrict() {
-  const protectedSelector = ['#headerNickname','#detailNickname','#detailUsername','#welcomeNickname','#nicknameValue','#registerNickname','#pubNickname','.rank-name','.rank-row .rank-name','.notif-message strong','.giveaway-participant-row .col-akun','.giveaway-participant-row .col-id','.popup-code','.nick-display-modern .nickname-value'].join(',');
+  const protectedSelector = ['#headerNickname','#detailNickname','#detailUsername','#welcomeNickname','#nicknameValue','#registerNickname','#pubNickname','.rank-name','.rank-row .rank-name','.notif-message strong','.giveaway-participant-row .col-akun','.giveaway-participant-row .col-id','.popup-code','.nick-display-modern .nickname-value','#csSenderInfo','#csSenderInfoText'].join(',');
   function isProtected(el) { return !!(el && el.closest && el.closest(protectedSelector)); }
   function warn() { showNotif({ type:'warning', title:'COPY DIBLOKIR', message:'Nickname hanya bisa disalin lewat tombol <strong>SALIN NICKNAME</strong> di halaman <strong>Klaim Nick</strong> setelah verifikasi.', autoMode:true, countdown:3 }); }
   document.addEventListener('contextmenu', function(e) { if (isProtected(e.target)) { e.preventDefault(); warn(); return false; } }, true);
@@ -1817,22 +1826,46 @@ function openCsService() {
   const ta = document.getElementById('csMessageInput'); if (ta) { ta.value = ''; ta.style.height = 'auto'; }
   const chatArea = document.getElementById('csChatArea'); if (chatArea) chatArea.style.display = 'none';
   const chatBox = document.getElementById('csChatMessages'); if (chatBox) chatBox.innerHTML = '';
+  const guestWaWrapper = document.getElementById('csGuestWaWrapper');
+  const guestWaInput = document.getElementById('csGuestWa');
+  if (guestWaWrapper) {
+    if (currentUser) { guestWaWrapper.classList.add('hide'); }
+    else { guestWaWrapper.classList.remove('hide'); if (guestWaInput) { guestWaInput.value = ''; guestWaInput.classList.remove('error'); } }
+  }
   csChatHistory = [];
   openModal(document.getElementById('csServiceModal'));
 }
 function sendCsMessage(target) {
   const ta = document.getElementById('csMessageInput'); if (!ta) return;
   const msg = ta.value.trim(); if (!msg) { alert('⚠️ Pesan masih kosong.'); ta.focus(); return; }
+  const waCheck = validateGuestWhatsapp();
+  if (!waCheck.valid) {
+    showNotif({ type: 'warning', title: '⚠️ WA WAJIB DIISI', message: waCheck.message, autoMode: true, countdown: 3 });
+    const guestWa = document.getElementById('csGuestWa'); if (guestWa) guestWa.focus();
+    return;
+  }
   const cfg = window.tfcWhatsapp || {};
   const num = target === 'admin' ? cfg.admin : cfg.coLeader;
   const cl = String(num || '').replace(/\D/g, '');
   if (!cl || cl.indexOf('628') !== 0) { alert('Nomor WhatsApp ' + target + ' belum diatur.'); return; }
+  const targetName = target === 'admin' ? 'Admin' : 'Co Leader';
+  
   let header = '💬 *PESAN CUSTOMER SERVICE TFC*\n━━━━━━━━━━━━━━━━━━━━\n\n';
-  if (currentUser) { header += '👤 Nama     : ' + currentUser.nickname + '\n🎮 ID Game  : ' + currentUser.idGame + '\n🔑 Username : ' + currentUser.username + '\n📱 WhatsApp : ' + (currentUser.whatsapp || '-') + '\n🎭 Role     : ' + (currentUser.role || 'MEMBER') + '\n'; }
-  else header += '👤 Status   : *PENGUNJUNG* (belum login)\n';
+  if (currentUser) {
+    header += '👤 Username : ' + (currentUser.username || '-') + '\n';
+    header += '🎮 ID Game  : ' + (currentUser.idGame || '-') + '\n';
+    header += '📱 WhatsApp : ' + (currentUser.whatsapp || '-') + '\n';
+  } else {
+    header += '👤 Nama     : Pengunjung\n';
+    header += '📱 WhatsApp : ' + waCheck.wa + '\n';
+  }
   header += '\n━━━━━━━━━━━━━━━━━━━━\n\n📝 *Pesan:*\n' + msg;
+  
   window.open('https://wa.me/' + cl + '?text=' + encodeURIComponent(header), '_blank');
-  setTimeout(function() { closeModal(document.getElementById('csServiceModal')); showNotif({ type:'success', title:'PESAN TERKIRIM', message:'Anda akan diarahkan ke WhatsApp ' + (target === 'admin' ? 'Admin' : 'Co Leader'), autoMode:true, countdown:2 }); }, 300);
+  setTimeout(function() { 
+    closeModal(document.getElementById('csServiceModal')); 
+    showNotif({ type:'info', title:'📱 WHATSAPP TERBUKA', message:'WhatsApp sudah terbuka dengan pesan Anda.<br><br><strong style="color:#fbbf24;">⚠️ PESAN BELUM TERKIRIM!</strong><br><br><strong style="color:#60a5fa;">Langkah MANUAL:</strong><br>1. Di WhatsApp, ketuk tombol <strong>KIRIM (➤)</strong><br>2. Tunggu balasan dari ' + targetName + '<br><br><em style="color:#4ade80;">💡 Pesan akan masuk ke ' + targetName + ' SETELAH Anda menekan tombol KIRIM.</em>', autoMode:false, showCancel:false, okText:'✅ Mengerti, Saya Kirim Sendiri' }); 
+  }, 400);
 }
 function csNowTime() { const d = new Date(); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
 function renderCsAiMessage(role, text) {
@@ -2136,6 +2169,31 @@ document.getElementById('submitMembershipButton').addEventListener('click', func
       showMessage(succ, r.message || 'Berhasil.', 'success');
       document.getElementById('afterMembership').style.display = 'block';
       window.tfcWhatsapp = { coLeader: r.coLeaderWa || '', admin: r.adminWa || '' };
+      const nowWIB = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+      const tanggalStr = nowWIB.toLocaleDateString('id-ID', { day:'2-digit', month:'2-digit', year:'numeric' });
+      const jamStr = nowWIB.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+      showNotif({
+        type: 'success',
+        title: '✅ PENDAFTARAN ANGGOTA BARU TFC',
+        message:
+          'Selamat! Pendaftaran Anda sebagai <strong>Anggota Baru TFC</strong> berhasil.<br><br>' +
+          '<strong style="color:#60a5fa;">📅 ' + tanggalStr + ' • 🕐 ' + jamStr + ' WIB</strong><br><br>' +
+          '<strong style="color:#4ade80;">📧 DATA SUDAH OTOMATIS DIKIRIM KE LEADER VIA EMAIL</strong><br>' +
+          '<em style="font-size:11px;color:#8b93a3;">Anda tidak perlu klik apapun untuk Leader — server sudah kirim otomatis.</em><br><br>' +
+          '<strong style="color:#60a5fa;">📋 Data yang dikirim:</strong><br>' +
+          '• Nickname: <strong>' + escapeHtml(data.nickname) + '</strong><br>' +
+          '• Server: <strong>' + escapeHtml(data.server) + '</strong><br>' +
+          '• Level: <strong>' + escapeHtml(data.level) + '</strong><br><br>' +
+          '<strong style="color:#fbbf24;">📸 LANGKAH MANUAL (WAJIB via WhatsApp):</strong><br>' +
+          '1. Klik tombol <strong>CO LEADER</strong> atau <strong>ADMIN</strong> di bawah formulir<br>' +
+          '2. Di WhatsApp, kirim <strong>foto selfie asli</strong> Anda<br>' +
+          '3. Kirim <strong>titik lokasi</strong> (share location)<br>' +
+          '4. Tekan tombol <strong>KIRIM (➤)</strong> di WhatsApp<br><br>' +
+          '<em style="color:#f87171;">⚠️ Tanpa foto selfie + lokasi, pendaftaran TIDAK akan diverifikasi.</em>',
+        autoMode: false,
+        showCancel: false,
+        okText: '✅ Siap, Kirim Selfie via WA'
+      });
     })
     .withFailureHandler(function() { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> KIRIM PENDAFTARAN'; showMessage(err, 'Koneksi gagal.', 'error'); })
     .submitMembershipForm(data);
@@ -2165,17 +2223,60 @@ document.getElementById('csSendCoLeader').addEventListener('click', function() {
 document.getElementById('csSendAdmin').addEventListener('click', function() { sendCsMessage('admin'); });
 document.getElementById('csAskAiBtn').addEventListener('click', askAI);
 document.getElementById('csClearChatBtn').addEventListener('click', function() { const box = document.getElementById('csChatMessages'); if (box) box.innerHTML = ''; csChatHistory = []; const area = document.getElementById('csChatArea'); if (area) area.style.display = 'none'; });
+
 document.getElementById('csContactLeaderBtn').addEventListener('click', function() {
-  const ta = document.getElementById('csMessageInput'); const msg = ta ? ta.value.trim() : '';
-  const cfg = window.tfcWhatsapp || {}; const leaderEmail = cfg.leaderEmail || LEADER_EMAIL_DEFAULT;
-  if (!leaderEmail || leaderEmail.indexOf('@') < 0) { alert('Email Leader belum diatur.'); return; }
-  const subject = 'Pesan CS TFC - ' + (currentUser ? currentUser.nickname : 'Pengunjung');
-  let body = 'PESAN KE LEADER TFC\n========================================\n\n';
-  if (currentUser) { body += 'Nama     : ' + currentUser.nickname + '\nID Game  : ' + currentUser.idGame + '\nUsername : ' + currentUser.username + '\nWhatsApp : ' + (currentUser.whatsapp || '-') + '\nRole     : ' + (currentUser.role || 'MEMBER') + '\n'; }
-  else body += 'Status   : PENGUNJUNG (belum login)\n';
-  body += '\n========================================\n\nPesan:\n' + (msg || '(tanpa pesan — mohon dibalas)') + '\n\n----------------------------------------\nDikirim otomatis dari Website TFC\n';
-  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(leaderEmail) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank');
+  const ta = document.getElementById('csMessageInput'); 
+  const msg = ta ? ta.value.trim() : '';
+  if (!msg) { 
+    showNotif({ type:'warning', title:'⚠️ PESAN KOSONG', message:'Ketik pesan terlebih dahulu sebelum kirim ke Leader.', autoMode:true, countdown:2 }); 
+    if (ta) ta.focus(); 
+    return; 
+  }
+  const waCheck = validateGuestWhatsapp();
+  if (!waCheck.valid) {
+    showNotif({ type:'warning', title:'⚠️ WA WAJIB DIISI', message:waCheck.message, autoMode:true, countdown:3 });
+    const guestWa = document.getElementById('csGuestWa'); if (guestWa) guestWa.focus();
+    return;
+  }
+  const btn = this; 
+  btn.disabled = true; 
+  btn.innerHTML = '<span class="spinner"></span>Mengirim...';
+  google.script.run
+    .withSuccessHandler(function(r) {
+      btn.disabled = false; 
+      btn.innerHTML = '<i class="fas fa-envelope"></i><span>LEADER</span><small>Gmail</small>';
+      if (!r || !r.success) {
+        showNotif({ type:'error', title:'❌ GAGAL KIRIM EMAIL', message: r && r.message ? r.message : 'Terjadi kesalahan. Coba lagi.', autoMode:false, showCancel:false, okText:'OK' });
+        return;
+      }
+      closeModal(document.getElementById('csServiceModal'));
+      showNotif({
+        type: 'success',
+        title: '✅ PESAN OTOMATIS TERKIRIM KE LEADER',
+        message:
+          'Pesan Anda sudah <strong>OTOMATIS dikirim ke email Leader</strong> oleh sistem.<br><br>' +
+          '<strong style="color:#4ade80;">Anda TIDAK PERLU klik apapun lagi untuk Leader.</strong><br><br>' +
+          '📧 Leader akan menerima email di <strong>' + escapeHtml(LEADER_EMAIL_DEFAULT) + '</strong><br>' +
+          '📱 Leader akan balas ke WhatsApp: <strong>' + escapeHtml(currentUser ? (currentUser.whatsapp || '-') : waCheck.wa) + '</strong><br><br>' +
+          '<strong style="color:#fbbf24;">⏱️ Tunggu balasan dari Leader via WhatsApp.</strong>',
+        autoMode: false, showCancel: false, okText: '✅ Mengerti'
+      });
+    })
+    .withFailureHandler(function(e) {
+      btn.disabled = false; 
+      btn.innerHTML = '<i class="fas fa-envelope"></i><span>LEADER</span><small>Gmail</small>';
+      showNotif({ type:'error', title:'❌ KONEKSI GAGAL', message: 'Gagal kirim email: ' + (e && e.message ? e.message : 'Unknown'), autoMode:false, showCancel:false, okText:'OK' });
+    })
+    .kirimPesanCsKeLeader({
+      pesan: msg,
+      isLogin: !!currentUser,
+      username: currentUser ? currentUser.username : '',
+      idGame: currentUser ? currentUser.idGame : '',
+      whatsapp: currentUser ? (currentUser.whatsapp || '') : waCheck.wa,
+      pengirim: currentUser ? currentUser.username : 'Pengunjung'
+    });
 });
+
 (function initCsInput() {
   const ta = document.getElementById('csMessageInput'); if (!ta) return;
   ta.addEventListener('input', function() { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 100) + 'px'; });
