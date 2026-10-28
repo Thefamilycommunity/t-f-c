@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdnjs.cloudflare.com https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https: blob:; media-src 'self' https: blob:; worker-src 'self' blob:; frame-src 'self' https:; manifest-src 'self' https:;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a0a">
-<title>THE FAMILY COMMUNITY</title>
+<title>THE FAMILY COMMUNITY v1.3.0</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikhG4ctfYBNIFs7rdVpvhCnCeb0RyIwbZ63rXWco1dShU_7kQGpUE-FGOMlZn1MP036ecNW2V-vDAABB2Cb6TmIhtL0kQUjA8OPU-Vk8_yeUn208epzUZal_QiNWA5Luayca_Oq9Z719p-DEmJ7Lun4MGhhdIKnsUrJ87PybAM1xPkXFBCQRhY52R4tx_Z/s3264/1000425283.png">
 
@@ -539,7 +539,6 @@ body.has-overlay .popup-overlay{display:none!important;opacity:0!important;visib
 .cs-contact-btn span{font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .cs-contact-btn small{font-size:8px;opacity:.7}
 
-/* Leader MERAH, Co Leader & Admin HIJAU */
 .cs-contact-btn.leader{border-color:rgba(234,67,53,.5);background:linear-gradient(135deg,rgba(234,67,53,.15),rgba(234,67,53,.05));color:#f87171}
 .cs-contact-btn.leader:hover{background:linear-gradient(135deg,rgba(234,67,53,.25),rgba(234,67,53,.1));border-color:rgba(234,67,53,.8);color:#fff}
 .cs-contact-btn.coleader{border-color:rgba(34,197,94,.5);background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(34,197,94,.05));color:#4ade80}
@@ -796,7 +795,7 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
       </div>
       <div class="brand-text">
         <h1><span class="the-family">THE FAMILY</span> <span class="community">COMMUNITY</span></h1>
-        <div class="version">V 1.2.0</div>
+        <div class="version">V 1.3.0</div>
       </div>
     </div>
     <nav class="sidebar-menu" id="sidebarMenu">
@@ -830,7 +829,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
 
       <!-- BERANDA -->
       <section class="view-section active" id="viewBeranda">
-        <!-- GUEST CONTENT -->
         <div id="guestBerandaContent">
           <div class="hero-wrapper">
             <div class="hero-banner">
@@ -917,7 +915,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
           </div>
         </div>
 
-        <!-- MEMBER CONTENT -->
         <div id="memberBerandaContent" style="display:none;">
           <div class="member-tab-bar">
             <button class="member-tab active" data-member-tab="absen" type="button"><i class="fas fa-calendar-check"></i><span>Absen</span></button>
@@ -1055,7 +1052,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
         </div>
       </section>
 
-      <!-- KATALOG -->
       <section class="view-section" id="viewKatalog">
         <div class="section-header">
           <div class="icon-box" style="background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.2);color:#fbbf24;"><i class="fas fa-store"></i></div>
@@ -1077,7 +1073,6 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
         </div>
       </section>
 
-      <!-- RANKING -->
       <section class="view-section" id="viewRanking">
         <div class="section-header">
           <div class="icon-box"><i class="fas fa-trophy"></i></div>
@@ -1108,7 +1103,11 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
     <div class="input-box"><i class="fas fa-user"></i><input type="text" id="loginUsername" placeholder="Username"></div>
     <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="Password"></div>
     <button class="btn btn-red" id="loginButton" type="button"><i class="fas fa-right-to-bracket"></i> Masuk</button>
-    <div class="drawer-links"><button class="drawer-link-btn" id="openRegisterButton" type="button"><i class="fas fa-user-plus"></i> Belum punya akun? Daftar</button></div>
+    <div class="drawer-links">
+      <button class="drawer-link-btn" id="openRegisterButton" type="button"><i class="fas fa-user-plus"></i> Belum punya akun? Daftar</button>
+      <div style="height:4px;"></div>
+      <button class="drawer-link-btn" id="openForgotPasswordButton" type="button" style="color:#fbbf24;"><i class="fas fa-key"></i> Lupa Password?</button>
+    </div>
   </div>
 </aside>
 
@@ -1131,6 +1130,95 @@ body:not(.is-guest) #guestBerandaContent{display:none!important}
       <div class="input-box"><i class="fab fa-whatsapp"></i><input type="text" id="registerWhatsapp" placeholder="Nomor WhatsApp"></div>
       <button class="btn btn-red" id="registerButton" type="button"><i class="fas fa-user-check"></i> BUAT AKUN</button>
     </div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotPasswordModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <h3><i class="fas fa-key"></i> LUPA PASSWORD</h3>
+      <button class="modal-close" data-close="forgotPasswordModal" type="button"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="fpStep1">
+      <div style="font-size:12px;color:#8b93a3;line-height:1.6;margin-bottom:16px;text-align:center;">
+        Masukkan <strong style="color:#fff;">ID Game</strong> dan <strong style="color:#fff;">No. WhatsApp</strong> yang terdaftar di TFC.
+      </div>
+      <div class="message" id="fpMessage1"></div>
+      <div class="input-box"><i class="fas fa-gamepad"></i><input type="text" id="fpIdGame" placeholder="ID Game"></div>
+      <div class="input-box"><i class="fab fa-whatsapp"></i><input type="tel" id="fpWhatsapp" placeholder="No. WhatsApp terdaftar (628xxx)" inputmode="numeric"></div>
+      <button class="btn btn-red" id="fpMintaKodeBtn" type="button"><i class="fas fa-paper-plane"></i> MINTA KODE</button>
+      <div style="margin-top:14px;padding:11px 13px;border-radius:11px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);font-size:11px;color:#93c5fd;line-height:1.55;">
+        <i class="fas fa-info-circle"></i> Kode dikirim ke <strong>Leader</strong> via email. Leader akan kirim kode ke WA Anda. Maks 30 menit.
+      </div>
+    </div>
+
+    <div id="fpStep1b" style="display:none;">
+      <div style="text-align:center;padding:10px 0 18px;">
+        <div style="width:64px;height:64px;margin:0 auto 14px;border-radius:50%;background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.4);display:flex;align-items:center;justify-content:center;font-size:26px;color:#4ade80;">
+          <i class="fas fa-check"></i>
+        </div>
+        <div style="font-family:Orbitron;font-size:14px;font-weight:800;color:#4ade80;margin-bottom:6px;">PERMINTAAN DIKIRIM</div>
+        <div style="font-size:11.5px;color:#8b93a3;line-height:1.6;">Permintaan sudah dikirim ke Leader.</div>
+      </div>
+      <div style="padding:14px;border-radius:13px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);font-size:11.5px;color:#fbbf24;line-height:1.65;margin-bottom:14px;">
+        <i class="fas fa-clock"></i> <strong>Kode berlaku 30 menit.</strong><br><br>
+        <i class="fas fa-list-ol"></i> Langkah selanjutnya:<br>
+        1. Tunggu Leader kirim kode via WA<br>
+        2. Setelah terima WA, masukkan kode di form<br>
+        3. Password akan muncul 60 detik
+      </div>
+      <div style="text-align:center;font-size:11px;color:#6b7280;margin-bottom:14px;">
+        Leader akan hubungi WA: <strong id="fpWaMasked" style="color:#93c5fd;">••••</strong>
+      </div>
+      <button class="btn btn-red" id="fpKeStep2Btn" type="button"><i class="fas fa-arrow-right"></i> SUDAH DAPAT KODE? MASUKKAN</button>
+      <button class="btn btn-dark" id="fpTutupBtn" type="button" style="margin-top:8px;"><i class="fas fa-times"></i> TUTUP</button>
+    </div>
+
+    <div id="fpStep2" style="display:none;">
+      <div style="font-size:12px;color:#8b93a3;line-height:1.6;margin-bottom:16px;text-align:center;">
+        Masukkan <strong style="color:#fff;">kode 6 digit</strong> yang dikirim Leader via WhatsApp.
+      </div>
+      <div class="message" id="fpMessage2"></div>
+      <div class="input-box"><i class="fas fa-key"></i><input type="text" id="fpKode" placeholder="Kode 6 digit" maxlength="6" style="text-transform:uppercase;letter-spacing:4px;text-align:center;font-family:Orbitron;font-size:18px;font-weight:800;"></div>
+      <div style="text-align:center;font-size:11px;color:#fbbf24;margin-bottom:12px;">
+        <i class="fas fa-clock"></i> Sisa waktu: <strong id="fpCountdown">30:00</strong>
+      </div>
+      <button class="btn btn-red" id="fpVerifikasiBtn" type="button"><i class="fas fa-shield"></i> VERIFIKASI</button>
+      <button class="btn btn-dark" id="fpKembaliBtn" type="button" style="margin-top:8px;"><i class="fas fa-arrow-left"></i> KEMBALI</button>
+    </div>
+
+    <div id="fpStep3" style="display:none;">
+      <div style="text-align:center;padding:6px 0 14px;">
+        <div style="width:64px;height:64px;margin:0 auto 14px;border-radius:50%;background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.4);display:flex;align-items:center;justify-content:center;font-size:26px;color:#4ade80;">
+          <i class="fas fa-unlock"></i>
+        </div>
+        <div style="font-family:Orbitron;font-size:14px;font-weight:800;color:#4ade80;margin-bottom:4px;">PASSWORD ANDA</div>
+        <div style="font-size:11px;color:#8b93a3;">Verifikasi berhasil</div>
+      </div>
+      <div style="padding:20px 16px;border-radius:14px;background:rgba(96,165,250,.08);border:2px dashed rgba(96,165,250,.5);text-align:center;margin-bottom:14px;">
+        <div id="fpPasswordText" style="font-family:Orbitron;font-size:20px;font-weight:900;color:#60a5fa;word-break:break-all;letter-spacing:1px;">••••••</div>
+      </div>
+      <button class="btn btn-red" id="fpSalinPasswordBtn" type="button"><i class="fas fa-copy"></i> SALIN PASSWORD</button>
+      <div style="text-align:center;font-size:11px;color:#f87171;margin-top:12px;font-weight:700;">
+        <i class="fas fa-exclamation-triangle"></i> Password hilang dalam: <strong id="fpHideCountdown">60</strong> detik
+      </div>
+      <div style="margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);font-size:10.5px;color:#f87171;line-height:1.55;text-align:center;">
+        ⚠️ Segera catat! Setelah hilang, harus minta kode baru.
+      </div>
+    </div>
+
+    <div id="fpStep3b" style="display:none;text-align:center;padding:10px 0;">
+      <div style="width:64px;height:64px;margin:0 auto 14px;border-radius:50%;background:rgba(148,163,184,.12);border:2px solid rgba(148,163,184,.35);display:flex;align-items:center;justify-content:center;font-size:26px;color:#94a3b8;">
+        <i class="fas fa-lock"></i>
+      </div>
+      <div style="font-family:Orbitron;font-size:14px;font-weight:800;color:#cbd5e1;margin-bottom:6px;">PASSWORD DISEMBUNYIKAN</div>
+      <div style="font-size:11.5px;color:#8b93a3;line-height:1.6;margin-bottom:18px;">Password sudah disembunyikan demi keamanan.<br>Jika belum sempat mencatat, minta kode baru.</div>
+      <button class="btn btn-red" id="fpMintaBaruBtn" type="button"><i class="fas fa-redo"></i> MINTA KODE BARU</button>
+      <button class="btn btn-dark" id="fpTutupBtn2" type="button" style="margin-top:8px;"><i class="fas fa-times"></i> TUTUP</button>
+    </div>
+
   </div>
 </div>
 
@@ -1360,7 +1448,7 @@ let pendingRewardItem = null;
 
 let deferredPrompt = null;
 let serverApkUrl = 'https://drive.google.com/uc?export=download&id=1q6j7ecBvP9K7s_514zDS7HFjQlVaPWAu';
-let serverApkVersion = '1.2.0';
+let serverApkVersion = '1.3.0';
 let serverApkVersionCode = 12;
 let currentApkVersion = null;
 let currentApkVersionCode = null;
@@ -1419,7 +1507,6 @@ function sanitizeNotifHtml(html) {
   return tmp.innerHTML;
 }
 
-/* ---------- VALIDASI WA PENGUNJUNG ---------- */
 function getGuestWhatsapp() {
   if (currentUser) return '';
   const input = document.getElementById('csGuestWa');
@@ -1651,7 +1738,7 @@ function updateOverlayGuard() {
 }
 function safeShowPopup(fn) { if (isAnyOverlayOpen()) { popupPendingShow = true; return; } popupAlreadyShown = true; fn(); }
 function watchOverlays() {
-  ['loginDrawer','loginDrawerOverlay','registerModal','profileModal','csServiceModal','photoModal','publicProfileModal','katalogModal'].forEach(function(id) {
+  ['loginDrawer','loginDrawerOverlay','registerModal','profileModal','csServiceModal','photoModal','publicProfileModal','katalogModal','forgotPasswordModal'].forEach(function(id) {
     const el = document.getElementById(id); if (!el) return;
     new MutationObserver(function() { updateOverlayGuard(); }).observe(el, { attributes: true, attributeFilter: ['class'] });
   });
@@ -2994,7 +3081,7 @@ function loadConfig() {
     if (c.logoUrl) { const hl = document.getElementById('headerLogo'), ll = document.getElementById('loginLogo'); if (hl) hl.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="TFC">'; if (ll) ll.innerHTML = '<img src="' + escapeHtml(c.logoUrl) + '" alt="TFC">'; }
     window.tfcWhatsapp = { coLeader: c.coLeaderWa || '', admin: c.adminWa || '', leaderEmail: c.leaderEmail || LEADER_EMAIL_DEFAULT };
     serverApkUrl = c.apkUrl || APK_URL_DEFAULT;
-    serverApkVersion = c.apkVersion || '1.2.0';
+    serverApkVersion = c.apkVersion || '1.3.0';
     serverApkVersionCode = c.apkVersionCode || 12;
     updateInstallButton();
   }).withFailureHandler(function() { updateInstallButton(); }).getAppConfig();
