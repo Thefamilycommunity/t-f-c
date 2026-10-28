@@ -3069,6 +3069,173 @@ if (popupAdsEl) {
   });
 }
 
+/* ================= LUPA PASSWORD HANDLER ================= */
+(function initForgotPasswordHandlers() {
+  var btn = document.getElementById('openForgotPasswordButton');
+  var modal = document.getElementById('forgotPasswordModal');
+  if (!btn || !modal) return;
+
+  var nb = btn.cloneNode(true);
+  btn.parentNode.replaceChild(nb, btn);
+  nb.addEventListener('click', function(e) {
+    e.preventDefault();
+    var ld = document.getElementById('loginDrawer'); if (ld) ld.classList.remove('show');
+    var ldo = document.getElementById('loginDrawerOverlay'); if (ldo) ldo.classList.remove('show');
+    ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+    var s1 = document.getElementById('fpStep1'); if (s1) s1.style.display = 'block';
+    var fpId = document.getElementById('fpIdGame'); if (fpId) fpId.value = '';
+    var fpWa = document.getElementById('fpWhatsapp'); if (fpWa) fpWa.value = '';
+    var fpK = document.getElementById('fpKode'); if (fpK) fpK.value = '';
+    var fpP = document.getElementById('fpPasswordText'); if (fpP) fpP.textContent = '••••••';
+    var m1 = document.getElementById('fpMessage1'); if (m1) m1.className = 'message';
+    var m2 = document.getElementById('fpMessage2'); if (m2) m2.className = 'message';
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+  });
+
+  var mk = document.getElementById('fpMintaKodeBtn');
+  if (mk) {
+    var nm = mk.cloneNode(true); mk.parentNode.replaceChild(nm, mk);
+    nm.addEventListener('click', function(e) {
+      e.preventDefault();
+      var idg = document.getElementById('fpIdGame').value.trim();
+      var wa = document.getElementById('fpWhatsapp').value.trim().replace(/\D/g, '');
+      var msg = document.getElementById('fpMessage1'); if (msg) msg.className = 'message';
+      if (!idg) { if (msg) { msg.textContent = 'ID Game wajib diisi.'; msg.className = 'message error show'; } return; }
+      if (!wa || wa.length < 10 || wa.length > 15) { if (msg) { msg.textContent = 'WA 10-15 digit.'; msg.className = 'message error show'; } return; }
+      if (!serverAvailable()) { if (msg) { msg.textContent = 'Server tidak terhubung.'; msg.className = 'message error show'; } return; }
+      nm.disabled = true; nm.innerHTML = '<span class="spinner"></span>Memproses...';
+      google.script.run.withSuccessHandler(function(r) {
+        nm.disabled = false; nm.innerHTML = '<i class="fas fa-paper-plane"></i> MINTA KODE';
+        if (!r || !r.success) { if (msg) { msg.textContent = r && r.message ? r.message : 'Gagal.'; msg.className = 'message error show'; } return; }
+        var msk = document.getElementById('fpWaMasked'); if (msk) msk.textContent = r.waMasked || '••••';
+        ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+        var s = document.getElementById('fpStep1b'); if (s) s.style.display = 'block';
+        if (r.expiredAt) {
+          var m = String(r.expiredAt).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2}):(\d{1,2})$/);
+          if (m) {
+            var expMs = new Date(Number(m[3]), Number(m[2])-1, Number(m[1]), Number(m[4]), Number(m[5]), Number(m[6])).getTime();
+            (function tick() {
+              var el = document.getElementById('fpCountdown');
+              if (!el) return;
+              var sisa = expMs - Date.now();
+              if (sisa <= 0) { el.textContent = '00:00'; return; }
+              var mm = Math.floor(sisa/60000), ss = Math.floor((sisa%60000)/1000);
+              el.textContent = String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+              setTimeout(tick, 1000);
+            })();
+          }
+        }
+      }).withFailureHandler(function() {
+        nm.disabled = false; nm.innerHTML = '<i class="fas fa-paper-plane"></i> MINTA KODE';
+        if (msg) { msg.textContent = 'Koneksi gagal.'; msg.className = 'message error show'; }
+      }).mintaKodeReset(idg, wa);
+    });
+  }
+
+  var k2 = document.getElementById('fpKeStep2Btn');
+  if (k2) {
+    var nk2 = k2.cloneNode(true); k2.parentNode.replaceChild(nk2, k2);
+    nk2.addEventListener('click', function(e) {
+      e.preventDefault();
+      ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+      var s = document.getElementById('fpStep2'); if (s) s.style.display = 'block';
+      var kEl = document.getElementById('fpKode'); if (kEl) { kEl.value = ''; setTimeout(function() { kEl.focus(); }, 200); }
+    });
+  }
+
+  var vf = document.getElementById('fpVerifikasiBtn');
+  if (vf) {
+    var nvf = vf.cloneNode(true); vf.parentNode.replaceChild(nvf, vf);
+    nvf.addEventListener('click', function(e) {
+      e.preventDefault();
+      var kd = document.getElementById('fpKode').value.trim().toUpperCase();
+      var msg = document.getElementById('fpMessage2'); if (msg) msg.className = 'message';
+      if (!kd || kd.length !== 6) { if (msg) { msg.textContent = 'Kode 6 digit.'; msg.className = 'message error show'; } return; }
+      if (!serverAvailable()) { if (msg) { msg.textContent = 'Server tidak terhubung.'; msg.className = 'message error show'; } return; }
+      var idg = document.getElementById('fpIdGame').value.trim();
+      nvf.disabled = true; nvf.innerHTML = '<span class="spinner"></span>Memverifikasi...';
+      google.script.run.withSuccessHandler(function(r) {
+        nvf.disabled = false; nvf.innerHTML = '<i class="fas fa-shield"></i> VERIFIKASI';
+        if (!r || !r.success) { if (msg) { msg.textContent = r && r.message ? r.message : 'Gagal.'; msg.className = 'message error show'; } return; }
+        window.__TFC_FP_PASSWORD = r.password || '';
+        var pw = document.getElementById('fpPasswordText'); if (pw) pw.textContent = r.password || '••••••';
+        ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+        var s = document.getElementById('fpStep3'); if (s) s.style.display = 'block';
+        var sisa = 60;
+        var elCd = document.getElementById('fpHideCountdown'); if (elCd) elCd.textContent = sisa;
+        var iv = setInterval(function() {
+          sisa--;
+          var e2 = document.getElementById('fpHideCountdown'); if (e2) e2.textContent = Math.max(0, sisa);
+          if (sisa <= 0) {
+            clearInterval(iv);
+            var p = document.getElementById('fpPasswordText'); if (p) p.textContent = '••••••';
+            ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+            var sb = document.getElementById('fpStep3b'); if (sb) sb.style.display = 'block';
+          }
+        }, 1000);
+      }).withFailureHandler(function() {
+        nvf.disabled = false; nvf.innerHTML = '<i class="fas fa-shield"></i> VERIFIKASI';
+        if (msg) { msg.textContent = 'Koneksi gagal.'; msg.className = 'message error show'; }
+      }).verifikasiKodeReset(idg, kd);
+    });
+  }
+
+  var sl = document.getElementById('fpSalinPasswordBtn');
+  if (sl) {
+    var nsl = sl.cloneNode(true); sl.parentNode.replaceChild(nsl, sl);
+    nsl.addEventListener('click', function(e) {
+      e.preventDefault();
+      var pw = window.__TFC_FP_PASSWORD || ''; if (!pw) return;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(pw).then(function() { showNotif({ type:'success', title:'✅ PASSWORD TERSALIN', message:'Password sudah disalin.<br><br><strong style="color:#fbbf24;">Segera catat!</strong>', autoMode:true, countdown:3 }); }).catch(function() { alert('Password: ' + pw); });
+        } else { alert('Password: ' + pw); }
+      } catch (err) { alert('Password: ' + pw); }
+    });
+  }
+
+  ['fpTutupBtn','fpTutupBtn2'].forEach(function(id) {
+    var b = document.getElementById(id);
+    if (b) {
+      var nb2 = b.cloneNode(true); b.parentNode.replaceChild(nb2, b);
+      nb2.addEventListener('click', function(e) { e.preventDefault(); modal.classList.remove('show'); modal.style.display = ''; });
+    }
+  });
+
+  var kb = document.getElementById('fpKembaliBtn');
+  if (kb) {
+    var nkb = kb.cloneNode(true); kb.parentNode.replaceChild(nkb, kb);
+    nkb.addEventListener('click', function(e) {
+      e.preventDefault();
+      ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+      var s = document.getElementById('fpStep1'); if (s) s.style.display = 'block';
+    });
+  }
+
+  var mb = document.getElementById('fpMintaBaruBtn');
+  if (mb) {
+    var nmb = mb.cloneNode(true); mb.parentNode.replaceChild(nmb, mb);
+    nmb.addEventListener('click', function(e) {
+      e.preventDefault();
+      ['fpStep1','fpStep1b','fpStep2','fpStep3','fpStep3b'].forEach(function(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; });
+      var s = document.getElementById('fpStep1'); if (s) s.style.display = 'block';
+    });
+  }
+
+  modal.addEventListener('click', function(e) { if (e.target === modal) { modal.classList.remove('show'); modal.style.display = ''; } });
+
+  modal.querySelectorAll('[data-close="forgotPasswordModal"]').forEach(function(cb) {
+    var ncb = cb.cloneNode(true); cb.parentNode.replaceChild(ncb, cb);
+    ncb.addEventListener('click', function(e) { e.preventDefault(); modal.classList.remove('show'); modal.style.display = ''; });
+  });
+
+  var inputKode = document.getElementById('fpKode');
+  if (inputKode) inputKode.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); var v = document.getElementById('fpVerifikasiBtn'); if (v) v.click(); } });
+  var inputWa = document.getElementById('fpWhatsapp');
+  if (inputWa) inputWa.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); var m = document.getElementById('fpMintaKodeBtn'); if (m) m.click(); } });
+})();
+
 function restoreSession() {
   const s = getSession(); if (!s) { setGuestState(); return; }
   if (!serverAvailable()) { clearSession(); setGuestState(); return; }
